@@ -1,13 +1,14 @@
 import React from 'react';
 import './App.css';
 import * as XLSX from 'xlsx';
+import {datafile} from './data'
 
 function App() {
 
   const [showData, setShowData] = React.useState([]);
 
-  const [demo,setDemo]= React.useState([]);
-
+  const [demo,setDemo]= React.useState(datafile);
+  console.log(demo);
   const readExcel=(file)=>{
     const promise = new Promise((resolve,reject)=>{
       const fileReader = new FileReader();
@@ -52,7 +53,8 @@ function App() {
         }
       }
       //console.log(dateArray);
-      setDemo(dateArray);
+      //setDemo(dateArray);
+      setDemo(datafile);
       /*dateArray.forEach((month)=>{
         console.log(month);
       })*/
@@ -71,6 +73,7 @@ function App() {
         ></input><br/>
         {
               demo&&demo.map((month,index)=>{
+                
                 return <div key={index}>
                   <p>Next Month.................</p>
                   <table>
