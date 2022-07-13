@@ -145,7 +145,7 @@ function App() {
                   <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>Kharchu</b> = {kharchu}</span>
                   <span><b style={{color:'cyan'}}>Today's balance</b> = {currentBalance}</span></p>
                   </>}
-                  <table>
+                  <table border='2px solid'>
           <thead>
             
           <tr style={{fontSize:'20px',color:'cyan'}}>
