@@ -6,6 +6,8 @@ function App() {
 
   const [showData, setShowData] = React.useState([]);
 
+  const [demo,setDemo]= React.useState([]);
+
   const readExcel=(file)=>{
     const promise = new Promise((resolve,reject)=>{
       const fileReader = new FileReader();
@@ -29,8 +31,28 @@ function App() {
     });
 
     promise.then((data)=>{
-      console.log(data);
-      setShowData(data);
+      //console.log(data);
+      let reversedData = [];
+      for(let k=data.length-1;k>=0;k--){
+        reversedData.push(data[k]);
+      }
+      //console.log(reversedData);
+      setShowData(reversedData);
+      let dateArray=[[]],months=data[0].Date;
+      for(let i=0,j=0;i<data.length-1;i++){
+        
+        if(months.slice(3)===data[i].Date.slice(3)){
+          dateArray[j].push(data[i]);
+        }
+        else{
+          j++;
+          dateArray.push([]);
+          months=data[i].Date;
+          i--;
+        }
+      }
+      //console.log(dateArray);
+      setDemo(dateArray);
     })
   }
 
