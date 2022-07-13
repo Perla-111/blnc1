@@ -47,10 +47,12 @@ function App() {
         
         <table>
           <thead>
-          <th>Date</th>
-          <th>Amount</th>
-          <th>Note</th>
-          <th>Category</th>
+          <tr>
+          <td>Date</td>
+          <td>Amount</td>
+          <td>Note</td>
+          <td>Category</td>
+          </tr>
           </thead>
           <tbody>
             
