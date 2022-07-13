@@ -1,6 +1,18 @@
 
 export let julyData  = [[
     {
+        "Date": "01/07/22",
+        "Category": "to Bhabhi",
+        "Note": "For mom gold",
+        "Amount": -10500
+    },
+    {
+        "Date": "01/07/22",
+        "Category": "to Bhabhi",
+        "Note": "extra for bags and ration from 9000",
+        "Amount": -2684
+    }
+    ,{
         "Date": "03/07/22",
         "Category": "to Bhabhi",
         "Note": "For ice cream s",
@@ -36,6 +48,12 @@ export let julyData  = [[
         "Note": "To bhabhi to sklm for withdrawal",
         "Amount": -2000
     },
+    {
+        "Date": "06/07/22",
+        "Category": "to Bhabhi",
+        "Note": "for pampers",
+        "Amount": -1000
+    },
     
     {
         "Date": "08/07/22",
@@ -44,9 +62,15 @@ export let julyData  = [[
         "Amount": -1200
     },
     {
+        "Date": "08/07/22",
+        "Category": "to Bhabhi",
+        "Note": "for dress",
+        "Amount": -3000
+    },
+    {
         "Date": "09/07/22",
-        "Category": "Food and Drink",
-        "Note": "7000,800,",
+        "Category": "to Bhabhi",
+        "Note": "7000 for mom, 800 for mutton",
         "Amount": -7800
     },
     {
