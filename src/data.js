@@ -1,5 +1,6 @@
 export let datafile=[
     [
+        
         {
             "Date": "01/03/22",
             "Category": "Paycheck",
@@ -1257,7 +1258,13 @@ export let datafile=[
             "Date": "13/07/22",
             "Category": "to Bhabhi",
             "Note": "Dont know why",
-            "Amount": -700
+            "Amount": -600
+        },
+        {
+            "Date": "13/07/22",
+            "Category": "to Bhabhi",
+            "Note": "Dont know why",
+            "Amount": -4500
         }
     ]
 ]
