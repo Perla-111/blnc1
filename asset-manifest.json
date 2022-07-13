@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/blnc1/static/css/main.bd829687.css",
+    "main.js": "/blnc1/static/js/main.acd0d8e2.js",
+    "static/js/787.d3d28d77.chunk.js": "/blnc1/static/js/787.d3d28d77.chunk.js",
+    "index.html": "/blnc1/index.html",
+    "main.bd829687.css.map": "/blnc1/static/css/main.bd829687.css.map",
+    "main.acd0d8e2.js.map": "/blnc1/static/js/main.acd0d8e2.js.map",
+    "787.d3d28d77.chunk.js.map": "/blnc1/static/js/787.d3d28d77.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.bd829687.css",
+    "static/js/main.acd0d8e2.js"
+  ]
+}
