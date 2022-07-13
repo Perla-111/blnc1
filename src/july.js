@@ -9,8 +9,8 @@ export let julyData  = [[
     {
         "Date": "01/07/22",
         "Category": "to Bhabhi",
-        "Note": "extra for bags and ration from 9000",
-        "Amount": -2684
+        "Note": "extra for bags and ration from 9000(not correct)",
+        "Amount": -3184
     }
     ,{
         "Date": "03/07/22",

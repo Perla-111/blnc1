@@ -5,11 +5,12 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  height: 100vh ;
 display: flex;
 flex-direction: column;
-min-width: 90vw;
+width: 100vw;
   color: white;
+  overflow-y: scroll;
 }
 
 
