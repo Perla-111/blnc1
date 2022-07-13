@@ -53,6 +53,9 @@ function App() {
       }
       //console.log(dateArray);
       setDemo(dateArray);
+      /*dateArray.forEach((month)=>{
+        console.log(month);
+      })*/
     })
   }
 
@@ -66,9 +69,13 @@ function App() {
           readExcel(file);
         }}
         ></input><br/>
-        
-        <table>
+        {
+              demo&&demo.map((month,index)=>{
+                return <div key={index}>
+                  <p>Next Month.................</p>
+                  <table>
           <thead>
+            
           <tr>
           <td>Date</td>
           <td>Amount</td>
@@ -77,18 +84,27 @@ function App() {
           </tr>
           </thead>
           <tbody>
-            
-            {showData&&showData.map((item,index)=>{
-          return <tr key={index}>
-          <td>{item.Date}</td>
-          <td>{item.Amount}</td>
-          <td>{item.Note}</td>
-          <td>{item.Category}</td>
-        </tr>
-        })}
+            {
               
+                month.map((item,index)=>{
+                  return <tr key={item.Date+item.Note+index}>
+                  <td>{item.Date}</td>
+                  <td>{item.Amount}</td>
+                  <td>{item.Note}</td>
+                  <td>{item.Category}</td>
+                </tr>
+                
+                })
+
+              
+            }
+            
           </tbody>
         </table>
+        </div>
+        
+              })
+      }
       </header>
     </div>
   );
