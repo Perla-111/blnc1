@@ -40,7 +40,17 @@ function App({islogged}) {
   const [toggle,setToggle]= React.useState(false);
   const [kharchu,setKharchu] = React.useState(0);
   const [currentpath,setCurrentPath]=useState('details');
+  const [lastupdate,setLastUpdate] = useState('');
 
+  useEffect(()=>{
+    fireDb.child('lastupdate/date/date').on("value",(snapshot)=>{
+      if(snapshot.val()!==null) {
+        //console.log(snapshot.val());
+        setLastUpdate(snapshot.val());
+    }
+      else setLastUpdate('not available')
+    })
+  })
   useEffect(()=>{
     //let path;
     //console.log(toggle);
@@ -60,7 +70,7 @@ function App({islogged}) {
         
         let data=Object.keys(demo).map((key)=>demo[key]);
         let sum=0;
-        console.log(data)
+        //console.log(data)
         for(let i=0;i<data.length;i++){
   
           if(data[i].date.slice(3)==='07/22'||data[i].date.slice(3)==='07-22'||data[i].date.slice(3)==='0722')
@@ -78,9 +88,12 @@ function App({islogged}) {
 
       },[toggle,demo])
 
-      function toggleEditId(id,Date){
-        console.log(id,Date);
-        setEditDate(Date);
+      function toggleEditId(id,date){
+        //console.log(id,Date);
+        let formateddate = date.substr(0,5)+'-'+date.slice(5);
+        let newdate = new Date(formateddate).toString();
+        //console.log(formateddate,newdate);
+        setEditDate(newdate);
         setEditId(id);
         setEditMode(true);
       }
@@ -106,7 +119,7 @@ function App({islogged}) {
             setToggle(!toggle);
           }
         }}
-        >Hello!!!</p>
+        >Hello!!!  last updated = {lastupdate}</p>
 
         
              
