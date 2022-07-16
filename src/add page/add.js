@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import fireDb from '../firebase';
 
 const Add = () => {
@@ -9,7 +9,13 @@ const Add = () => {
     const [category,setCategory] = useState('');
     
     const submitDetails= ()=>{
-      
+        let obj = {
+            date,
+            amount,
+            note,
+            category
+        }
+      fireDb.child("details").push(obj);
     }
 
     return (
@@ -19,7 +25,7 @@ const Add = () => {
         value={date}
         onChange={(e)=>{setDate(e.target.value)}}
         /><br/>
-        <input type='text' 
+        <input type='number' 
         placeholder='enter amount'
         value={amount}
         onChange={(e)=>{setAmount(e.target.value)}}
