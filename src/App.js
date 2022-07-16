@@ -3,6 +3,7 @@ import './App.css';
 import * as XLSX from 'xlsx';
 //import {datafile} from './data';
 import {julyData,kalyan} from './july';
+import Add from './add page/add'
 
 function App() {
 
@@ -18,11 +19,6 @@ function App() {
   const [toggle,setToggle]= React.useState(false);
   const [kharchu,setKharchu] = React.useState(0);
 
-  const [date,setDate] = useState('');
-  const [amount,setAmount] = useState(0);
-  const [note,setNote] = useState('');
-  const [category,setCategory] = useState('');
-  
   
 
       useEffect(()=>{
@@ -112,24 +108,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <div>
-        <input type='text' 
-        placeholder='enter date in dd/mm/yy format'
-        onChange={(e)=>{setDate(e.target.value)}}
-        />
-        <input type='text' 
-        placeholder='enter amount'
-        onChange={(e)=>{setAmount(e.target.value)}}
-        />
-        <input type='text' 
-        placeholder='enter the reason'
-        onChange={(e)=>{setNote(e.target.value)}}
-        />
-        <input type='text' 
-        placeholder='enter person name or bill type'
-        onChange={(e)=>{setCategory(e.target.value)}} 
-        />
-        </div>
+        <Add />
         <p 
         onClick={()=>{
           if(!toggle){
