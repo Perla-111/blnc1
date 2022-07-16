@@ -75,7 +75,7 @@ const submitDetails= ()=>{
     return (
         <div>
             <DatePicker ref={dateref} selected={startDate} onChange={(date) => {
-                console.log(startDate);
+                //console.log(startDate);
                 setStartDate(date)}} />
             {/* <input type='text' 
         placeholder='dd-mmyy date'
