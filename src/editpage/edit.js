@@ -2,28 +2,31 @@ import React,{useEffect, useId, useState} from "react";
 import fireDb from '../firebase';
 //import {v4 as uuidv4} from 'uuid';
 
-const Edit = ({receivedid,date,setEdittoggle}) => {
+const Edit = ({receivedid,date,setEdittoggle,currentpath}) => {
 
     //const [changedate,setChangeDate] = useState('');
     const [amount,setAmount] = useState('');
     const [id,setId] = useState('');
     const [note,setNote] = useState('');
     const [category,setCategory] = useState('');
+    const [data,setData]=useState({});
 
     useEffect(()=>{
-        const path=`details/_2022/_0722/${receivedid}`;
+        //const path=`details/_2022/_0722/${receivedid}`;
+        const path=`${currentpath}/_2022/_0722/`;
         fireDb.child(path).on("value",(snapshot)=>{
             if(snapshot.val()!==null) {
                 let data=snapshot.val();
-                setAmount(data.amount);
-                setNote(data.note);
-                setCategory(data.category);
-                setId(data.id);
-                console.log(snapshot.val());}
+                setData(data[receivedid]);
+                setAmount(data[receivedid].amount);
+                setNote(data[receivedid].note);
+                setCategory(data[receivedid].category);
+                setId(data[receivedid].id);
+            }
     
-            else console.log('not working yet')
+            else {console.log('not working yet');}
         })
-    },[])
+    },[receivedid])
 
 function formatDate(d)
 {
@@ -38,18 +41,17 @@ function formatDate(d)
 let d = new Date();
 
 const submitDetails= ()=>{
-        let obj=Object.assign({},[receivedid]={
+        let obj={
             id,
             date:formatDate(d),
             amount,
             note,
             category
-        })
-        
-        const path=`details/_${d.getFullYear()}/_${obj.date.slice(3)}/`;
-        console.log(obj);
-        //fireDb.child(path).push(obj);
-        setEdittoggle(false);
+        }
+        let newObj=Object.assign({},{[receivedid]:data});
+        const path=`${currentpath}/_${d.getFullYear()}/_${newObj[receivedid].date.slice(3)}/${receivedid}`;
+        fireDb.child(path).update(obj);
+        setEdittoggle();
       
     }
 

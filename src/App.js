@@ -37,9 +37,14 @@ function App() {
 
   const [toggle,setToggle]= React.useState(false);
   const [kharchu,setKharchu] = React.useState(0);
+  const [currentpath,setCurrentPath]=useState('details');
 
   useEffect(()=>{
-    fireDb.child("details").on("value",(snapshot)=>{
+    //let path;
+    //console.log(toggle);
+    //if(!toggle) path='details';
+    //else path='kalyan';
+    fireDb.child(currentpath).on("value",(snapshot)=>{
       if(snapshot.val()!==null) {
         console.log(snapshot.val());
         let dataObj = snapshot.val()._2022._0722;
@@ -56,7 +61,7 @@ function App() {
     }
       else console.log('table data did not came')
     })
-  },[editmode])
+  },[editmode,toggle])
 
       useEffect(()=>{
         let data=demo,sum=0;
@@ -84,6 +89,7 @@ function App() {
         setEditMode(true);
       }
       function setEdittoggle(){
+        
         setEditMode(false);
 
       }
@@ -91,16 +97,16 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {!editmode?<Add />:
-        <Edit id={editId} date={editDate} setEdittoggle={setEdittoggle} />}
+        {!editmode?<Add currentpath={currentpath} />:
+        <Edit currentpath={currentpath} receivedid={editId} date={editDate} setEdittoggle={setEdittoggle} />}
         <p 
         onClick={()=>{
           if(!toggle){
-          setDemo(kalyan);
+            setCurrentPath('kalyan');
           setToggle(!toggle);
           }
           else {
-            setDemo(julyData);
+            setCurrentPath('details');
             setToggle(!toggle);
           }
         }}

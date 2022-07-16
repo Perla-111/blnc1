@@ -2,7 +2,7 @@ import React,{useId, useState} from "react";
 import fireDb from '../firebase';
 import {v4 as uuidv4} from 'uuid';
 
-const Add = () => {
+const Add = ({currentpath}) => {
 
     //const [date,setDate] = useState('');
     const [amount,setAmount] = useState('');
@@ -30,7 +30,7 @@ const submitDetails= ()=>{
             note,
             category
         }
-        const path=`details/_${d.getFullYear()}/_${obj.date.slice(3)}`;
+        const path=`${currentpath}/_${d.getFullYear()}/_${obj.date.slice(3)}`;
         //console.log(path);
 
       fireDb.child(path).push(obj);
