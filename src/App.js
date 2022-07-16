@@ -3,12 +3,14 @@ import './App.css';
 import * as XLSX from 'xlsx';
 //import {datafile} from './data';
 import {julyData,kalyan} from './july';
+//import AppLogged from './Applogged'
 import Add from './add page/add'
 import fireDb from './firebase';
 import Edit from './editpage/edit';
 
-function App() {
+function App({islogged}) {
 
+  
   const [showData, setShowData] = React.useState([]);
 
   const salary = 118027,ksalary=29087;
@@ -98,8 +100,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {!editmode?<Add currentpath={currentpath} />:
-        <Edit currentpath={currentpath} receivedid={editId} date={editDate} setEdittoggle={setEdittoggle} />}
+        {!editmode?(islogged&&<Add currentpath={currentpath} />):
+        (islogged&&<Edit currentpath={currentpath} receivedid={editId} date={editDate} setEdittoggle={setEdittoggle} />)}
         <p 
         onClick={()=>{
           if(!toggle){
