@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-//import * as XLSX from 'xlsx';
+import * as XLSX from 'xlsx';
 //import {datafile} from './data';
-//import {julyData,kalyan} from './july';
+import {julyData,kalyan} from './july';
 //import AppLogged from './Applogged'
 import Add from './add page/add'
 import fireDb from './firebase';
@@ -11,7 +11,7 @@ import Edit from './editpage/edit';
 function App() {
 
   
- //const [showData, setShowData] = React.useState([]);
+  const [showData, setShowData] = React.useState([]);
 
   const salary = 118027,ksalary=29087;
   const prevBalance = 15012,kprevBalance=11659;
@@ -21,7 +21,7 @@ function App() {
   const [editId,setEditId]=useState();
   const [editDate,setEditDate]=useState();
 
-  
+  let assign = 0;
   const [demo,setDemo]= React.useState([]);
 
   //console.log(demo);
@@ -63,7 +63,7 @@ function App() {
     }
       else console.log('table data did not came')
     })
-  },[editmode,toggle,currentpath])
+  },[editmode,toggle])
 
       useEffect(()=>{
         let data=demo,sum=0;
@@ -76,14 +76,13 @@ function App() {
   
   
         }
-        let assign=0;
         if(!toggle)
         assign = salary+prevBalance+sum;
         else assign = ksalary+kprevBalance+sum;
         setCurrentBalance(assign);
         setKharchu(sum);
 
-      },[toggle,demo])
+      },[toggle])
 
       function toggleEditId(id,Date){
         console.log(id,Date);
@@ -180,13 +179,13 @@ function App() {
 
 export default App;
 
-        /*}
+        {/*}
         <input type="file" 
         onChange={(e)=>{
           const file = e.target.files[0];
           readExcel(file);
         }}
-        ></input><br/> */
+        ></input><br/> */}
 /*
   const readExcel=(file)=>{
     const promise = new Promise((resolve,reject)=>{
