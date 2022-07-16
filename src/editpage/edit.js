@@ -1,4 +1,4 @@
-import React,{useEffect, useId, useState} from "react";
+import React,{useEffect,  useState} from "react";
 import fireDb from '../firebase';
 //import {v4 as uuidv4} from 'uuid';
 
@@ -26,7 +26,7 @@ const Edit = ({receivedid,date,setEdittoggle,currentpath}) => {
     
             else {console.log('not working yet');}
         })
-    },[receivedid])
+    },[receivedid,currentpath])
 
 function formatDate(d)
 {

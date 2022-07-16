@@ -40,9 +40,11 @@ function AppLogged() {
       {toggle?
         < >
         <input type='text'
+        value={username}
         placeholder='enter user name' onChange={(e)=>{setName(e.target.value)}} />
         <input type='password' 
         placeholder='enter password'
+        value={password}
         onChange={(e)=>{setPassword(e.target.value)}} />
         <button onClick={checkCredentials}>login</button>
         </>
