@@ -57,7 +57,8 @@ function App({islogged}) {
   },[editmode,toggle])
 
       useEffect(()=>{
-        let data=demo,sum=0;
+        let data=Object.keys(demo).map((key)=>demo[key]);
+        let sum=0;
         for(let i=0;i<data.length-1;i++){
   
           if(data[i].date.slice(3)==='07/22'||data[i].date.slice(3)==='07-22')
@@ -91,7 +92,7 @@ function App({islogged}) {
     <div className="App">
       <header className="App-header">
       {!editmode?(islogged&&<Add currentpath={currentpath} />):
-        (islogged&&<Edit currentpath={currentpath} receivedid={editId} date={editDate} setEdittoggle={setEdittoggle} />)}
+        (islogged&&<Edit currentpath={currentpath} receivedid={editId} receiveddate={editDate} setEdittoggle={setEdittoggle} />)}
         <p 
         onClick={()=>{
           if(!toggle){

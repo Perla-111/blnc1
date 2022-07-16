@@ -43,6 +43,7 @@ const submitDetails= ()=>{
       setAmount('');
       setNote('');
       setCategory('');
+      setDate('');
     }
 
     return (
