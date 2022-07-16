@@ -2,8 +2,14 @@ import React,{useId, useState} from "react";
 import fireDb from '../firebase';
 import {v4 as uuidv4} from 'uuid';
 
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+
 const Add = ({currentpath}) => {
 
+    const dateref = React.useRef(null);
+    const [startDate,setStartDate]  = useState(new Date());
     const [date,setDate] = useState('');
     const [amount,setAmount] = useState('');
     const [note,setNote] = useState('');
@@ -19,13 +25,18 @@ function formatDate(d)
     month = (month + 1).toString().padStart(2, '0');
     return `${day}-${month}${year}`;
 }
+function getDate(d)
+{
+
+    return `${d}`;
+}
 
 let d = new Date();
 
 const submitDetails= ()=>{
         let obj = {
             id :uuidv4(),
-            date:date,
+            date:date||formatDate(dateref.current.props.selected),
             amount:parseInt(amount),
             note,
             category
@@ -38,21 +49,24 @@ const submitDetails= ()=>{
         //     password:''
         // }
         // const path=``;
-
+       // console.log(obj);
       fireDb.child(path).push(obj);
       setAmount('');
       setNote('');
       setCategory('');
       setDate('');
+      fireDb.child('lastupdate/date/').update({date:getDate(d)});
     }
 
     return (
         <div>
-            <input type='text' 
+            <DatePicker ref={dateref} selected={startDate} onChange={(date) => {setStartDate(date);
+            }}/>
+            {/* <input type='text' 
         placeholder='dd-mmyy date'
         value={date}
         onChange={(e)=>{setDate(e.target.value)}}
-        /><br/>
+        /><br/> */}
         <input type='number' 
         placeholder='enter amount'
         value={amount}
