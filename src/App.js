@@ -71,7 +71,7 @@ function App() {
   
           if(data[i].date.slice(3)==='07/22'||data[i].date.slice(3)==='07-22')
           {
-            sum = sum + parseInt(data[i].amount);
+            sum = sum + data[i].amount;
           }
   
   
@@ -94,7 +94,6 @@ function App() {
       function setEdittoggle(){
         
         setEditMode(false);
-
 
       }
 

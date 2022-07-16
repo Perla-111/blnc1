@@ -34,9 +34,6 @@ const submitDetails= ()=>{
         //console.log(path);
 
       fireDb.child(path).push(obj);
-      setAmount('');
-      setCategory('');
-      setNote('');
     }
 
     return (
