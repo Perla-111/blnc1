@@ -1,24 +1,28 @@
 
 export let julyData  = [[
     {
+        "id":1,
         "Date": "01/07/22",
         "Category": "to Bhabhi",
         "Note": "For mom gold",
         "Amount": -10500
     },
     {
+        "id":1,
         "Date": "01/07/22",
         "Category": "to Bhabhi",
         "Note": "extra for bags and ration from 9000(not correct)",
         "Amount": -3184
     }
     ,{
+        "id":1,
         "Date": "03/07/22",
         "Category": "to Bhabhi",
         "Note": "For ice cream s",
         "Amount": -50
     },
     {
+        "id":1,
         "Date": "03/07/22",
         "Category": "to Bhabhi",
         "Note": "For milk",

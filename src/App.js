@@ -5,6 +5,7 @@ import * as XLSX from 'xlsx';
 import {julyData,kalyan} from './july';
 import Add from './add page/add'
 import fireDb from './firebase';
+import Edit from './editpage/edit';
 
 function App() {
 
@@ -14,6 +15,9 @@ function App() {
   const prevBalance = 15012,kprevBalance=11659;
   const [currentBalance,setCurrentBalance] = React.useState(0);
   //const [kcurrentBalance,setkCurrentBalance] = React.useState(0);
+  const [editmode,setEditMode]= useState(false);
+  const [editId,setEditId]=useState();
+  const [editDate,setEditDate]=useState();
 
   let assign = 0;
   const [demo,setDemo]= React.useState(julyData);
@@ -57,6 +61,106 @@ function App() {
         //console.log(sum,'sum',assign,'assign',salary,'salary',prevBalance,'prevBalance');
       },[toggle])
 
+      function toggleEditId(id,Date){
+        console.log(id,Date);
+        setEditDate(Date);
+        setEditId('-N74t3gi7W1EP3ysxQxn');
+        setEditMode(true);
+      }
+      function setEdittoggle(){
+        setEditMode(false);
+      }
+
+  return (
+    <div className="App">
+      <header className="App-header">
+        {!editmode?<Add />:
+        <Edit id={editId} date={editDate} setEdittoggle={setEdittoggle} />}
+        <p 
+        onClick={()=>{
+          if(!toggle){
+          setDemo(kalyan);
+          setToggle(!toggle);
+          }
+          else {
+            setDemo(julyData);
+            setToggle(!toggle);
+          }
+        }}
+        >Hello!!!</p>
+
+        
+        {
+              demo&&demo.map((month,index)=>{
+                
+                
+                return <div key={index} style={{display:'flex',
+                flexDirection: 'column-reverse'}}>
+                  {!toggle?<>
+                  <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>June Salary</b>={salary}</span>
+                  <span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>last month balance </b>= {prevBalance}</span>
+                  <span><b style={{color:'cyan'}}>Start of month balance</b> = {salary+prevBalance}</span></p>
+                  <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>Kharchu</b> = {kharchu}</span>
+                  <span><b style={{color:'cyan'}}>Today's balance</b> = {currentBalance}</span></p></>
+                  :<>
+                  <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>June Salary</b>={ksalary}</span>
+                  <span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>last month balance </b>= {kprevBalance}</span>
+                  <span><b style={{color:'cyan'}}>Start of month balance</b> = {ksalary+kprevBalance}</span></p>
+                  <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>Kharchu</b> = {kharchu}</span>
+                  <span><b style={{color:'cyan'}}>Today's balance</b> = {currentBalance}</span></p>
+                  </>}
+                  <table border='2px solid'>
+          <thead>
+            
+          <tr style={{fontSize:'20px',color:'cyan'}}>
+          <td >Date</td>
+          <td style={{paddingLeft:'10px'}}>Amount</td>
+          <td>Note</td>
+          <td style={{paddingLeft:'10px'}}>Category</td>
+          </tr>
+          </thead>
+          <tbody>
+            {
+              
+                month.map((item,index)=>{
+                  
+                  return <tr key={item.Date+item.Note+index} 
+                  onClick={()=>{//setEditMode(editmode);
+                    toggleEditId(item.id,item.Date);}}>
+                  <td > {item.Date} </td>
+                  <td style={{paddingLeft:'10px'}}> {item.Amount} </td>
+                  <td> {item.Note} </td>
+                  <td style={{paddingLeft:'10px'}}>{item.Category} </td>
+                </tr>
+                
+                })
+
+              
+            }
+            
+          </tbody>
+        </table>
+        </div>
+        
+              })
+      }
+        
+
+        
+      </header>
+    </div>
+  );
+}
+
+export default App;
+
+        {/*}
+        <input type="file" 
+        onChange={(e)=>{
+          const file = e.target.files[0];
+          readExcel(file);
+        }}
+        ></input><br/> */}
 /*
   const readExcel=(file)=>{
     const promise = new Promise((resolve,reject)=>{
@@ -116,89 +220,3 @@ function App() {
     })
   }
   */
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <Add />
-        <p 
-        onClick={()=>{
-          if(!toggle){
-          setDemo(kalyan);
-          setToggle(!toggle);
-          }
-          else {
-            setDemo(julyData);
-            setToggle(!toggle);
-          }
-        }}
-        >Hello!!!</p>
-        {/*}
-        <input type="file" 
-        onChange={(e)=>{
-          const file = e.target.files[0];
-          readExcel(file);
-        }}
-        ></input><br/> */}
-        
-        {
-              demo&&demo.map((month,index)=>{
-                
-                
-                return <div key={index} style={{display:'flex',
-                flexDirection: 'column-reverse'}}>
-                  {!toggle?<>
-                  <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>June Salary</b>={salary}</span>
-                  <span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>last month balance </b>= {prevBalance}</span>
-                  <span><b style={{color:'cyan'}}>Start of month balance</b> = {salary+prevBalance}</span></p>
-                  <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>Kharchu</b> = {kharchu}</span>
-                  <span><b style={{color:'cyan'}}>Today's balance</b> = {currentBalance}</span></p></>
-                  :<>
-                  <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>June Salary</b>={ksalary}</span>
-                  <span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>last month balance </b>= {kprevBalance}</span>
-                  <span><b style={{color:'cyan'}}>Start of month balance</b> = {ksalary+kprevBalance}</span></p>
-                  <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>Kharchu</b> = {kharchu}</span>
-                  <span><b style={{color:'cyan'}}>Today's balance</b> = {currentBalance}</span></p>
-                  </>}
-                  <table border='2px solid'>
-          <thead>
-            
-          <tr style={{fontSize:'20px',color:'cyan'}}>
-          <td >Date</td>
-          <td style={{paddingLeft:'10px'}}>Amount</td>
-          <td>Note</td>
-          <td style={{paddingLeft:'10px'}}>Category</td>
-          </tr>
-          </thead>
-          <tbody>
-            {
-              
-                month.map((item,index)=>{
-                  
-                  return <tr key={item.Date+item.Note+index}>
-                  <td > {item.Date} </td>
-                  <td style={{paddingLeft:'10px'}}> {item.Amount} </td>
-                  <td> {item.Note} </td>
-                  <td style={{paddingLeft:'10px'}}>{item.Category} </td>
-                </tr>
-                
-                })
-
-              
-            }
-            
-          </tbody>
-        </table>
-        </div>
-        
-              })
-      }
-        
-
-        
-      </header>
-    </div>
-  );
-}
-
-export default App;
