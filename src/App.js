@@ -90,7 +90,11 @@ function App({islogged}) {
 
       function toggleEditId(id,date){
         //console.log(id,Date);
+<<<<<<< HEAD
         let formateddate = date.substr(3,2)+'-'+date.substr(0,2)+'-'+date.slice(5);
+=======
+        let formateddate = date.substr(0,5)+'-'+date.slice(5);
+>>>>>>> 9320bca3edc0e34c48fa645e3e06c909f3014239
         let newdate = new Date(formateddate).toString();
         //console.log(formateddate,newdate);
         setEditDate(newdate);
