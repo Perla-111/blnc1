@@ -5,7 +5,7 @@ import {v4 as uuidv4} from 'uuid';
 const Add = () => {
 
     //const [date,setDate] = useState('');
-    const [amount,setAmount] = useState(0);
+    const [amount,setAmount] = useState();
     const [note,setNote] = useState('');
     const [category,setCategory] = useState('');
 
@@ -17,7 +17,7 @@ function formatDate(d)
     var year = d.getFullYear();
     year = year.toString().substr(-2);
     month = (month + 1).toString().padStart(2, '0');
-    return `${day}-${month}-${year}`;
+    return `${day}-${month}${year}`;
 }
 
 let d = new Date();
@@ -30,8 +30,10 @@ const submitDetails= ()=>{
             note,
             category
         }
-        path=`details/${}/${obj.date.slice(3)}`
-      fireDb.child("details/2022/07-22").push(obj);
+        const path=`details/_${d.getFullYear()}/_${obj.date.slice(3)}`;
+        //console.log(path);
+
+      fireDb.child(path).push(obj);
     }
 
     return (

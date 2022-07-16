@@ -4,6 +4,7 @@ import * as XLSX from 'xlsx';
 //import {datafile} from './data';
 import {julyData,kalyan} from './july';
 import Add from './add page/add'
+import fireDb from './firebase';
 
 function App() {
 
@@ -19,7 +20,18 @@ function App() {
   const [toggle,setToggle]= React.useState(false);
   const [kharchu,setKharchu] = React.useState(0);
 
-  
+  useEffect(()=>{
+    fireDb.child("details").on("value",(snapshot)=>{
+      if(snapshot.val()!==null) {console.log(snapshot.val());
+        let data = snapshot.val()._2022._0722;
+      let keys=Object.keys(data);
+      keys.forEach((key)=>{
+        console.log(data[key]);
+      })
+    }
+      else console.log('not working yet')
+    })
+  },[])
 
       useEffect(()=>{
         let data=demo[0],sum=0;

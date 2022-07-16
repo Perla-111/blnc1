@@ -1268,3 +1268,133 @@ export let datafile=[
         }
     ]
 ]
+
+/**
+ * 
+{
+    "details": [
+        {
+            "_2022": [
+                {
+                    "_07-22": [
+                        {
+                            "Date": "03/07/22",
+                            "Category": "to Bhabhi",
+                            "Note": "For ice cream s",
+                            "Amount": -50
+                        },
+                        {
+                            "Date": "03/07/22",
+                            "Category": "to Bhabhi",
+                            "Note": "For milk",
+                            "Amount": -1200
+                        },
+                        {
+                            "Date": "04/07/22",
+                            "Category": "to Bhabhi",
+                            "Note": "Bhabhi recharge",
+                            "Amount": -721
+                        },
+                        {
+                            "Date": "04/07/22",
+                            "Category": "to Bhabhi",
+                            "Note": "For chat",
+                            "Amount": -50
+                        },
+                        {
+                            "Date": "04/07/22",
+                            "Category": "to Bhabhi",
+                            "Note": "For mom hospital",
+                            "Amount": -5000
+                        },
+                        {
+                            "Date": "06/07/22",
+                            "Category": "to mom",
+                            "Note": "60fishes,20 anapkay",
+                            "Amount": -80
+                        },
+                        {
+                            "Date": "06/07/22",
+                            "Category": "to Bhabhi",
+                            "Note": "To bhabhi to sklm for withdrawal",
+                            "Amount": -2000
+                        },
+                        {
+                            "Date": "06/07/22",
+                            "Category": "Bills",
+                            "Note": "10000 for loan, 1000 for credit card bill",
+                            "Amount": -11000
+                        },
+                        {
+                            "Date": "08/07/22",
+                            "Category": "to Bhabhi",
+                            "Note": "2000-800To bhabhi to sklm",
+                            "Amount": -1200
+                        },
+                        {
+                            "Date": "09/07/22",
+                            "Category": "Food and Drink",
+                            "Note": "7000,800,",
+                            "Amount": -10
+                        },
+                        {
+                            "Date": "09/07/22",
+                            "Category": "Food and Drink",
+                            "Note": "Amma",
+                            "Amount": -2610
+                        },
+                        {
+                            "Date": "09/07/22",
+                            "Category": "Food and Drink",
+                            "Note": "Bhabhi",
+                            "Amount": -1600
+                        },
+                        {
+                            "Date": "09/07/22",
+                            "Category": "to mom",
+                            "Note": "For bananas",
+                            "Amount": -100
+                        },
+                        {
+                            "Date": "10/07/22",
+                            "Category": "to Bhabhi",
+                            "Note": "For chat and panipuri",
+                            "Amount": -65
+                        },
+                        {
+                            "Date": "11/07/22",
+                            "Category": "to Bhabhi",
+                            "Note": "For going sklm ",
+                            "Amount": -3000
+                        },
+                        {
+                            "Date": "12/07/22",
+                            "Category": "to Bhabhi",
+                            "Note": "To ramesh for mumbai",
+                            "Amount": -1000
+                        },
+                        {
+                            "Date": "13/07/22",
+                            "Category": "to Bhabhi",
+                            "Note": "Dont know why",
+                            "Amount": -600
+                        },
+                        {
+                            "Date": "13/07/22",
+                            "Category": "to Bhabhi",
+                            "Note": "Dont know why",
+                            "Amount": -4500
+                        }
+                    ]
+                },
+                {
+                    "_08-22": []
+                }
+            ]
+        },
+        {
+            "_2023": []
+        }
+    ]
+}
+ */
