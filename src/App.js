@@ -8,7 +8,7 @@ import Add from './add page/add'
 import fireDb from './firebase';
 import Edit from './editpage/edit';
 
-function App() {
+function App({islogged}) {
 
   
   const [showData, setShowData] = React.useState([]);
@@ -48,17 +48,8 @@ function App() {
     //else path='kalyan';
     fireDb.child(currentpath).on("value",(snapshot)=>{
       if(snapshot.val()!==null) {
-        console.log(snapshot.val());
+        //console.log(snapshot.val());
         let dataObj = snapshot.val()._2022._0722;
-      //   let dataArray = [];
-      // let keys=Object.keys(dataObj);
-      // console.log(keys);
-      // keys.forEach((key)=>{
-      //   //console.log(dataObj[key]);
-      //   dataArray.push(dataObj[key]);
-      // })
-      // //console.log(dataArray);
-      //setDemo(dataArray);
       setDemo(dataObj);
     }
       else console.log('table data did not came')
@@ -99,8 +90,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {!editmode?<Add currentpath={currentpath} />:
-        <Edit currentpath={currentpath} receivedid={editId} date={editDate} setEdittoggle={setEdittoggle} />}
+      {!editmode?(islogged&&<Add currentpath={currentpath} />):
+        (islogged&&<Edit currentpath={currentpath} receivedid={editId} date={editDate} setEdittoggle={setEdittoggle} />)}
         <p 
         onClick={()=>{
           if(!toggle){

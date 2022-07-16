@@ -4,7 +4,7 @@ import {v4 as uuidv4} from 'uuid';
 
 const Add = ({currentpath}) => {
 
-    //const [date,setDate] = useState('');
+    const [date,setDate] = useState('');
     const [amount,setAmount] = useState('');
     const [note,setNote] = useState('');
     const [category,setCategory] = useState('');
@@ -25,19 +25,33 @@ let d = new Date();
 const submitDetails= ()=>{
         let obj = {
             id :uuidv4(),
-            date:formatDate(d),
+            date:date,
             amount:parseInt(amount),
             note,
             category
         }
         const path=`${currentpath}/_${d.getFullYear()}/_${obj.date.slice(3)}`;
-        //console.log(path);
+        
+//for adding a user
+        // let obj = {
+        //     username:'',
+        //     password:''
+        // }
+        // const path=``;
 
       fireDb.child(path).push(obj);
+      setAmount('');
+      setNote('');
+      setCategory('');
     }
 
     return (
         <div>
+            <input type='text' 
+        placeholder='dd-mmyy date'
+        value={date}
+        onChange={(e)=>{setDate(e.target.value)}}
+        /><br/>
         <input type='number' 
         placeholder='enter amount'
         value={amount}

@@ -5,6 +5,7 @@ import fireDb from '../firebase';
 const Edit = ({receivedid,date,setEdittoggle,currentpath}) => {
 
     //const [changedate,setChangeDate] = useState('');
+    const [date,setDate] = useState('');
     const [amount,setAmount] = useState('');
     const [id,setId] = useState('');
     const [note,setNote] = useState('');
@@ -19,6 +20,7 @@ const Edit = ({receivedid,date,setEdittoggle,currentpath}) => {
                 let data=snapshot.val();
                 setData(data[receivedid]);
                 setAmount(data[receivedid].amount);
+                setDate(data[receivedid].date);
                 setNote(data[receivedid].note);
                 setCategory(data[receivedid].category);
                 setId(data[receivedid].id);
@@ -43,20 +45,27 @@ let d = new Date();
 const submitDetails= ()=>{
         let obj={
             id,
-            date:formatDate(d),
-            amount,
+            date,
+            amount:parseInt(amount),
             note,
             category
         }
         let newObj=Object.assign({},{[receivedid]:data});
         const path=`${currentpath}/_${d.getFullYear()}/_${newObj[receivedid].date.slice(3)}/${receivedid}`;
+        //console.log(obj,newObj,path)
         fireDb.child(path).update(obj);
+        
         setEdittoggle();
       
     }
 
     return (
         <div>
+            <input type='text' 
+        placeholder='dd-mmyy date'
+        value={date}
+        onChange={(e)=>{setDate(e.target.value)}}
+        /><br/>
         <input type='number' 
         placeholder='enter amount'
         value={amount}
