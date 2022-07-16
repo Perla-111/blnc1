@@ -25,7 +25,7 @@ function App() {
         let data=demo[0],sum=0;
         for(let i=0;i<data.length-1;i++){
   
-          if(data[i].Date.slice(3)==='07/22')
+          if(data[i].Date.slice(3)==='07/22'||data[i].Date.slice(3)==='07-22')
           {
             sum = sum + data[i].Amount;
             //console.log(data[i].Amount);

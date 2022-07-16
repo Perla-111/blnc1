@@ -1,30 +1,41 @@
-import React,{useState} from "react";
+import React,{useId, useState} from "react";
 import fireDb from '../firebase';
+import {v4 as uuidv4} from 'uuid';
 
 const Add = () => {
 
-    const [date,setDate] = useState('');
+    //const [date,setDate] = useState('');
     const [amount,setAmount] = useState(0);
     const [note,setNote] = useState('');
     const [category,setCategory] = useState('');
-    
-    const submitDetails= ()=>{
+
+
+function formatDate(d)
+{
+    var month = d.getMonth();
+    var day = d.getDate().toString().padStart(2, '0');
+    var year = d.getFullYear();
+    year = year.toString().substr(-2);
+    month = (month + 1).toString().padStart(2, '0');
+    return `${day}-${month}-${year}`;
+}
+
+let d = new Date();
+
+const submitDetails= ()=>{
         let obj = {
-            date,
+            id :uuidv4(),
+            date:formatDate(d),
             amount,
             note,
             category
         }
-      fireDb.child("details").push(obj);
+        path=`details/${}/${obj.date.slice(3)}`
+      fireDb.child("details/2022/07-22").push(obj);
     }
 
     return (
         <div>
-        <input type='text' 
-        placeholder='enter date in dd/mm/yy format'
-        value={date}
-        onChange={(e)=>{setDate(e.target.value)}}
-        /><br/>
         <input type='number' 
         placeholder='enter amount'
         value={amount}
