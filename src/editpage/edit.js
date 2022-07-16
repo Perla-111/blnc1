@@ -2,17 +2,24 @@ import React,{useEffect, useId, useState} from "react";
 import fireDb from '../firebase';
 //import {v4 as uuidv4} from 'uuid';
 
-const Edit = ({id,date,setEdittoggle}) => {
+const Edit = ({receivedid,date,setEdittoggle}) => {
 
     //const [changedate,setChangeDate] = useState('');
-    const [amount,setAmount] = useState(111);
-    const [note,setNote] = useState('111');
-    const [category,setCategory] = useState('111');
+    const [amount,setAmount] = useState('');
+    const [id,setId] = useState('');
+    const [note,setNote] = useState('');
+    const [category,setCategory] = useState('');
 
     useEffect(()=>{
-        const path=`details/_2022/_0722/${id}`;
+        const path=`details/_2022/_0722/${receivedid}`;
         fireDb.child(path).on("value",(snapshot)=>{
-            if(snapshot.val()!==null) {console.log(snapshot.val());}
+            if(snapshot.val()!==null) {
+                let data=snapshot.val();
+                setAmount(data.amount);
+                setNote(data.note);
+                setCategory(data.category);
+                setId(data.id);
+                console.log(snapshot.val());}
     
             else console.log('not working yet')
         })
@@ -31,17 +38,19 @@ function formatDate(d)
 let d = new Date();
 
 const submitDetails= ()=>{
-        let obj = {
-            id ,
+        let obj=Object.assign({},[receivedid]={
+            id,
             date:formatDate(d),
             amount,
             note,
             category
-        }
-        const path=`details/_${d.getFullYear()}/_${obj.date.slice(3)}/${id}`;
+        })
+        
+        const path=`details/_${d.getFullYear()}/_${obj.date.slice(3)}/`;
         console.log(obj);
+        //fireDb.child(path).push(obj);
         setEdittoggle(false);
-      //fireDb.child(path).push(obj);
+      
     }
 
     return (
@@ -62,7 +71,7 @@ const submitDetails= ()=>{
         onChange={(e)=>{setCategory(e.target.value)}} 
         /><br/>
         <button 
-        onClick={submitDetails}>submit</button>
+        onClick={submitDetails}>edit</button>
         </div>
     )
 }

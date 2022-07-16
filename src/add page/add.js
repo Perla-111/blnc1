@@ -5,7 +5,7 @@ import {v4 as uuidv4} from 'uuid';
 const Add = () => {
 
     //const [date,setDate] = useState('');
-    const [amount,setAmount] = useState();
+    const [amount,setAmount] = useState('');
     const [note,setNote] = useState('');
     const [category,setCategory] = useState('');
 
@@ -26,7 +26,7 @@ const submitDetails= ()=>{
         let obj = {
             id :uuidv4(),
             date:formatDate(d),
-            amount,
+            amount:parseInt(amount),
             note,
             category
         }
@@ -54,7 +54,7 @@ const submitDetails= ()=>{
         onChange={(e)=>{setCategory(e.target.value)}} 
         /><br/>
         <button 
-        onClick={submitDetails}>submit</button>
+        onClick={submitDetails}>add</button>
         </div>
     )
 }

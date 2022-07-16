@@ -22,7 +22,7 @@ function App() {
   let assign = 0;
   const [demo,setDemo]= React.useState([]);
 
-  console.log(demo);
+  //console.log(demo);
   // useEffect(()=>{
   //   fireDb.child('details').on("value",(snapshot)=>{
   //     if(snapshot.val()!==null) 
@@ -41,20 +41,22 @@ function App() {
   useEffect(()=>{
     fireDb.child("details").on("value",(snapshot)=>{
       if(snapshot.val()!==null) {
-        //console.log(snapshot.val());
+        console.log(snapshot.val());
         let dataObj = snapshot.val()._2022._0722;
-        let dataArray = [];
-      let keys=Object.keys(dataObj);
-      keys.forEach((key)=>{
-        //console.log(dataObj[key]);
-        dataArray.push(dataObj[key]);
-      })
-      console.log(dataArray);
-      setDemo(dataArray);
+      //   let dataArray = [];
+      // let keys=Object.keys(dataObj);
+      // console.log(keys);
+      // keys.forEach((key)=>{
+      //   //console.log(dataObj[key]);
+      //   dataArray.push(dataObj[key]);
+      // })
+      // //console.log(dataArray);
+      //setDemo(dataArray);
+      setDemo(dataObj);
     }
       else console.log('table data did not came')
     })
-  },[])
+  },[editmode])
 
       useEffect(()=>{
         let data=demo,sum=0;
@@ -63,7 +65,6 @@ function App() {
           if(data[i].date.slice(3)==='07/22'||data[i].date.slice(3)==='07-22')
           {
             sum = sum + data[i].amount;
-            //console.log(data[i].amount);
           }
   
   
@@ -72,22 +73,19 @@ function App() {
         assign = salary+prevBalance+sum;
         else assign = ksalary+kprevBalance+sum;
         setCurrentBalance(assign);
-        //setkCurrentBalance()
         setKharchu(sum);
-        //console.log(dateArray);
-        //setDemo(dateArray);
-        //setDemo(julyData);
-        //console.log(sum,'sum',assign,'assign',salary,'salary',prevBalance,'prevBalance');
+
       },[toggle])
 
       function toggleEditId(id,Date){
         console.log(id,Date);
         setEditDate(Date);
-        setEditId('-N74t3gi7W1EP3ysxQxn');
+        setEditId(id);
         setEditMode(true);
       }
       function setEdittoggle(){
         setEditMode(false);
+
       }
 
   return (
@@ -113,7 +111,8 @@ function App() {
                 
           <div  style={{display:'flex',
           flexDirection: 'column-reverse'}}>
-            {!toggle?<>
+            {
+            !toggle?<>
             <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>June Salary</b>={salary}</span>
             <span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>last month balance </b>= {prevBalance}</span>
             <span><b style={{color:'cyan'}}>Start of month balance</b> = {salary+prevBalance}</span></p>
@@ -125,7 +124,8 @@ function App() {
             <span><b style={{color:'cyan'}}>Start of month balance</b> = {ksalary+kprevBalance}</span></p>
             <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>Kharchu</b> = {kharchu}</span>
             <span><b style={{color:'cyan'}}>Today's balance</b> = {currentBalance}</span></p>
-            </>}
+            </>
+            }
             <table border='2px solid'>
     <thead>
       
@@ -139,15 +139,15 @@ function App() {
     <tbody>
       {
         
-          demo&&demo.map((item,index)=>{
+          demo&&Object.keys(demo).map((id)=>{
             
-            return <tr key={item.id} 
+            return <tr key={id} 
             onClick={()=>{//setEditMode(editmode);
-              toggleEditId(item.id,item.Date);}}>
-            <td > {item.date} </td>
-            <td style={{paddingLeft:'10px'}}> {item.amount} </td>
-            <td> {item.Note} </td>
-            <td style={{paddingLeft:'10px'}}>{item.category} </td>
+              toggleEditId(id,demo[id].date);}}>
+            <td > {demo[id].date} </td>
+            <td style={{paddingLeft:'10px'}}> {demo[id].amount} </td>
+            <td> {demo[id].note} </td>
+            <td style={{paddingLeft:'10px'}}>{demo[id].category} </td>
           </tr>
           
           })
