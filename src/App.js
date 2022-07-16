@@ -131,7 +131,8 @@ function App() {
               demo&&demo.map((month,index)=>{
                 
                 
-                return <div key={index}>
+                return <div key={index} style={{display:'flex',
+                flexDirection: 'column-reverse'}}>
                   {!toggle?<>
                   <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>June Salary</b>={salary}</span>
                   <span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>last month balance </b>= {prevBalance}</span>
