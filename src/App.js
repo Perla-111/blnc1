@@ -57,11 +57,13 @@ function App({islogged}) {
   },[editmode,toggle])
 
       useEffect(()=>{
+        
         let data=Object.keys(demo).map((key)=>demo[key]);
         let sum=0;
-        for(let i=0;i<data.length-1;i++){
+        console.log(data)
+        for(let i=0;i<data.length;i++){
   
-          if(data[i].date.slice(3)==='07/22'||data[i].date.slice(3)==='07-22')
+          if(data[i].date.slice(3)==='07/22'||data[i].date.slice(3)==='07-22'||data[i].date.slice(3)==='0722')
           {
             sum = sum + data[i].amount;
           }
@@ -74,7 +76,7 @@ function App({islogged}) {
         setCurrentBalance(assign);
         setKharchu(sum);
 
-      },[toggle])
+      },[toggle,demo])
 
       function toggleEditId(id,Date){
         console.log(id,Date);
