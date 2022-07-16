@@ -43,7 +43,7 @@ export let julyData = [
         "id": 6,
         "date": "04/07/22",
         "category": "to Bhabhi",
-        "note": "For mom ",
+        "note": "For mom scanning",
         "amount": -5000
     },
     {

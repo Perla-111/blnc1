@@ -56,7 +56,7 @@ let d = new Date();
 const submitDetails= ()=>{
         let obj={
             id,
-            date,
+            date:formatDate(dateref.current.props.selected)||date,
             amount:parseInt(amount),
             note,
             category
