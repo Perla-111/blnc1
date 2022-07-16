@@ -1,162 +1,187 @@
 
-export let julyData  = [[
+export let julyData = [
     {
-        "id":1,
-        "Date": "01/07/22",
-        "Category": "to Bhabhi",
-        "Note": "For mom gold",
-        "Amount": -10500
-    },
-    {
-        "id":1,
-        "Date": "01/07/22",
-        "Category": "to Bhabhi",
-        "Note": "extra for bags and ration from 9000(not correct)",
-        "Amount": -3184
-    }
-    ,{
-        "id":1,
-        "Date": "03/07/22",
-        "Category": "to Bhabhi",
-        "Note": "For ice cream s",
-        "Amount": -50
-    },
-    {
-        "id":1,
-        "Date": "03/07/22",
-        "Category": "to Bhabhi",
-        "Note": "For milk",
-        "Amount": -1200
-    },
-    {
-        "Date": "04/07/22",
-        "Category": "to Bhabhi",
-        "Note": "For chat",
-        "Amount": -50
-    },
-    {
-        "Date": "04/07/22",
-        "Category": "to Bhabhi",
-        "Note": "For mom hospital",
-        "Amount": -5000
-    },
-    {
-        "Date": "06/07/22",
-        "Category": "to mom",
-        "Note": "60fishes,20 anapkay",
-        "Amount": -80
-    },
-    {
-        "Date": "06/07/22",
-        "Category": "to Bhabhi",
-        "Note": "To bhabhi to sklm for withdrawal",
-        "Amount": -2000
-    },
-    {
-        "Date": "06/07/22",
-        "Category": "to Bhabhi",
-        "Note": "for pampers",
-        "Amount": -1000
-    },
-    
-    {
-        "Date": "08/07/22",
-        "Category": "to Bhabhi",
-        "Note": "To bhabhi to sklm(2000-800=>1200)",
-        "Amount": -1200
-    },
-    {
-        "Date": "08/07/22",
-        "Category": "to Bhabhi",
-        "Note": "for dress",
-        "Amount": -3000
-    },
-    {
-        "Date": "09/07/22",
-        "Category": "to Bhabhi",
-        "Note": "7000 for mom, 800 for mutton",
-        "Amount": -7800
-    },
-    {
-        "Date": "09/07/22",
-        "Category": "Food and Drink",
-        "Note": "Amma",
-        "Amount": -2610
-    },
-    {
-        "Date": "09/07/22",
-        "Category": "Food and Drink",
-        "Note": "Bhabhi",
-        "Amount": -1600
-    },
-    {
-        "Date": "09/07/22",
-        "Category": "to mom",
-        "Note": "For bananas",
-        "Amount": -100
-    },
-    {
-        "Date": "10/07/22",
-        "Category": "to Bhabhi",
-        "Note": "For chat and panipuri",
-        "Amount": -65
-    },
-    {
-        "Date": "10/07/22",
-        "Category": "to Bhabhi",
-        "Note": "for chicken to ramesh",
-        "Amount": -300
-    },
-    {
-        "Date": "11/07/22",
-        "Category": "to Bhabhi",
-        "Note": "For going sklm with mom",
-        "Amount": -3000
-    },
-    {
-        "Date": "12/07/22",
-        "Category": "to Bhabhi",
-        "Note": "To ramesh for mumbai",
-        "Amount": -1000
-    },
-    {
-        "Date": "13/07/22",
-        "Category": "to Bhabhi",
-        "Note": "online order",
-        "Amount": -600
-    },
-    {
-        "Date": "13/07/22",
-        "Category": "to mom",
-        "Note": "For Ammoru",
-        "Amount": -200
-    },
-    {
-        "Date": "13/07/22",
-        "Category": "to Bhabhi",
-        "Note": "gems school books",
-        "Amount": -4500
-    }
-]];
 
-export let kalyan = [[
-    
-    {
-        "Date": "04/07/22",
-        "Category": "to Bhabhi",
-        "Note": "bhabhi recharge",
-        "Amount": -721
+        "id": 1,
+        "date": "01/07/22",
+        "category": "to Bhabhi",
+        "note": "For mom gold",
+        "amount": -10500
     },
     {
-        "Date": "06/07/22",
-        "Category": "Bills",
-        "Note": "10000 for loan, 1000 for credit card bill",
-        "Amount": -11000
-    },
-    {
-        "Date": "13/07/22",
-        "Category": "Bills",
-        "Note": "current bill",
-        "Amount": -945
+
+        "id": 2,
+        "date": "01/07/22",
+        "category": "to Bhabhi",
+        "note": "extra for bags and ration from 9000(not correct)",
+        "amount": -3184
     }
-]];
+    , {
+
+        "id": 3,
+        "date": "03/07/22",
+        "category": "to Bhabhi",
+        "note": "For ice cream s",
+        "amount": -50
+    },
+    {
+
+        "id": 4,
+        "date": "03/07/22",
+        "category": "to Bhabhi",
+        "note": "For milk",
+        "amount": -1200
+    },
+    {
+        "id": 5,
+        "date": "04/07/22",
+        "category": "to Bhabhi",
+        "note": "For chat",
+        "amount": -50
+    },
+    {
+        "id": 6,
+        "date": "04/07/22",
+        "category": "to Bhabhi",
+        "note": "For mom hospital",
+        "amount": -5000
+    },
+    {
+        "id": 7,
+        "date": "06/07/22",
+        "category": "to mom",
+        "note": "60fishes,20 anapkay",
+        "amount": -80
+    },
+    {
+        "id": 8,
+        "date": "06/07/22",
+        "category": "to Bhabhi",
+        "note": "To bhabhi to sklm for withdrawal",
+        "amount": -2000
+    },
+    {
+        "id": 9,
+        "date": "06/07/22",
+        "category": "to Bhabhi",
+        "note": "for pampers",
+        "amount": -1000
+    },
+
+    {
+        "id": 10,
+        "date": "08/07/22",
+        "category": "to Bhabhi",
+        "note": "To bhabhi to sklm(2000-800=>1200)",
+        "amount": -1200
+    },
+    {
+        "id": 11,
+        "date": "08/07/22",
+        "category": "to Bhabhi",
+        "note": "for dress",
+        "amount": -3000
+    },
+    {
+        "id": 12,
+        "date": "09/07/22",
+        "category": "to Bhabhi",
+        "note": "7000 for mom, 800 for mutton",
+        "amount": -7800
+    },
+    {
+        "id": 13,
+        "date": "09/07/22",
+        "category": "Food and Drink",
+        "note": "Amma",
+        "amount": -2610
+    },
+    {
+        "id": 14,
+        "date": "09/07/22",
+        "category": "Food and Drink",
+        "note": "Bhabhi",
+        "amount": -1600
+    },
+    {
+        "id": 15,
+        "date": "09/07/22",
+        "category": "to mom",
+        "note": "For bananas",
+        "amount": -100
+    },
+    {
+        "id": 16,
+        "date": "10/07/22",
+        "category": "to Bhabhi",
+        "note": "For chat and panipuri",
+        "amount": -65
+    },
+    {
+        "id": 17,
+        "date": "10/07/22",
+        "category": "to Bhabhi",
+        "note": "for chicken to ramesh",
+        "amount": -300
+    },
+    {
+        "id": 18,
+        "date": "11/07/22",
+        "category": "to Bhabhi",
+        "note": "For going sklm with mom",
+        "amount": -3000
+    },
+    {
+        "id": 19,
+        "date": "12/07/22",
+        "category": "to Bhabhi",
+        "note": "To ramesh for mumbai",
+        "amount": -1000
+    },
+    {
+        "id": 20,
+        "date": "13/07/22",
+        "category": "to Bhabhi",
+        "note": "online order",
+        "amount": -600
+    },
+    {
+        "id": 21,
+        "date": "13/07/22",
+        "category": "to mom",
+        "note": "For Ammoru",
+        "amount": -200
+    },
+    {
+        "id": 22,
+        "date": "13/07/22",
+        "category": "to Bhabhi",
+        "note": "gems school books",
+        "amount": -4500
+    }
+];
+
+export let kalyan = [
+
+    {
+        "id": 1,
+        "date": "04/07/22",
+        "category": "to Bhabhi",
+        "note": "bhabhi recharge",
+        "amount": -721
+    },
+    {
+        "id": 2,
+        "date": "06/07/22",
+        "category": "Bills",
+        "note": "10000 for loan, 1000 for credit card bill",
+        "amount": -11000
+    },
+    {
+        "id": 3,
+        "date": "13/07/22",
+        "category": "Bills",
+        "note": "current bill",
+        "amount": -945
+    }
+];

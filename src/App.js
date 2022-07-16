@@ -20,31 +20,50 @@ function App() {
   const [editDate,setEditDate]=useState();
 
   let assign = 0;
-  const [demo,setDemo]= React.useState(julyData);
+  const [demo,setDemo]= React.useState([]);
+
+  console.log(demo);
+  // useEffect(()=>{
+  //   fireDb.child('details').on("value",(snapshot)=>{
+  //     if(snapshot.val()!==null) 
+  //     {
+  //       let data = snapshot.val();
+  //       setDemo(data);
+  //     }
+  //     else setDemo()
+  //   })
+  // },[])
+
+
   const [toggle,setToggle]= React.useState(false);
   const [kharchu,setKharchu] = React.useState(0);
 
   useEffect(()=>{
     fireDb.child("details").on("value",(snapshot)=>{
-      if(snapshot.val()!==null) {console.log(snapshot.val());
-        let data = snapshot.val()._2022._0722;
-      let keys=Object.keys(data);
+      if(snapshot.val()!==null) {
+        //console.log(snapshot.val());
+        let dataObj = snapshot.val()._2022._0722;
+        let dataArray = [];
+      let keys=Object.keys(dataObj);
       keys.forEach((key)=>{
-        console.log(data[key]);
+        //console.log(dataObj[key]);
+        dataArray.push(dataObj[key]);
       })
+      console.log(dataArray);
+      setDemo(dataArray);
     }
-      else console.log('not working yet')
+      else console.log('table data did not came')
     })
   },[])
 
       useEffect(()=>{
-        let data=demo[0],sum=0;
+        let data=demo,sum=0;
         for(let i=0;i<data.length-1;i++){
   
-          if(data[i].Date.slice(3)==='07/22'||data[i].Date.slice(3)==='07-22')
+          if(data[i].date.slice(3)==='07/22'||data[i].date.slice(3)==='07-22')
           {
-            sum = sum + data[i].Amount;
-            //console.log(data[i].Amount);
+            sum = sum + data[i].amount;
+            //console.log(data[i].amount);
           }
   
   
@@ -90,60 +109,58 @@ function App() {
         >Hello!!!</p>
 
         
-        {
-              demo&&demo.map((month,index)=>{
+             
                 
-                
-                return <div key={index} style={{display:'flex',
-                flexDirection: 'column-reverse'}}>
-                  {!toggle?<>
-                  <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>June Salary</b>={salary}</span>
-                  <span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>last month balance </b>= {prevBalance}</span>
-                  <span><b style={{color:'cyan'}}>Start of month balance</b> = {salary+prevBalance}</span></p>
-                  <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>Kharchu</b> = {kharchu}</span>
-                  <span><b style={{color:'cyan'}}>Today's balance</b> = {currentBalance}</span></p></>
-                  :<>
-                  <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>June Salary</b>={ksalary}</span>
-                  <span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>last month balance </b>= {kprevBalance}</span>
-                  <span><b style={{color:'cyan'}}>Start of month balance</b> = {ksalary+kprevBalance}</span></p>
-                  <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>Kharchu</b> = {kharchu}</span>
-                  <span><b style={{color:'cyan'}}>Today's balance</b> = {currentBalance}</span></p>
-                  </>}
-                  <table border='2px solid'>
-          <thead>
-            
-          <tr style={{fontSize:'20px',color:'cyan'}}>
-          <td >Date</td>
-          <td style={{paddingLeft:'10px'}}>Amount</td>
-          <td>Note</td>
-          <td style={{paddingLeft:'10px'}}>Category</td>
-          </tr>
-          </thead>
-          <tbody>
-            {
-              
-                month.map((item,index)=>{
-                  
-                  return <tr key={item.Date+item.Note+index} 
-                  onClick={()=>{//setEditMode(editmode);
-                    toggleEditId(item.id,item.Date);}}>
-                  <td > {item.Date} </td>
-                  <td style={{paddingLeft:'10px'}}> {item.Amount} </td>
-                  <td> {item.Note} </td>
-                  <td style={{paddingLeft:'10px'}}>{item.Category} </td>
-                </tr>
-                
-                })
-
-              
-            }
-            
-          </tbody>
-        </table>
-        </div>
+          <div  style={{display:'flex',
+          flexDirection: 'column-reverse'}}>
+            {!toggle?<>
+            <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>June Salary</b>={salary}</span>
+            <span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>last month balance </b>= {prevBalance}</span>
+            <span><b style={{color:'cyan'}}>Start of month balance</b> = {salary+prevBalance}</span></p>
+            <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>Kharchu</b> = {kharchu}</span>
+            <span><b style={{color:'cyan'}}>Today's balance</b> = {currentBalance}</span></p></>
+            :<>
+            <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>June Salary</b>={ksalary}</span>
+            <span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>last month balance </b>= {kprevBalance}</span>
+            <span><b style={{color:'cyan'}}>Start of month balance</b> = {ksalary+kprevBalance}</span></p>
+            <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>Kharchu</b> = {kharchu}</span>
+            <span><b style={{color:'cyan'}}>Today's balance</b> = {currentBalance}</span></p>
+            </>}
+            <table border='2px solid'>
+    <thead>
+      
+    <tr style={{fontSize:'20px',color:'cyan'}}>
+    <td >Date</td>
+    <td style={{paddingLeft:'10px'}}>Amount</td>
+    <td>Note</td>
+    <td style={{paddingLeft:'10px'}}>Category</td>
+    </tr>
+    </thead>
+    <tbody>
+      {
         
-              })
+          demo&&demo.map((item,index)=>{
+            
+            return <tr key={item.id} 
+            onClick={()=>{//setEditMode(editmode);
+              toggleEditId(item.id,item.Date);}}>
+            <td > {item.date} </td>
+            <td style={{paddingLeft:'10px'}}> {item.amount} </td>
+            <td> {item.Note} </td>
+            <td style={{paddingLeft:'10px'}}>{item.category} </td>
+          </tr>
+          
+          })
+
+        
       }
+      
+    </tbody>
+  </table>
+  </div>
+  
+        
+      
         
 
         
@@ -220,3 +237,62 @@ export default App;
     })
   }
   */
+
+  /**
+   * 
+        /* {
+              demo&&demo.map((month,index)=>{
+                
+                
+                return <div key={index} style={{display:'flex',
+                flexDirection: 'column-reverse'}}>
+                  {!toggle?<>
+                  <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>June Salary</b>={salary}</span>
+                  <span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>last month balance </b>= {prevBalance}</span>
+                  <span><b style={{color:'cyan'}}>Start of month balance</b> = {salary+prevBalance}</span></p>
+                  <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>Kharchu</b> = {kharchu}</span>
+                  <span><b style={{color:'cyan'}}>Today's balance</b> = {currentBalance}</span></p></>
+                  :<>
+                  <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>June Salary</b>={ksalary}</span>
+                  <span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>last month balance </b>= {kprevBalance}</span>
+                  <span><b style={{color:'cyan'}}>Start of month balance</b> = {ksalary+kprevBalance}</span></p>
+                  <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>Kharchu</b> = {kharchu}</span>
+                  <span><b style={{color:'cyan'}}>Today's balance</b> = {currentBalance}</span></p>
+                  </>}
+                  <table border='2px solid'>
+          <thead>
+            
+          <tr style={{fontSize:'20px',color:'cyan'}}>
+          <td >Date</td>
+          <td style={{paddingLeft:'10px'}}>Amount</td>
+          <td>Note</td>
+          <td style={{paddingLeft:'10px'}}>Category</td>
+          </tr>
+          </thead>
+          <tbody>
+            {
+              
+                month.map((item,index)=>{
+                  
+                  return <tr key={item.Date+item.Note+index} 
+                  onClick={()=>{//setEditMode(editmode);
+                    toggleEditId(item.id,item.Date);}}>
+                  <td > {item.Date} </td>
+                  <td style={{paddingLeft:'10px'}}> {item.Amount} </td>
+                  <td> {item.Note} </td>
+                  <td style={{paddingLeft:'10px'}}>{item.Category} </td>
+                </tr>
+                
+                })
+
+              
+            }
+            
+          </tbody>
+        </table>
+        </div>
+        
+              })
+      } */
+    
+ 
