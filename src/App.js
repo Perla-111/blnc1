@@ -2,24 +2,16 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 //import * as XLSX from 'xlsx';
 //import {datafile} from './data';
-<<<<<<< HEAD
 //import {julyData,kalyan} from './july';
 //import AppLogged from './Applogged'
-=======
-import {julyData,kalyan} from './july';
->>>>>>> parent of 553cd47 (provided auth)
 import Add from './add page/add'
 import fireDb from './firebase';
 import Edit from './editpage/edit';
 
 function App() {
 
-<<<<<<< HEAD
   
  //const [showData, setShowData] = React.useState([]);
-=======
-  const [showData, setShowData] = React.useState([]);
->>>>>>> parent of 553cd47 (provided auth)
 
   const salary = 118027,ksalary=29087;
   const prevBalance = 15012,kprevBalance=11659;
