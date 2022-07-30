@@ -129,10 +129,11 @@ function App({ islogged }) {
         //below "".accessor" thing needs to be dynamic
         //let accessor = `${snapshot.val()}._${yearToShow}._${monthToShow}`
         // let dataObj = snapshot.val()._2022._0722;
-        //console.log(yearToShow,monthToShow)
+        //console.log(yearToShow,monthToShow);
+        //console.log(snapshot.val()[`_${yearToShow}`].hasOwnProperty(`_${monthToShow}`))
          let dataObj2 = {};
-        if(snapshot.val()[`_${yearToShow}`]!==undefined
-        &&snapshot.val()[`_${yearToShow}`][`_${monthToShow}salary`]!==undefined){
+        if(snapshot.val().hasOwnProperty(`_${yearToShow}`)
+          && snapshot.val()[`_${yearToShow}`].hasOwnProperty(`_${monthToShow}`)){
         dataObj2 = snapshot.val()[`_${yearToShow}`][`_${monthToShow}`];
         }
         //console.log(dataObj2);
