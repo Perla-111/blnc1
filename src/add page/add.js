@@ -8,7 +8,9 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const Add = ({currentpath}) => {
 
-    const inputRef = React.useRef(null);
+    const inputRef1 = React.useRef(null);
+    const inputRef2 = React.useRef(null);
+    const inputRef3 = React.useRef(null);
 
     const dateref = React.useRef(null);
     const [startDate,setStartDate]  = useState(new Date());
@@ -70,27 +72,27 @@ const submitDetails= ()=>{
         onChange={(e)=>{setDate(e.target.value)}}
         /><br/> */}
         <input type='number' 
-        ref={inputRef}
+        ref={inputRef1}
         placeholder='enter amount'
         value={amount}
         onChange={(e)=>{setAmount(e.target.value);
-        inputRef.current.focus();}}
+        inputRef1.current.focus();}}
         /><br/>
         <input type='text' 
-        ref={inputRef}
+        ref={inputRef2}
         placeholder='enter the reason'
         value={note}
         onChange={(e)=>{setNote(e.target.value);
-            inputRef.current.focus();}}
+            inputRef2.current.focus();}}
         /><br/>
         <input type='text' 
-        ref={inputRef}
+        ref={inputRef3}
         placeholder='enter person name or bill type'
         value={category}
         onChange={(e)=>{setCategory(e.target.value);
-            inputRef.current.focus();}} 
+            inputRef3.current.focus();}} 
         /><br/>
-        <button 
+        <button style={{height:'40px',margin:'0.5rem 0 0.5rem 0',fontSize:'20px'}}
         onClick={submitDetails}>add</button>
         </div>
     )

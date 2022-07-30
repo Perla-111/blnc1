@@ -8,7 +8,51 @@ import Add from './add page/add'
 import fireDb from './firebase';
 import Edit from './editpage/edit';
 
+import DatePicker from "react-datepicker";
+
+
 function App({ islogged }) {
+
+  // const noData = {
+
+  //     details: {
+  //       _2022: {
+  //         _0722: {
+  //           _dummyData: {
+  //             amount: "0",
+  //             category: "no data",
+  //             date: "01-0199",
+  //             id: "nodata",
+  //             note: "no data"
+  //           }
+  //         }
+  //     }
+  //   }
+  // };
+
+  const dateref = React.useRef(null);
+  const [startDate, setStartDate] = useState(new Date());
+
+  function formatDate(d) {
+    var month = d.getMonth();
+    var day = d.getDate().toString().padStart(2, '0');
+    var fullyear = d.getFullYear();
+    let year = fullyear.toString().substr(-2);
+    month = (month + 1).toString().padStart(2, '0');
+    return {
+      date: `${day}-${month}${year}`,
+      fullyear
+    };
+  }
+
+  //let d = new Date();
+  // let showDate = formatDate(startDate);
+  //  useEffect(()=>{
+  //   setShowDate(formatDate(showDate));
+  //  },[startDate]);
+  const [showDate, setShowDate] = React.useState(formatDate(startDate));
+  const [yearToShow, setYearToShow] = React.useState(showDate.fullyear);
+  const [monthToShow, setMonthToShow] = React.useState(showDate.date.slice(3));
 
 
   const [showData, setShowData] = React.useState([]);
@@ -40,7 +84,16 @@ function App({ islogged }) {
   const [toggle, setToggle] = React.useState(false);
   const [kharchu, setKharchu] = React.useState(0);
   const [currentpath, setCurrentPath] = useState('details');
-  const [lastupdate, setLastUpdate] = useState('');
+  const [lastupdate, setLastUpdate] = useState('loading...');
+
+  // useEffect(()=>{
+  //   if(showDate!==undefined){
+  //   setMonthToShow(showDate.date.slice(3));
+  //   setYearToShow(showDate.fullyear);
+  //   console.log(showDate);
+  //   }
+
+  // },[showDate,startDate]);
 
   useEffect(() => {
     fireDb.child('lastupdate/date/date').on("value", (snapshot) => {
@@ -57,33 +110,50 @@ function App({ islogged }) {
     //if(!toggle) path='details';
     //else path='kalyan';
     fireDb.child(currentpath).on("value", (snapshot) => {
-      if (snapshot.val() !== null) {
+      if (snapshot.val() !== null && snapshot.val() !== undefined) {
         //console.log(snapshot.val());
-        let dataObj = snapshot.val()._2022._0722;
-        setDemo(dataObj);
+        //below "".accessor" thing needs to be dynamic
+        //let accessor = `${snapshot.val()}._${yearToShow}._${monthToShow}`
+        // let dataObj = snapshot.val()._2022._0722;
+        //console.log(yearToShow,monthToShow)
+        // let dataObj2 = {};
+        //if(yearToShow!==undefined && monthToShow!==undefined){
+        let dataObj2 = snapshot.val()[`_${yearToShow}`][`_${monthToShow}`];
+        //}
+        //console.log(dataObj2);
+        setDemo(dataObj2);
       }
-      else console.log('table data did not came')
-    })
-  }, [editmode, toggle])
+      else {
+        console.log('table data did not came')
+        setDemo('')
+      }
+    });
+    //console.log(showDate);
+  }, [editmode, toggle, startDate])
 
   useEffect(() => {
+    if (demo) {
+      let data = Object.keys(demo).map((key) => demo[key]);
+      let sum = 0;
+      //console.log(data)
+      for (let i = 0; i < data.length; i++) {
 
-    let data = Object.keys(demo).map((key) => demo[key]);
-    let sum = 0;
-    //console.log(data)
-    for (let i = 0; i < data.length; i++) {
+        //date comparisiom needs to be dynamic
+        if (data[i].date.slice(3) === monthToShow
+          //below validation can be removed
+          //|| data[i].date.slice(3) === '07/22' || data[i].date.slice(3) === '07-22' || data[i].date.slice(3) === '0722'
+        ) {
+          sum = sum + data[i].amount;
+        }
 
-      if (data[i].date.slice(3) === '07/22' || data[i].date.slice(3) === '07-22' || data[i].date.slice(3) === '0722') {
-        sum = sum + data[i].amount;
+
       }
-
-
+      if (!toggle)
+        assign = salary + prevBalance + sum;
+      else assign = ksalary + kprevBalance + sum;
+      setCurrentBalance(assign);
+      setKharchu(sum);
     }
-    if (!toggle)
-      assign = salary + prevBalance + sum;
-    else assign = ksalary + kprevBalance + sum;
-    setCurrentBalance(assign);
-    setKharchu(sum);
 
   }, [toggle, demo])
 
@@ -151,12 +221,12 @@ function App({ islogged }) {
               </p></>
               : <>
                 <p>
-                <span><b style={{ color: 'cyan' }}>
-                    Start of month balance</b> = {ksalary + kprevBalance}</span><br/>
+                  <span><b style={{ color: 'cyan' }}>
+                    Start of month balance</b> = {ksalary + kprevBalance}</span><br />
                   <span style={{ paddingRight: '10px' }}>
                     <b style={{ color: 'cyan' }}>
                       {/** this needs to be dynamic*/}
-                      June 
+                      June
                       Salary</b>={ksalary}</span><br />
                   <span style={{ paddingRight: '10px' }}>
                     <b style={{ color: 'cyan' }}>last month balance </b>= {kprevBalance}</span>
@@ -169,7 +239,7 @@ function App({ islogged }) {
                 </p>
               </>
           }
-          <table border='2px solid'>
+          {demo ? <table border='2px solid'>
             <thead>
               <tr style={{ fontSize: '20px', color: 'cyan' }}>
                 <td >Date</td>
@@ -199,7 +269,17 @@ function App({ islogged }) {
               }
 
             </tbody>
-          </table>
+          </table> : 'no data'}
+          <div style={{ margin: '1rem 0 1rem 0' }}>
+
+            <DatePicker ref={dateref} selected={startDate}
+              onChange={(date) => {
+                setStartDate(date);
+                setShowDate(formatDate(date));
+                setMonthToShow(formatDate(date).date.slice(3));
+                setYearToShow(formatDate(date).fullyear);
+              }} />
+          </div>
         </div>
 
 

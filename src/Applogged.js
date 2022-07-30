@@ -64,6 +64,7 @@ function AppLogged() {
   const [password, setPassword] = useState('');
   const [logged, setLogged] = useState(false);
   const [toggle,setToggle] = useState(false);
+  const [error,setError] = useState('');
   useEffect(()=>{
     if(window.confirm('click cancel to proceed')){
       setLogged(true);
@@ -82,10 +83,12 @@ function AppLogged() {
       if (snapshot.exists()){
         setLogged(true);
         setToggle(false);
+        setError('');
         
       }
       else{
         console.log('invalid credentials')
+        setError('invalid credentials');
       }
     }
       )
@@ -93,7 +96,7 @@ function AppLogged() {
 
 
   return (
-    <div className="Login">
+    <div style={{height:'100vh'}} className="Login" onDoubleClick={checkCredentials}>
       {toggle?
         < >
         <input type='text'
@@ -102,6 +105,8 @@ function AppLogged() {
         placeholder='enter password'
         onChange={(e)=>{setPassword(e.target.value)}} />
         <button onClick={checkCredentials}>login</button>
+        <br/>
+        {error}
         </>
       :<App islogged={logged}/>}
     </div>
