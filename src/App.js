@@ -118,7 +118,7 @@ function App({ islogged }) {
               setToggle(!toggle);
             }
           }}
-        >Hello!!! Laxmana Rao. <br />  last updated time = {lastupdate}</p>
+        >Hello!!! Laxmana Rao <br />  last updated time = {lastupdate}</p>
 
 
 
@@ -136,22 +136,34 @@ function App({ islogged }) {
                 <span><b style={{ color: 'cyan' }}>Start of month balance</b> = {salary + prevBalance}
                 </span>
               </p>
-              <p><span style={{ paddingRight: '10px' }}>
-                <b style={{ color: 'cyan' }}>Kharchu</b> = {kharchu}</span><br />
-                <span><b style={{ color: 'cyan' }}>Today's balance</b> = {currentBalance}
-                </span></p></>
+              <p>
+                <span><b style={{ color: 'cyan' }}>
+                  Today's balance</b> = {currentBalance}
+                </span>
+                <br />
+                <span style={{ paddingRight: '10px' }}>
+                  <b style={{ color: 'cyan' }}>Kharchu</b> = &nbsp;{kharchu}
+                  {/* {kharchu < 0
+                  ? <><b>{kharchu.toString().substr(0,1)}</b>{kharchu.toString().slice(1)}</>
+                  : {kharchu}
+                } */}
+                </span>
+              </p></>
               : <>
                 <p>
+                <span><b style={{ color: 'cyan' }}>
+                    Start of month balance</b> = {ksalary + kprevBalance}</span><br/>
                   <span style={{ paddingRight: '10px' }}>
-                    <b style={{ color: 'cyan' }}>June Salary</b>={ksalary}</span><br/>
+                    <b style={{ color: 'cyan' }}>
+                      {/** this needs to be dynamic*/}
+                      June 
+                      Salary</b>={ksalary}</span><br />
                   <span style={{ paddingRight: '10px' }}>
-                    <b style={{ color: 'cyan' }}>last month balance </b>= {kprevBalance}</span><br/>
-                  <span><b style={{ color: 'cyan' }}>
-                    Start of month balance</b> = {ksalary + kprevBalance}</span>
+                    <b style={{ color: 'cyan' }}>last month balance </b>= {kprevBalance}</span>
                 </p>
                 <p>
                   <span style={{ paddingRight: '10px' }}>
-                    <b style={{ color: 'cyan' }}>Kharchu</b> = {kharchu}</span><br/>
+                    <b style={{ color: 'cyan' }}>Kharchu</b> = {kharchu}</span><br />
                   <span><b style={{ color: 'cyan' }}>
                     Today's balance</b> = {currentBalance}</span>
                 </p>
