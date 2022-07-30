@@ -24,7 +24,6 @@ code {
     monospace;
 }
 .date-picker-wrapper-addEdit{
-  margin-left: -80%;
   color : white;
   background-color: #282c34;
   border: 2px solid cyan;
@@ -33,7 +32,7 @@ code {
   padding-left: 10px !important;
 }
 .react-datepicker-wrapper{
-  width: 20%;
+  width: initial;
 }
 /* .date-picker-wrapper-add .react-datepicker-wrapper{
   width: 100% !important;
@@ -57,6 +56,9 @@ color : white !important;
   background-color: #282c34;
   border: 2px solid cyan;
   border-radius: 50px;
+}
+.react-datepicker__input-container{
+  width:inherit;
 }
 .react-datepicker__day-name, .react-datepicker__week{
   color:white !important;

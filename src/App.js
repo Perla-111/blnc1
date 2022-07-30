@@ -369,8 +369,9 @@ function App({ islogged }) {
           </table> : 'no data'}
           <div style={{ margin: '1rem 0 1rem 0' }}>
           <div style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center',width:'100%'}}>
-          <div><b style={{ color: 'cyan' }}>{formatMonth(startDate)}</b> month : &nbsp;</div>
-            <DatePicker className='date-picker-wrapper' ref={dateref} selected={startDate}
+          <div><b style={{ color: 'cyan' }}>{formatMonth(startDate)}</b>&nbsp;</div>
+            <DatePicker onFocus={(e)=>{e.target.readOnly=true}}
+             className='date-picker-wrapper' ref={dateref} selected={startDate}
               onChange={(date) => {
                 setStartDate(date);
                 setShowDate(formatDate(date));

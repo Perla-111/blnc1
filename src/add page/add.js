@@ -75,9 +75,10 @@ const Add = ({ currentpath, receiveddate }) => {
 
     return (
         <div>
-        <div style={{display:'flex',flexDirection:'column'}}>
+        <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',width:'100%'}}>
             <div>
             <DatePicker
+            onFocus={(e)=>{e.target.readOnly=true}}
             className='date-picker-wrapper-addEdit'
              ref={dateref} selected={startDate} onChange={(date) => {
                 setStartDate(date);
