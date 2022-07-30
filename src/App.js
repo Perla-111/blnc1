@@ -101,7 +101,6 @@ function App({ islogged }) {
   })
   useEffect(() => {
     fireDb.child(currentpath).on("value", (snapshot) => {
-      console.log(snapshot.val());
       if (`_${monthToShow}salary` in snapshot.val()[`_${yearToShow}`]) {
         let dataObj2 = snapshot.val()[`_${yearToShow}`][`_${monthToShow}salary`]['salary'];
         setSalary(dataObj2.salary);
@@ -166,6 +165,9 @@ function App({ islogged }) {
       setCurrentBalance(assign);
       setKharchu(sum);
     }
+    else if(lSalary && lastMonthBalance){
+      setCurrentBalance(lSalary + lastMonthBalance);
+    }
 
   }, [toggle, demo,salaryEditToggle])
 
@@ -194,8 +196,13 @@ function App({ islogged }) {
 
   return (
     <div className="App">
+
       <header className="App-header">
-        {!editmode ? (islogged && <Add currentpath={currentpath} />) :
+        {!editmode ? (islogged && 
+        <Add 
+        currentpath={currentpath}
+         receiveddate={startDate} 
+         />) :
           (islogged && <Edit currentpath={currentpath} receivedid={editId} receiveddate={editDate} setEdittoggle={setEdittoggle} />)}
         <p
           onClick={() => {

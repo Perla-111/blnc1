@@ -1,4 +1,4 @@
-import React,{useId, useState} from "react";
+import React,{useEffect, useId, useState} from "react";
 import fireDb from '../firebase';
 import {v4 as uuidv4} from 'uuid';
 
@@ -6,14 +6,17 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-const Add = ({currentpath}) => {
+const Add = ({currentpath,receiveddate}) => {
+    useEffect(()=>{
+        setStartDate(receiveddate);
+    },[receiveddate]);
 
     const inputRef1 = React.useRef(null);
     const inputRef2 = React.useRef(null);
     const inputRef3 = React.useRef(null);
 
     const dateref = React.useRef(null);
-    const [startDate,setStartDate]  = useState(new Date());
+    const [startDate,setStartDate]  = useState(new Date(receiveddate));
     const [date,setDate] = useState('');
     const [amount,setAmount] = useState('');
     const [note,setNote] = useState('');
