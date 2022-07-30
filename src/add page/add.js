@@ -75,14 +75,20 @@ const Add = ({ currentpath, receiveddate }) => {
 
     return (
         <div>
-            <DatePicker ref={dateref} selected={startDate} onChange={(date) => {
+        <div style={{display:'flex',flexDirection:'column'}}>
+            <div>
+            <DatePicker
+            className='date-picker-wrapper-addEdit'
+             ref={dateref} selected={startDate} onChange={(date) => {
                 setStartDate(date);
             }} />
+            </div>
             {/* <input type='text' 
         placeholder='dd-mmyy date'
         value={date}
         onChange={(e)=>{setDate(e.target.value)}}
         /><br/> */}
+        <div>
             <input type='number'
                 ref={inputRef1}
                 placeholder='enter amount'
@@ -109,6 +115,8 @@ const Add = ({ currentpath, receiveddate }) => {
             /><br />
             <button style={{ height: '40px', margin: '0.5rem 0 0.5rem 0', fontSize: '20px' }}
                 onClick={submitDetails}>add</button>
+                </div>
+                </div>
         </div>
     )
 }

@@ -202,6 +202,16 @@ function App({ islogged }) {
     });
     setStartOfMonthBalance(parseInt(salaryinputRef1.current.value) + parseInt(salaryinputRef2.current.value));
   }
+  function formatTableDate(d){
+    let firstPart = d.substr(0,2);
+    let secondPart = d.substr(3,2);
+    let thirdPart = d.substr(5,2);
+    return `${firstPart}_${secondPart}_${thirdPart}`;
+  }
+  function formatMonth(d){
+    let monthName = d.toLocaleString('default',{month : 'long'});
+    return monthName;
+  }
 
   return (
     <div className="App">
@@ -264,7 +274,7 @@ function App({ islogged }) {
                 <span><b style={{ color: 'cyan' }}>Start of month balance</b> = {startOfMonthBalance}
                 </span><br />
                 <span style={{ paddingRight: '10px' }}><b style={{ color: 'cyan' }}>
-                  {monthToShow} Salary</b>={lSalary}</span><br />
+                {formatMonth(startDate)} Salary</b>={lSalary}</span><br />
                 <span style={{ paddingRight: '10px' }}><b style={{ color: 'cyan' }}>
                   last month balance </b>= {lastMonthBalance}</span>
 
@@ -287,7 +297,7 @@ function App({ islogged }) {
                   <span><b style={{ color: 'cyan' }}>Start of month balance</b> = {startOfMonthBalance}
                   </span><br />
                   <span style={{ paddingRight: '10px' }}><b style={{ color: 'cyan' }}>
-                    {monthToShow} Salary</b>={lSalary}</span><br />
+                    {formatMonth(startDate)} Salary</b>={lSalary}</span><br />
                   <span style={{ paddingRight: '10px' }}><b style={{ color: 'cyan' }}>
                     last month balance </b>= {lastMonthBalance}</span>
 
@@ -343,7 +353,8 @@ function App({ islogged }) {
                     onClick={() => {//setEditMode(editmode);
                       toggleEditId(id, demo[id].date);
                     }}>
-                    <td > {demo[id].date} </td>
+                    <td >{formatTableDate(demo[id].date)}
+                     </td>
                     <td style={{ paddingLeft: '10px' }}> {demo[id].amount} </td>
                     <td> {demo[id].note} </td>
                     <td style={{ paddingLeft: '10px' }}>{demo[id].category} </td>
@@ -357,14 +368,16 @@ function App({ islogged }) {
             </tbody>
           </table> : 'no data'}
           <div style={{ margin: '1rem 0 1rem 0' }}>
-
-            <DatePicker ref={dateref} selected={startDate}
+          <div style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center',width:'100%'}}>
+          <div><b style={{ color: 'cyan' }}>{formatMonth(startDate)}</b> month : &nbsp;</div>
+            <DatePicker className='date-picker-wrapper' ref={dateref} selected={startDate}
               onChange={(date) => {
                 setStartDate(date);
                 setShowDate(formatDate(date));
                 setMonthToShow(formatDate(date).date.slice(3));
                 setYearToShow(formatDate(date).fullyear);
               }} />
+              </div>
           </div>
         </div>
 

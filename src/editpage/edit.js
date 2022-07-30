@@ -89,7 +89,8 @@ const Edit = ({ receivedid, receiveddate, setEdittoggle, currentpath }) => {
 
     return (
         <div>
-            <DatePicker ref={dateref} selected={startDate} onChange={(date) => {
+            <DatePicker className="date-picker-wrapper-addEdit"
+             ref={dateref} selected={startDate} onChange={(date) => {
                 //console.log(startDate);
                 setStartDate(date)
             }} />
