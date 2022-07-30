@@ -88,17 +88,20 @@ const Edit = ({ receivedid, receiveddate, setEdittoggle, currentpath }) => {
     }
 
     return (
-        <div>
+        <div style={{display:'flex',flexDirection:'column'}}>
+            <div >
             <DatePicker className="date-picker-wrapper-addEdit"
              ref={dateref} selected={startDate} onChange={(date) => {
                 //console.log(startDate);
                 setStartDate(date)
             }} />
+            </div>
             {/* <input type='text' 
         placeholder='dd-mmyy date'
         value={date}
         onChange={(e)=>{setDate(e.target.value)}}
         /><br/> */}
+        <div>
             <input type='number'
                 placeholder='enter amount'
                 ref={editinputRef1}
@@ -128,6 +131,7 @@ const Edit = ({ receivedid, receiveddate, setEdittoggle, currentpath }) => {
             /><br />
             <button style={{ height: '40px', margin: '0.5rem 0 0.5rem 0', fontSize: '20px' }}
                 onClick={submitDetails}>edit</button>
+                </div>
         </div>
     )
 }

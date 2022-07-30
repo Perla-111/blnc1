@@ -15,6 +15,10 @@ input{
   margin: 0.2rem;
   color : white;
 }
+button{
+  border-radius: 25px;
+  border: 2px solid #282c34;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
