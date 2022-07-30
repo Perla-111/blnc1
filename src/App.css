@@ -16,5 +16,12 @@ width: 100vw;
   color: white;
   overflow-y: scroll;
 }
+.Login input{
+margin : 0.5rem;
+padding : 5px;
+height: 2rem;
+outline-width: 0;
+border : none;
+}
 
 

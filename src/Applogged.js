@@ -96,18 +96,20 @@ function AppLogged() {
 
 
   return (
-    <div style={{height:'100vh'}} className="Login" onDoubleClick={checkCredentials}>
+    <div >
       {toggle?
-        < >
+        <div style={{height:'100vh'}} className="Login" onDoubleClick={checkCredentials} >
         <input type='text'
         placeholder='enter user name' onChange={(e)=>{setName(e.target.value)}} />
+        <br/>
         <input type='password' 
         placeholder='enter password'
         onChange={(e)=>{setPassword(e.target.value)}} />
-        <button onClick={checkCredentials}>login</button>
+        <br/>
+        <button style={{margin:'1rem'}} onClick={checkCredentials}>login</button>
         <br/>
         {error}
-        </>
+        </div>
       :<App islogged={logged}/>}
     </div>
   );

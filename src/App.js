@@ -101,7 +101,8 @@ function App({ islogged }) {
   })
   useEffect(() => {
     fireDb.child(currentpath).on("value", (snapshot) => {
-      if (snapshot.val()[`_${yearToShow}`][`_${monthToShow}salary`]!==undefined) {
+      if (snapshot.val()[`_${yearToShow}`]!==undefined
+      &&snapshot.val()[`_${yearToShow}`][`_${monthToShow}salary`]!==undefined) {
         let dataObj2 = snapshot.val()[`_${yearToShow}`][`_${monthToShow}salary`]['salary'];
         setSalary(dataObj2.salary);
         setLastMonthBalance(dataObj2.lastMonthBalance);
@@ -116,7 +117,7 @@ function App({ islogged }) {
         setKharchu(0);
       }
     });
-  }, [currentpath, toggle,startDate]);
+  }, [currentpath, toggle,startDate,salaryEditToggle]);
   useEffect(() => {
     //let path;
     //console.log(toggle);
@@ -129,10 +130,11 @@ function App({ islogged }) {
         //let accessor = `${snapshot.val()}._${yearToShow}._${monthToShow}`
         // let dataObj = snapshot.val()._2022._0722;
         //console.log(yearToShow,monthToShow)
-        // let dataObj2 = {};
-        //if(yearToShow!==undefined && monthToShow!==undefined){
-        let dataObj2 = snapshot.val()[`_${yearToShow}`][`_${monthToShow}`];
-        //}
+         let dataObj2 = {};
+        if(snapshot.val()[`_${yearToShow}`]!==undefined
+        &&snapshot.val()[`_${yearToShow}`][`_${monthToShow}salary`]!==undefined){
+        dataObj2 = snapshot.val()[`_${yearToShow}`][`_${monthToShow}`];
+        }
         //console.log(dataObj2);
         setDemo(dataObj2);
       }
@@ -167,6 +169,10 @@ function App({ islogged }) {
       setKharchu(sum);
     }
     else if(lSalary && lastMonthBalance){
+      setCurrentBalance(lSalary + lastMonthBalance);
+      setKharchu(0);
+    }
+    else{
       setCurrentBalance(lSalary + lastMonthBalance);
       setKharchu(0);
     }
@@ -217,7 +223,7 @@ function App({ islogged }) {
               setToggle(!toggle);
             }
           }}
-        >Hello!!! Laxmana Rao <br />  last updated time = {lastupdate}</p>
+        >Hello!!! <b style={{ color: 'cyan' }}>{currentpath ==='details'? 'Laxmana Rao':'Kalyan'}</b> <br />  last updated time = {lastupdate}</p>
 
 
 

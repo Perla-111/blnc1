@@ -48,6 +48,7 @@ const submitDetails= ()=>{
             note,
             category
         }
+        
         const path=`${currentpath}/_${d.getFullYear()}/_${obj.date.slice(3)}`;
         
 //for adding a user
@@ -78,6 +79,7 @@ const submitDetails= ()=>{
         ref={inputRef1}
         placeholder='enter amount'
         value={amount}
+        onClick={() => { inputRef1.current.focus(); }}
         onChange={(e)=>{setAmount(e.target.value);
         inputRef1.current.focus();}}
         /><br/>
@@ -85,15 +87,15 @@ const submitDetails= ()=>{
         ref={inputRef2}
         placeholder='enter the reason'
         value={note}
-        onChange={(e)=>{setNote(e.target.value);
-            inputRef2.current.focus();}}
+        onClick={() => { inputRef2.current.focus(); }}
+        onChange={(e)=>{setNote(e.target.value);}}
         /><br/>
         <input type='text' 
         ref={inputRef3}
         placeholder='enter person name or bill type'
         value={category}
-        onChange={(e)=>{setCategory(e.target.value);
-            inputRef3.current.focus();}} 
+        onClick={() => { inputRef3.current.focus(); }}
+        onChange={(e)=>{setCategory(e.target.value);}} 
         /><br/>
         <button style={{height:'40px',margin:'0.5rem 0 0.5rem 0',fontSize:'20px'}}
         onClick={submitDetails}>add</button>

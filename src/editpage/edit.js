@@ -102,27 +102,27 @@ const Edit = ({ receivedid, receiveddate, setEdittoggle, currentpath }) => {
                 placeholder='enter amount'
                 ref={editinputRef1}
                 value={amount}
+                onClick={() => { editinputRef1.current.focus(); }}
                 onChange={(e) => {
                     setAmount(e.target.value);
-                    editinputRef1.current.focus();
                 }}
             /><br />
             <input type='text'
                 ref={editinputRef2}
                 placeholder='enter the reason'
                 value={note}
+                onClick={() => { editinputRef2.current.focus(); }}
                 onChange={(e) => {
                     setNote(e.target.value);
-                    editinputRef2.current.focus();
                 }}
             /><br />
             <input type='text'
                 ref={editinputRef3}
                 placeholder='enter person name or bill type'
                 value={category}
+                onClick={() => { editinputRef3.current.focus(); }}
                 onChange={(e) => {
                     setCategory(e.target.value);
-                    editinputRef3.current.focus();
                 }}
             /><br />
             <button style={{ height: '40px', margin: '0.5rem 0 0.5rem 0', fontSize: '20px' }}
