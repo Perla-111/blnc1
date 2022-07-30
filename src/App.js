@@ -101,7 +101,7 @@ function App({ islogged }) {
   })
   useEffect(() => {
     fireDb.child(currentpath).on("value", (snapshot) => {
-      if (`_${monthToShow}salary` in snapshot.val()[`_${yearToShow}`]) {
+      if (snapshot.val()[`_${yearToShow}`][`_${monthToShow}salary`]!==undefined) {
         let dataObj2 = snapshot.val()[`_${yearToShow}`][`_${monthToShow}salary`]['salary'];
         setSalary(dataObj2.salary);
         setLastMonthBalance(dataObj2.lastMonthBalance);
@@ -113,6 +113,7 @@ function App({ islogged }) {
         setLastMonthBalance(0);
         setStartOfMonthBalance(0);
         setCurrentBalance(0);
+        setKharchu(0);
       }
     });
   }, [currentpath, toggle,startDate]);
@@ -167,6 +168,7 @@ function App({ islogged }) {
     }
     else if(lSalary && lastMonthBalance){
       setCurrentBalance(lSalary + lastMonthBalance);
+      setKharchu(0);
     }
 
   }, [toggle, demo,salaryEditToggle])

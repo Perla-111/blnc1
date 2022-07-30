@@ -77,7 +77,7 @@ function AppLogged() {
   },[])
 
   const checkCredentials=()=>{
-    let path='user/'
+    let path='user/';
     fireDb.child(path).orderByChild('password').equalTo(password).on("value",snapshot => {
 
       if (snapshot.exists()){
