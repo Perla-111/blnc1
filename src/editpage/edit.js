@@ -8,9 +8,9 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const Edit = ({ receivedid, receiveddate, setEdittoggle, currentpath }) => {
 
-    const inputRef1 = React.useRef(null);
-    const inputRef2 = React.useRef(null);
-    const inputRef3 = React.useRef(null);
+    const editinputRef1 = React.useRef(null);
+    const editinputRef2 = React.useRef(null);
+    const editinputRef3 = React.useRef(null);
 
     const dateref = React.useRef(null);
     const [startDate, setStartDate] = useState(new Date(receiveddate));
@@ -100,29 +100,29 @@ const Edit = ({ receivedid, receiveddate, setEdittoggle, currentpath }) => {
         /><br/> */}
             <input type='number'
                 placeholder='enter amount'
-                ref={inputRef1}
+                ref={editinputRef1}
                 value={amount}
                 onChange={(e) => {
                     setAmount(e.target.value);
-                    inputRef1.current.focus();
+                    editinputRef1.current.focus();
                 }}
             /><br />
             <input type='text'
-                ref={inputRef2}
+                ref={editinputRef2}
                 placeholder='enter the reason'
                 value={note}
                 onChange={(e) => {
                     setNote(e.target.value);
-                    inputRef2.current.focus();
+                    editinputRef2.current.focus();
                 }}
             /><br />
             <input type='text'
-                ref={inputRef3}
+                ref={editinputRef3}
                 placeholder='enter person name or bill type'
                 value={category}
                 onChange={(e) => {
                     setCategory(e.target.value);
-                    inputRef3.current.focus();
+                    editinputRef3.current.focus();
                 }}
             /><br />
             <button style={{ height: '40px', margin: '0.5rem 0 0.5rem 0', fontSize: '20px' }}

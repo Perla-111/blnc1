@@ -56,31 +56,26 @@ function App({ islogged }) {
 
 
   const [showData, setShowData] = React.useState([]);
-
-  const salary = 118027, ksalary = 29087;
-  const prevBalance = 15012, kprevBalance = 11659;
+  const [lastMonthBalance, setLastMonthBalance] = useState(0);
   const [currentBalance, setCurrentBalance] = React.useState(0);
   //const [kcurrentBalance,setkCurrentBalance] = React.useState(0);
   const [editmode, setEditMode] = useState(false);
   const [editId, setEditId] = useState();
   const [editDate, setEditDate] = useState();
 
+  //const salary = 118027, ksalary = 29087;
+  const ksalary = 29087;
+  const kprevBalance = 11659;
+  //const prevBalance = 15012, kprevBalance = 11659;
+  const [lSalary, setSalary] = useState(0);
+  const salaryinputRef1 = React.useRef(null);
+  const salaryinputRef2 = React.useRef(null);
+  const [salaryEditToggle, setSalaryEditToggle] = React.useState(false);
+  const [startOfMonthBalance, setStartOfMonthBalance] = React.useState(parseInt(lSalary) + parseInt(lastMonthBalance));
+
+
   let assign = 0;
   const [demo, setDemo] = React.useState([]);
-
-  //console.log(demo);
-  // useEffect(()=>{
-  //   fireDb.child('details').on("value",(snapshot)=>{
-  //     if(snapshot.val()!==null) 
-  //     {
-  //       let data = snapshot.val();
-  //       setDemo(data);
-  //     }
-  //     else setDemo()
-  //   })
-  // },[])
-
-
   const [toggle, setToggle] = React.useState(false);
   const [kharchu, setKharchu] = React.useState(0);
   const [currentpath, setCurrentPath] = useState('details');
@@ -105,6 +100,24 @@ function App({ islogged }) {
     })
   })
   useEffect(() => {
+    fireDb.child(currentpath).on("value", (snapshot) => {
+      console.log(snapshot.val());
+      if (`_${monthToShow}salary` in snapshot.val()[`_${yearToShow}`]) {
+        let dataObj2 = snapshot.val()[`_${yearToShow}`][`_${monthToShow}salary`]['salary'];
+        setSalary(dataObj2.salary);
+        setLastMonthBalance(dataObj2.lastMonthBalance);
+        setStartOfMonthBalance(dataObj2.salary + dataObj2.lastMonthBalance);
+      }
+      else {
+        console.log('salary details not available');
+        setSalary(0);
+        setLastMonthBalance(0);
+        setStartOfMonthBalance(0);
+        setCurrentBalance(0);
+      }
+    });
+  }, [currentpath, toggle,startDate]);
+  useEffect(() => {
     //let path;
     //console.log(toggle);
     //if(!toggle) path='details';
@@ -125,7 +138,6 @@ function App({ islogged }) {
       }
       else {
         console.log('table data did not came')
-        setDemo('')
       }
     });
     //console.log(showDate);
@@ -149,13 +161,13 @@ function App({ islogged }) {
 
       }
       if (!toggle)
-        assign = salary + prevBalance + sum;
-      else assign = ksalary + kprevBalance + sum;
+        assign = lSalary + lastMonthBalance + sum;
+      else assign = lSalary + lastMonthBalance + sum;
       setCurrentBalance(assign);
       setKharchu(sum);
     }
 
-  }, [toggle, demo])
+  }, [toggle, demo,salaryEditToggle])
 
   function toggleEditId(id, date) {
     //console.log(id,Date);
@@ -170,6 +182,14 @@ function App({ islogged }) {
 
     setEditMode(false);
 
+  }
+  function updateSalary() {
+    const path = `${currentpath}/_${yearToShow}/_${monthToShow}salary/salary`;
+    fireDb.child(path).update({
+      salary: parseInt(salaryinputRef1.current.value),
+      lastMonthBalance: parseInt(salaryinputRef2.current.value)
+    });
+    setStartOfMonthBalance(parseInt(salaryinputRef1.current.value) + parseInt(salaryinputRef2.current.value));
   }
 
   return (
@@ -197,14 +217,41 @@ function App({ islogged }) {
           display: 'flex',
           flexDirection: 'column-reverse'
         }}>
+          <>
+            {islogged && salaryEditToggle &&
+              <div>
+                <input type='number' value={lSalary}
+                  placeholder='enter salary'
+                  ref={salaryinputRef1}
+                  onClick={() => { salaryinputRef1.current.focus(); }}
+                onChange={(e) => {
+                   setSalary(e.target.value);
+                  //salaryinputRef1.current.focus();
+                }} 
+                /><br />
+                <input type='number'
+                  ref={salaryinputRef2}
+                  onClick={() => { salaryinputRef2.current.focus(); }}
+                  placeholder='last month balance...'
+                  value={lastMonthBalance}
+                  onChange={(e) => { setLastMonthBalance(e.target.value); }}
+                /><br />
+                <button onClick={() => {
+                  setSalaryEditToggle(false);
+                  updateSalary();
+                }} >add/update</button>
+              </div>}</>
           {
             !toggle ? <>
-              <p><span style={{ paddingRight: '10px' }}><b style={{ color: 'cyan' }}>
-                June Salary</b>={salary}</span><br />
+
+              <p onClick={() => { setSalaryEditToggle(!salaryEditToggle) }}>
+                <span><b style={{ color: 'cyan' }}>Start of month balance</b> = {startOfMonthBalance}
+                </span><br />
                 <span style={{ paddingRight: '10px' }}><b style={{ color: 'cyan' }}>
-                  last month balance </b>= {prevBalance}</span><br />
-                <span><b style={{ color: 'cyan' }}>Start of month balance</b> = {salary + prevBalance}
-                </span>
+                  {monthToShow} Salary</b>={lSalary}</span><br />
+                <span style={{ paddingRight: '10px' }}><b style={{ color: 'cyan' }}>
+                  last month balance </b>= {lastMonthBalance}</span>
+
               </p>
               <p>
                 <span><b style={{ color: 'cyan' }}>
@@ -220,24 +267,47 @@ function App({ islogged }) {
                 </span>
               </p></>
               : <>
-                <p>
-                  <span><b style={{ color: 'cyan' }}>
-                    Start of month balance</b> = {ksalary + kprevBalance}</span><br />
-                  <span style={{ paddingRight: '10px' }}>
-                    <b style={{ color: 'cyan' }}>
-                      {/** this needs to be dynamic*/}
-                      June
-                      Salary</b>={ksalary}</span><br />
-                  <span style={{ paddingRight: '10px' }}>
-                    <b style={{ color: 'cyan' }}>last month balance </b>= {kprevBalance}</span>
+                <p onClick={() => { setSalaryEditToggle(!salaryEditToggle) }}>
+                  <span><b style={{ color: 'cyan' }}>Start of month balance</b> = {startOfMonthBalance}
+                  </span><br />
+                  <span style={{ paddingRight: '10px' }}><b style={{ color: 'cyan' }}>
+                    {monthToShow} Salary</b>={lSalary}</span><br />
+                  <span style={{ paddingRight: '10px' }}><b style={{ color: 'cyan' }}>
+                    last month balance </b>= {lastMonthBalance}</span>
+
                 </p>
                 <p>
-                  <span style={{ paddingRight: '10px' }}>
-                    <b style={{ color: 'cyan' }}>Kharchu</b> = {kharchu}</span><br />
                   <span><b style={{ color: 'cyan' }}>
-                    Today's balance</b> = {currentBalance}</span>
-                </p>
-              </>
+                    Today's balance</b> = {currentBalance}
+                  </span>
+                  <br />
+                  <span style={{ paddingRight: '10px' }}>
+                    <b style={{ color: 'cyan' }}>Kharchu</b> = &nbsp;{kharchu}
+                    {/* {kharchu < 0
+                  ? <><b>{kharchu.toString().substr(0,1)}</b>{kharchu.toString().slice(1)}</>
+                  : {kharchu}
+                } */}
+                  </span>
+                </p></>
+            // : <>
+            //   <p>
+            //     <span><b style={{ color: 'cyan' }}>
+            //       Start of month balance</b> = {ksalary + kprevBalance}</span><br />
+            //     <span style={{ paddingRight: '10px' }}>
+            //       <b style={{ color: 'cyan' }}>
+            //         {/** this needs to be dynamic*/}
+            //         June
+            //         Salary</b>={ksalary}</span><br />
+            //     <span style={{ paddingRight: '10px' }}>
+            //       <b style={{ color: 'cyan' }}>last month balance </b>= {kprevBalance}</span>
+            //   </p>
+            //   <p>
+            //     <span style={{ paddingRight: '10px' }}>
+            //       <b style={{ color: 'cyan' }}>Kharchu</b> = {kharchu}</span><br />
+            //     <span><b style={{ color: 'cyan' }}>
+            //       Today's balance</b> = {currentBalance}</span>
+            //   </p>
+            // </>
           }
           {demo ? <table border='2px solid'>
             <thead>
