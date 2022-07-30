@@ -2,27 +2,27 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import * as XLSX from 'xlsx';
 //import {datafile} from './data';
-import {julyData,kalyan} from './july';
+//import { julyData, kalyan } from './july';
 //import AppLogged from './Applogged'
 import Add from './add page/add'
 import fireDb from './firebase';
 import Edit from './editpage/edit';
 
-function App({islogged}) {
+function App({ islogged }) {
 
-  
+
   const [showData, setShowData] = React.useState([]);
 
-  const salary = 118027,ksalary=29087;
-  const prevBalance = 15012,kprevBalance=11659;
-  const [currentBalance,setCurrentBalance] = React.useState(0);
+  const salary = 118027, ksalary = 29087;
+  const prevBalance = 15012, kprevBalance = 11659;
+  const [currentBalance, setCurrentBalance] = React.useState(0);
   //const [kcurrentBalance,setkCurrentBalance] = React.useState(0);
-  const [editmode,setEditMode]= useState(false);
-  const [editId,setEditId]=useState();
-  const [editDate,setEditDate]=useState();
+  const [editmode, setEditMode] = useState(false);
+  const [editId, setEditId] = useState();
+  const [editDate, setEditDate] = useState();
 
   let assign = 0;
-  const [demo,setDemo]= React.useState([]);
+  const [demo, setDemo] = React.useState([]);
 
   //console.log(demo);
   // useEffect(()=>{
@@ -37,148 +37,164 @@ function App({islogged}) {
   // },[])
 
 
-  const [toggle,setToggle]= React.useState(false);
-  const [kharchu,setKharchu] = React.useState(0);
-  const [currentpath,setCurrentPath]=useState('details');
-  const [lastupdate,setLastUpdate] = useState('');
+  const [toggle, setToggle] = React.useState(false);
+  const [kharchu, setKharchu] = React.useState(0);
+  const [currentpath, setCurrentPath] = useState('details');
+  const [lastupdate, setLastUpdate] = useState('');
 
-  useEffect(()=>{
-    fireDb.child('lastupdate/date/date').on("value",(snapshot)=>{
-      if(snapshot.val()!==null) {
+  useEffect(() => {
+    fireDb.child('lastupdate/date/date').on("value", (snapshot) => {
+      if (snapshot.val() !== null) {
         //console.log(snapshot.val());
         setLastUpdate(snapshot.val());
-    }
+      }
       else setLastUpdate('not available')
     })
   })
-  useEffect(()=>{
+  useEffect(() => {
     //let path;
     //console.log(toggle);
     //if(!toggle) path='details';
     //else path='kalyan';
-    fireDb.child(currentpath).on("value",(snapshot)=>{
-      if(snapshot.val()!==null) {
+    fireDb.child(currentpath).on("value", (snapshot) => {
+      if (snapshot.val() !== null) {
         //console.log(snapshot.val());
         let dataObj = snapshot.val()._2022._0722;
-      setDemo(dataObj);
-    }
+        setDemo(dataObj);
+      }
       else console.log('table data did not came')
     })
-  },[editmode,toggle])
+  }, [editmode, toggle])
 
-      useEffect(()=>{
-        
-        let data=Object.keys(demo).map((key)=>demo[key]);
-        let sum=0;
-        //console.log(data)
-        for(let i=0;i<data.length;i++){
-  
-          if(data[i].date.slice(3)==='07/22'||data[i].date.slice(3)==='07-22'||data[i].date.slice(3)==='0722')
-          {
-            sum = sum + data[i].amount;
-          }
-  
-  
-        }
-        if(!toggle)
-        assign = salary+prevBalance+sum;
-        else assign = ksalary+kprevBalance+sum;
-        setCurrentBalance(assign);
-        setKharchu(sum);
+  useEffect(() => {
 
-      },[toggle,demo])
+    let data = Object.keys(demo).map((key) => demo[key]);
+    let sum = 0;
+    //console.log(data)
+    for (let i = 0; i < data.length; i++) {
 
-      function toggleEditId(id,date){
-        //console.log(id,Date);
-        let formateddate = date.substr(3,2)+'-'+date.substr(0,2)+'-'+date.slice(5);
-        let newdate = new Date(formateddate).toString();
-        //console.log(formateddate,newdate);
-        setEditDate(newdate);
-        setEditId(id);
-        setEditMode(true);
+      if (data[i].date.slice(3) === '07/22' || data[i].date.slice(3) === '07-22' || data[i].date.slice(3) === '0722') {
+        sum = sum + data[i].amount;
       }
-      function setEdittoggle(){
-        
-        setEditMode(false);
 
-      }
+
+    }
+    if (!toggle)
+      assign = salary + prevBalance + sum;
+    else assign = ksalary + kprevBalance + sum;
+    setCurrentBalance(assign);
+    setKharchu(sum);
+
+  }, [toggle, demo])
+
+  function toggleEditId(id, date) {
+    //console.log(id,Date);
+    let formateddate = date.substr(3, 2) + '-' + date.substr(0, 2) + '-' + date.slice(5);
+    let newdate = new Date(formateddate).toString();
+    //console.log(formateddate,newdate);
+    setEditDate(newdate);
+    setEditId(id);
+    setEditMode(true);
+  }
+  function setEdittoggle() {
+
+    setEditMode(false);
+
+  }
 
   return (
     <div className="App">
       <header className="App-header">
-      {!editmode?(islogged&&<Add currentpath={currentpath} />):
-        (islogged&&<Edit currentpath={currentpath} receivedid={editId} receiveddate={editDate} setEdittoggle={setEdittoggle} />)}
-        <p 
-        onClick={()=>{
-          if(!toggle){
-            setCurrentPath('kalyan');
-          setToggle(!toggle);
-          }
-          else {
-            setCurrentPath('details');
-            setToggle(!toggle);
-          }
-        }}
-        >Hello!!!  last updated = {lastupdate}</p>
-
-        
-             
-                
-          <div  style={{display:'flex',
-          flexDirection: 'column-reverse'}}>
-            {
-            !toggle?<>
-            <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>June Salary</b>={salary}</span>
-            <span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>last month balance </b>= {prevBalance}</span>
-            <span><b style={{color:'cyan'}}>Start of month balance</b> = {salary+prevBalance}</span></p>
-            <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>Kharchu</b> = {kharchu}</span>
-            <span><b style={{color:'cyan'}}>Today's balance</b> = {currentBalance}</span></p></>
-            :<>
-            <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>June Salary</b>={ksalary}</span>
-            <span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>last month balance </b>= {kprevBalance}</span>
-            <span><b style={{color:'cyan'}}>Start of month balance</b> = {ksalary+kprevBalance}</span></p>
-            <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>Kharchu</b> = {kharchu}</span>
-            <span><b style={{color:'cyan'}}>Today's balance</b> = {currentBalance}</span></p>
-            </>
+        {!editmode ? (islogged && <Add currentpath={currentpath} />) :
+          (islogged && <Edit currentpath={currentpath} receivedid={editId} receiveddate={editDate} setEdittoggle={setEdittoggle} />)}
+        <p
+          onClick={() => {
+            if (!toggle) {
+              setCurrentPath('kalyan');
+              setToggle(!toggle);
             }
-            <table border='2px solid'>
-    <thead>
-      
-    <tr style={{fontSize:'20px',color:'cyan'}}>
-    <td >Date</td>
-    <td style={{paddingLeft:'10px'}}>Amount</td>
-    <td>Note</td>
-    <td style={{paddingLeft:'10px'}}>Category</td>
-    </tr>
-    </thead>
-    <tbody>
-      {
-        
-          demo&&Object.keys(demo).map((id)=>{
-            
-            return <tr key={id} 
-            onClick={()=>{//setEditMode(editmode);
-              toggleEditId(id,demo[id].date);}}>
-            <td > {demo[id].date} </td>
-            <td style={{paddingLeft:'10px'}}> {demo[id].amount} </td>
-            <td> {demo[id].note} </td>
-            <td style={{paddingLeft:'10px'}}>{demo[id].category} </td>
-          </tr>
-          
-          })
+            else {
+              setCurrentPath('details');
+              setToggle(!toggle);
+            }
+          }}
+        >Hello!!! Laxmana Rao. <br />  last updated time = {lastupdate}</p>
 
-        
-      }
-      
-    </tbody>
-  </table>
-  </div>
-  
-        
-      
-        
 
-        
+
+
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column-reverse'
+        }}>
+          {
+            !toggle ? <>
+              <p><span style={{ paddingRight: '10px' }}><b style={{ color: 'cyan' }}>
+                June Salary</b>={salary}</span><br />
+                <span style={{ paddingRight: '10px' }}><b style={{ color: 'cyan' }}>
+                  last month balance </b>= {prevBalance}</span><br />
+                <span><b style={{ color: 'cyan' }}>Start of month balance</b> = {salary + prevBalance}
+                </span>
+              </p>
+              <p><span style={{ paddingRight: '10px' }}>
+                <b style={{ color: 'cyan' }}>Kharchu</b> = {kharchu}</span><br />
+                <span><b style={{ color: 'cyan' }}>Today's balance</b> = {currentBalance}
+                </span></p></>
+              : <>
+                <p>
+                  <span style={{ paddingRight: '10px' }}>
+                    <b style={{ color: 'cyan' }}>June Salary</b>={ksalary}</span><br/>
+                  <span style={{ paddingRight: '10px' }}>
+                    <b style={{ color: 'cyan' }}>last month balance </b>= {kprevBalance}</span><br/>
+                  <span><b style={{ color: 'cyan' }}>
+                    Start of month balance</b> = {ksalary + kprevBalance}</span>
+                </p>
+                <p>
+                  <span style={{ paddingRight: '10px' }}>
+                    <b style={{ color: 'cyan' }}>Kharchu</b> = {kharchu}</span><br/>
+                  <span><b style={{ color: 'cyan' }}>
+                    Today's balance</b> = {currentBalance}</span>
+                </p>
+              </>
+          }
+          <table border='2px solid'>
+            <thead>
+              <tr style={{ fontSize: '20px', color: 'cyan' }}>
+                <td >Date</td>
+                <td style={{ paddingLeft: '10px' }}>Amount</td>
+                <td>Note</td>
+                <td style={{ paddingLeft: '10px' }}>Category</td>
+              </tr>
+            </thead>
+            <tbody>
+              {
+
+                demo && Object.keys(demo).map((id) => {
+
+                  return <tr key={id}
+                    onClick={() => {//setEditMode(editmode);
+                      toggleEditId(id, demo[id].date);
+                    }}>
+                    <td > {demo[id].date} </td>
+                    <td style={{ paddingLeft: '10px' }}> {demo[id].amount} </td>
+                    <td> {demo[id].note} </td>
+                    <td style={{ paddingLeft: '10px' }}>{demo[id].category} </td>
+                  </tr>
+
+                })
+
+
+              }
+
+            </tbody>
+          </table>
+        </div>
+
+
+
+
+
+
       </header>
     </div>
   );
@@ -186,7 +202,7 @@ function App({islogged}) {
 
 export default App;
 
-        {/*}
+{/*}
         <input type="file" 
         onChange={(e)=>{
           const file = e.target.files[0];
@@ -253,61 +269,60 @@ export default App;
   }
   */
 
-  /**
-   * 
-        /* {
-              demo&&demo.map((month,index)=>{
-                
-                
-                return <div key={index} style={{display:'flex',
-                flexDirection: 'column-reverse'}}>
-                  {!toggle?<>
-                  <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>June Salary</b>={salary}</span>
-                  <span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>last month balance </b>= {prevBalance}</span>
-                  <span><b style={{color:'cyan'}}>Start of month balance</b> = {salary+prevBalance}</span></p>
-                  <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>Kharchu</b> = {kharchu}</span>
-                  <span><b style={{color:'cyan'}}>Today's balance</b> = {currentBalance}</span></p></>
-                  :<>
-                  <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>June Salary</b>={ksalary}</span>
-                  <span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>last month balance </b>= {kprevBalance}</span>
-                  <span><b style={{color:'cyan'}}>Start of month balance</b> = {ksalary+kprevBalance}</span></p>
-                  <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>Kharchu</b> = {kharchu}</span>
-                  <span><b style={{color:'cyan'}}>Today's balance</b> = {currentBalance}</span></p>
-                  </>}
-                  <table border='2px solid'>
-          <thead>
-            
-          <tr style={{fontSize:'20px',color:'cyan'}}>
-          <td >Date</td>
-          <td style={{paddingLeft:'10px'}}>Amount</td>
-          <td>Note</td>
-          <td style={{paddingLeft:'10px'}}>Category</td>
-          </tr>
-          </thead>
-          <tbody>
-            {
+/**
+ * 
+      /* {
+            demo&&demo.map((month,index)=>{
               
-                month.map((item,index)=>{
-                  
-                  return <tr key={item.Date+item.Note+index} 
-                  onClick={()=>{//setEditMode(editmode);
-                    toggleEditId(item.id,item.Date);}}>
-                  <td > {item.Date} </td>
-                  <td style={{paddingLeft:'10px'}}> {item.Amount} </td>
-                  <td> {item.Note} </td>
-                  <td style={{paddingLeft:'10px'}}>{item.Category} </td>
-                </tr>
-                
-                })
-
               
-            }
+              return <div key={index} style={{display:'flex',
+              flexDirection: 'column-reverse'}}>
+                {!toggle?<>
+                <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>June Salary</b>={salary}</span>
+                <span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>last month balance </b>= {prevBalance}</span>
+                <span><b style={{color:'cyan'}}>Start of month balance</b> = {salary+prevBalance}</span></p>
+                <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>Kharchu</b> = {kharchu}</span>
+                <span><b style={{color:'cyan'}}>Today's balance</b> = {currentBalance}</span></p></>
+                :<>
+                <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>June Salary</b>={ksalary}</span>
+                <span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>last month balance </b>= {kprevBalance}</span>
+                <span><b style={{color:'cyan'}}>Start of month balance</b> = {ksalary+kprevBalance}</span></p>
+                <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>Kharchu</b> = {kharchu}</span>
+                <span><b style={{color:'cyan'}}>Today's balance</b> = {currentBalance}</span></p>
+                </>}
+                <table border='2px solid'>
+        <thead>
+          
+        <tr style={{fontSize:'20px',color:'cyan'}}>
+        <td >Date</td>
+        <td style={{paddingLeft:'10px'}}>Amount</td>
+        <td>Note</td>
+        <td style={{paddingLeft:'10px'}}>Category</td>
+        </tr>
+        </thead>
+        <tbody>
+          {
             
-          </tbody>
-        </table>
-        </div>
-        
+              month.map((item,index)=>{
+                
+                return <tr key={item.Date+item.Note+index} 
+                onClick={()=>{//setEditMode(editmode);
+                  toggleEditId(item.id,item.Date);}}>
+                <td > {item.Date} </td>
+                <td style={{paddingLeft:'10px'}}> {item.Amount} </td>
+                <td> {item.Note} </td>
+                <td style={{paddingLeft:'10px'}}>{item.Category} </td>
+              </tr>
+              
               })
-      } */
-    
- 
+
+            
+          }
+          
+        </tbody>
+      </table>
+      </div>
+      
+            })
+    } */
+
