@@ -29,6 +29,7 @@ function App({ islogged }) {
   //     }
   //   }
   // };
+  const [incomingMoneyToggle,setIncomingMoneyToggle] = React.useState(false);
 
   const dateref = React.useRef(null);
   const [startDate, setStartDate] = useState(new Date());
@@ -76,6 +77,7 @@ function App({ islogged }) {
 
   let assign = 0;
   const [demo, setDemo] = React.useState([]);
+  const [incomingAmountList, setIncomingAmountList] = React.useState([]);
   const [toggle, setToggle] = React.useState(false);
   const [kharchu, setKharchu] = React.useState(0);
   const [currentpath, setCurrentPath] = useState('details');
@@ -138,6 +140,7 @@ function App({ islogged }) {
         }
         //console.log(dataObj2);
         setDemo(dataObj2);
+        setIncomingAmountList(dataObj2);
       }
       else {
         console.log('table data did not came')
@@ -211,6 +214,10 @@ function App({ islogged }) {
   function formatMonth(d){
     let monthName = d.toLocaleString('default',{month : 'long'});
     return monthName;
+  }
+
+  function incomingDetails(){
+    setIncomingMoneyToggle(!incomingMoneyToggle);
   }
 
   return (
@@ -315,25 +322,6 @@ function App({ islogged }) {
                 } */}
                   </span>
                 </p></>
-            // : <>
-            //   <p>
-            //     <span><b style={{ color: 'cyan' }}>
-            //       Start of month balance</b> = {ksalary + kprevBalance}</span><br />
-            //     <span style={{ paddingRight: '10px' }}>
-            //       <b style={{ color: 'cyan' }}>
-            //         {/** this needs to be dynamic*/}
-            //         June
-            //         Salary</b>={ksalary}</span><br />
-            //     <span style={{ paddingRight: '10px' }}>
-            //       <b style={{ color: 'cyan' }}>last month balance </b>= {kprevBalance}</span>
-            //   </p>
-            //   <p>
-            //     <span style={{ paddingRight: '10px' }}>
-            //       <b style={{ color: 'cyan' }}>Kharchu</b> = {kharchu}</span><br />
-            //     <span><b style={{ color: 'cyan' }}>
-            //       Today's balance</b> = {currentBalance}</span>
-            //   </p>
-            // </>
           }
           {demo ? <table border='2px solid'>
             <thead>
@@ -355,7 +343,8 @@ function App({ islogged }) {
                     }}>
                     <td >{formatTableDate(demo[id].date)}
                      </td>
-                    <td style={{ paddingLeft: '10px' }}> {demo[id].amount} </td>
+                    <td style={{ paddingLeft: '10px' }}> 
+                    {demo[id].amount>0 ? <span style={{color:'lightgreen',fontWeight:'500'}}>+{demo[id].amount}</span>: demo[id].amount } </td>
                     <td> {demo[id].note} </td>
                     <td style={{ paddingLeft: '10px' }}>{demo[id].category} </td>
                   </tr>
@@ -367,9 +356,15 @@ function App({ islogged }) {
 
             </tbody>
           </table> : 'no data'}
-          <div style={{ margin: '1rem 0 1rem 0' }}>
-          <div style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center',width:'100%'}}>
-          <div><b style={{ color: 'cyan' }}>{formatMonth(startDate)}</b>&nbsp;</div>
+          <div style={{ margin: '1rem 0 1rem 0',
+        display:'flex',
+        flexDirection:'row',alignItems:'center',
+        justifyContent:'space-between',width:'100%' }}>
+          <div style={{display:'flex',
+          flexDirection:'row',alignItems:'center',
+          justifyContent:'center',width:'fit-content'}}>
+          <div><b style={{ color: 'cyan' }}>
+            {formatMonth(startDate)}</b>&nbsp;</div>
             <DatePicker onFocus={(e)=>{e.target.readOnly=true}}
              className='date-picker-wrapper' ref={dateref} selected={startDate}
               onChange={(date) => {
@@ -378,8 +373,44 @@ function App({ islogged }) {
                 setMonthToShow(formatDate(date).date.slice(3));
                 setYearToShow(formatDate(date).fullyear);
               }} />
+              
               </div>
+              <div style={{color:'tomato',fontWeight:'500',
+              border : '2px solid tomato',borderRadius:'25px',padding:'5px'}}
+              onClick={incomingDetails} >Outcoming</div>
+              <div style={{color:'lightgreen',fontWeight:'500',
+              border : '2px solid lightgreen',borderRadius:'25px',padding:'5px'}}
+              onClick={incomingDetails} >Incoming</div>
           </div>
+          {incomingMoneyToggle&&<div>
+            <table border='2px solid'>
+              <thead>
+              <tr style={{ fontSize: '20px', color: 'cyan' }}>
+                <td >Date</td>
+                <td style={{ paddingLeft: '10px' }}>Amount</td>
+                <td>Note</td>
+                <td style={{ paddingLeft: '10px' }}>Category</td>
+              </tr>
+              </thead>
+              <tbody>
+                {incomingAmountList&&
+                Object.keys(incomingAmountList).map((id)=>(
+                  <tr key={id}
+                    onClick={() => {//setEditMode(editmode);
+                      //toggleEditId(id, demo[id].date);
+                      console.log(id);
+                    }}>
+                    <td >{formatTableDate(demo[id].date)}
+                     </td>
+                    <td style={{ paddingLeft: '10px' }}> 
+                    <span style={{color:'lightgreen',fontWeight:'500'}}>+{demo[id].amount}</span></td>
+                    <td> {demo[id].note} </td>
+                    <td style={{ paddingLeft: '10px' }}>{demo[id].category} </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>}
         </div>
 
 
