@@ -79,9 +79,8 @@ const Edit = ({ receivedid, receiveddate, setEdittoggle, currentpath }) => {
             amount: parseInt(amount),
             note,
             category,
-            type : outgoingType==='14000/others'?'14000':'others'
+            type : outgoingType
         }
-        console.log(obj);
         let newObj = Object.assign({}, { [receivedid]: data });
         const path = `${currentpath}/_${d.getFullYear()}/_${newObj[receivedid].date.slice(3)}/${receivedid}`;
         //console.log(obj,newObj,path)
@@ -92,7 +91,6 @@ const Edit = ({ receivedid, receiveddate, setEdittoggle, currentpath }) => {
         setEdittoggle();
 
     }
-    console.log(outgoingType);
 
     return (
         <div style={{display:'flex',position:'absolute',flexDirection:'column',alignItems:'center',justifyContent:'center',width:'100%'}}>
@@ -142,10 +140,8 @@ const Edit = ({ receivedid, receiveddate, setEdittoggle, currentpath }) => {
         padding:'5px',width:'100%',borderRadius:'25px'}}
              value={outgoingType} 
              onClick={(e)=>{
-                console.log(e.target.value);
             }}
              onChange={(e)=>{
-                console.log(e.target.value);
                 setOutgoingType(e.target.value);
             }} >
                 <option value='14000' >14000</option>

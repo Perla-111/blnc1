@@ -227,39 +227,18 @@ function App({ islogged }) {
   const [_14000,set_14000] = React.useState(0);
 
   useEffect(()=>{
-    console.log(demo);
     if(demo){
       let _14000filter = Object.keys(demo)
       .filter((id)=>((demo[id].type).toString()==='14000'))
       .map((id)=>{ //console.log(demo[id].type);
         return demo[id].amount});
-     console.log(_14000filter);
 
-      // let _14 = _14000filter.reduce((initial,value,index)=>{
-      //   return initial+value;
-        
-      //   // if(index!==0&&value.type==='14000'){
-      //   //   return value + initial;
-      //   // }
-      //   // else if(index===0){
-      //   //   if(initial.type==='14000'&&value.type==='14000'){
-      //   //     return value + initial
-      //   //   }
-      //   //   else if(initial.type==='14000'){
-      //   //     return initial
-      //   //   }
-      //   //   else if(value.type==='14000'){
-      //   //     return value;
-      //   //   }else if(index!==0){
-      //   //     return initial;
-      //   //   }
-      //   //   return 0;
-      //   //}
-      // });
-      // set_14000(_14);
+      let _14 = _14000filter.length>0&&_14000filter.reduce((initial,value,index,arr)=>{
+        return initial+value;
+      });
+      set_14000(_14);
     }
   },[demo]);
-  //console.log(_14000);
 
   return (
     <div className="App">
@@ -333,12 +312,15 @@ function App({ islogged }) {
                 </span>
                 <br />
                 <span style={{ paddingRight: '10px' }}>
-                  <b style={{ color: 'cyan' }}>Kharchu</b> = &nbsp;{kharchu}
+                  <b style={{ color: 'cyan' }}>Total Kharchu</b> = &nbsp;{kharchu}
                   {/* {kharchu < 0
                   ? <><b>{kharchu.toString().substr(0,1)}</b>{kharchu.toString().slice(1)}</>
                   : {kharchu}
                 } */}
-                </span>
+                </span><br/>
+                {currentpath==='details'&&<span><b style={{ color: 'cyan' }}>
+                    14000 kharchu </b> = {(_14000<-14000)?`14000+${(_14000+14000).toString().slice(1)}`:_14000}
+                  </span>}
               </p></>
               : <>
                 <p onClick={() => { setSalaryEditToggle(!salaryEditToggle) }}>
@@ -356,12 +338,15 @@ function App({ islogged }) {
                   </span>
                   <br />
                   <span style={{ paddingRight: '10px' }}>
-                    <b style={{ color: 'cyan' }}>Kharchu</b> = &nbsp;{kharchu}
+                    <b style={{ color: 'cyan' }}>total Kharchu</b> = &nbsp;{kharchu}
                     {/* {kharchu < 0
                   ? <><b>{kharchu.toString().substr(0,1)}</b>{kharchu.toString().slice(1)}</>
                   : {kharchu}
                 } */}
-                  </span>
+                  </span><br/>
+                  {currentpath==='details'&&<span><b style={{ color: 'cyan' }}>
+                    14000 kharchu</b> = {_14000}
+                  </span>}
                 </p></>
           }
           <div style={{ margin: '1rem 0 1rem 0',
@@ -390,8 +375,8 @@ function App({ islogged }) {
               border : '2px solid lightgreen',borderRadius:'25px',padding:'5px'}}
               onClick={incomingDetails} >Incoming</div>
           </div>
-          <hr style={{height:'3px',border:'2px solid tomato',width:'100vh'}} />
-          {outcomingMoneyToggle ? <table border='2px solid'>
+          <hr style={{height:'3px',border:'2px solid tomato',width:'100%'}} />
+          {outcomingMoneyToggle ? <table border='2px solid' >
             <thead>
               <tr style={{ fontSize: '20px', color: 'tomato' }}>
                 <td >Date</td>
@@ -425,9 +410,9 @@ function App({ islogged }) {
 
             </tbody>
           </table> :!demo?`no data outgoing for ${monthToShow} month`:'click outgoing to show details'}
-          <hr style={{height:'3px',border:'2px solid lightgreen',width:'100vh'}} />
+          <hr style={{height:'3px',border:'2px solid lightgreen',width:'100%'}} />
           {incomingMoneyToggle?
-            <table border='2px solid'>
+            <table border='2px solid' style={{borderColor:'lightgreen'}}>
               <thead>
               <tr style={{ fontSize: '20px', color: 'lightgreen' }}>
                 <td >Date</td>
