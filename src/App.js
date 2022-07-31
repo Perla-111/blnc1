@@ -347,16 +347,17 @@ function App({ islogged }) {
           {
             !toggle ? <>
 
-              <p onClick={() => { setSalaryEditToggle(!salaryEditToggle) }}>
+              <div onClick={() => { setSalaryEditToggle(!salaryEditToggle) }}>
                 <span><b style={{ color: 'cyan' }}>Start of month balance</b> = {startOfMonthBalance}
                 </span><br />
                 <span style={{ paddingRight: '10px' }}><b style={{ color: 'cyan' }}>
-                  {formatMonth(startDate)} Salary</b>={lSalary}</span><br />
-                <span style={{ paddingRight: '10px' }}><b style={{ color: 'cyan' }}>
-                  last month balance </b>= {lastMonthBalance}</span>
+                  {/* {formatMonth(startDate)} */}
+                  last month salary</b>={lSalary}</span><br />
+                <div style={{ paddingRight: '10px',border:'2px solid cyan' }}><b style={{ color: 'cyan' }}>
+                  last month balance </b>= {lastMonthBalance}</div>
 
-              </p>
-              <p>
+              </div>
+              <div>
                 <span><b style={{ color: 'cyan' }}>
                   Today's balance</b> = {currentBalance}
                 </span>
@@ -368,20 +369,22 @@ function App({ islogged }) {
                   : {kharchu}
                 } */}
                 </span><br />
-                {currentpath === 'details' && <span><b style={{ color: 'cyan' }}>
+                {currentpath === 'details' && 
+                <div style={{border:'2px solid cyan'}}><b style={{ color: 'cyan' }}>
                   14000 kharchu </b> = {(_14000 < -14000) ? `14000+${(_14000 + 14000).toString().slice(1)}` : _14000}
-                </span>}
-              </p></>
+                </div>}
+              </div></>
               : <>
-                <p onClick={() => { setSalaryEditToggle(!salaryEditToggle) }}>
+                <div onClick={() => { setSalaryEditToggle(!salaryEditToggle) }}>
                   <span><b style={{ color: 'cyan' }}>Start of month balance</b> = {startOfMonthBalance}
                   </span><br />
                   <span style={{ paddingRight: '10px' }}><b style={{ color: 'cyan' }}>
-                    {formatMonth(startDate)} Salary</b>={lSalary}</span><br />
-                  <span style={{ paddingRight: '10px' }}><b style={{ color: 'cyan' }}>
-                    last month balance </b>= {lastMonthBalance}</span>
+                    {/* {formatMonth(startDate)} */}
+                     last month salary</b>={lSalary}</span><br />
+                  <div style={{ paddingRight: '10px',border:'2px solid cyan'  }}><b style={{ color: 'cyan' }}>
+                    last month balance </b>= {lastMonthBalance}</div>
 
-                </p>
+                </div>
                 <p>
                   <span><b style={{ color: 'cyan' }}>
                     Today's balance</b> = {currentBalance}
@@ -475,9 +478,9 @@ function App({ islogged }) {
             <table border='2px solid' style={{ borderColor: 'lightgreen' }}>
               <thead>
                 <tr style={{ fontSize: '20px', color: 'lightgreen' }}>
-                  <td >Date</td>
+                  {/* <td >Date</td> */}
+                  <td>Date</td>
                   <td style={{ paddingLeft: '10px' }}>Amount</td>
-                  <td>Note</td>
                   <td style={{ paddingLeft: '10px' }}>Category</td>
                 </tr>
               </thead>
@@ -488,11 +491,11 @@ function App({ islogged }) {
         onClick={() => {//setEditMode(editmode);
           toggleIncomingEditId(id, incomingAmountList[id].date);
         }}>
-        <td >{formatTableDate(incomingAmountList[id].date)}
-        </td>
+        {/* <td >{formatTableDate(incomingAmountList[id].date)}
+        </td> */}
+        <td> {incomingAmountList[id].note} </td>
         <td style={{ paddingLeft: '10px' }}>
           <span style={{ color: 'lightgreen', fontWeight: '500' }}>+{incomingAmountList[id].amount}</span></td>
-        <td> {incomingAmountList[id].note} </td>
         <td style={{ paddingLeft: '10px' }}>{incomingAmountList[id].category} </td>
       </tr>
     ))}

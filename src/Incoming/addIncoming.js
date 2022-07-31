@@ -21,7 +21,7 @@ const AddIncoming = ({ currentpath, receiveddate }) => {
     const [amount, setAmount] = useState('');
     const [note, setNote] = useState('');
     const [category, setCategory] = useState('');
-    const [outgoingType,setOutgoingType] = useState('14000');
+    const [outgoingType,setOutgoingType] = useState('others');
 
     function formatDate2(d) {
         var month = d.getMonth();
@@ -97,7 +97,8 @@ const AddIncoming = ({ currentpath, receiveddate }) => {
             /><br />
             <input type='text'
                 ref={incomingaddinputRef2}
-                placeholder='enter the reason'
+                //placeholder='enter the reason'
+                placeholder='enter date manually'
                 value={note}
                 onClick={() => { incomingaddinputRef2.current.focus(); }}
                 onChange={(e) => { setNote(e.target.value); }}
@@ -116,8 +117,8 @@ const AddIncoming = ({ currentpath, receiveddate }) => {
              value={outgoingType} onChange={(e)=>{
                 setOutgoingType(e.target.value);
             }} >
-                <option value='14000' >14000</option>
                 <option value='others' >others</option>
+                <option value='14000' >14000</option>
             </select><br/>
             <button style={{ height: '40px', margin: '0.5rem 0 0.5rem 0', fontSize: '20px' }}
                 onClick={submitDetails}>add</button>

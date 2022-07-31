@@ -20,7 +20,7 @@ const EditIncoming = ({ receivedid, receiveddate, setIncomingEdittoggle, current
     const [note, setNote] = useState('');
     const [category, setCategory] = useState('');
     const [data, setData] = useState({});
-    const [outgoingType,setOutgoingType] = useState('14000');
+    const [outgoingType,setOutgoingType] = useState('others');
 
 
     useEffect(() => {
@@ -118,7 +118,8 @@ const EditIncoming = ({ receivedid, receiveddate, setIncomingEdittoggle, current
             /><br />
             <input type='text'
                 ref={incomingeditinputRef2}
-                placeholder='enter the reason'
+                //placeholder='enter the reason'
+                placeholder='enter date manually'
                 value={note}
                 onClick={() => { incomingeditinputRef2.current.focus(); }}
                 onChange={(e) => {
@@ -143,8 +144,8 @@ const EditIncoming = ({ receivedid, receiveddate, setIncomingEdittoggle, current
              onChange={(e)=>{
                 setOutgoingType(e.target.value);
             }} >
-                <option value='14000' >14000</option>
                 <option value='others' >others</option>
+                <option value='14000' >14000</option>
             </select><br/>
             <button style={{ height: '40px', margin: '0.5rem 0 0.5rem 0', fontSize: '20px' }}
                 onClick={submitDetails}>edit</button>
