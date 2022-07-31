@@ -9,9 +9,13 @@ import fireDb from './firebase';
 import Edit from './editpage/edit';
 
 import DatePicker from "react-datepicker";
+import AddIncoming from './Incoming/addIncoming';
+import EditIncoming from './Incoming/editIncoming';
 
 
 function App({ islogged }) {
+
+ // const [incomingEditToggle, setIncomingEditToggle] = useState(false);
 
   // const noData = {
 
@@ -29,9 +33,9 @@ function App({ islogged }) {
   //     }
   //   }
   // };
-  const [incomingMoneyToggle,setIncomingMoneyToggle] = React.useState(false);
-  const [outcomingMoneyToggle,setOutcomingMoneyToggle] = React.useState(false);
-  
+  const [incomingMoneyToggle, setIncomingMoneyToggle] = React.useState(false);
+  const [outcomingMoneyToggle, setOutcomingMoneyToggle] = React.useState(false);
+
 
   const dateref = React.useRef(null);
   const [startDate, setStartDate] = useState(new Date());
@@ -63,8 +67,11 @@ function App({ islogged }) {
   const [currentBalance, setCurrentBalance] = React.useState(0);
   //const [kcurrentBalance,setkCurrentBalance] = React.useState(0);
   const [editmode, setEditMode] = useState(false);
+  const [incomingeditmode, setIncomingEditMode] = useState(false);
   const [editId, setEditId] = useState();
+  const [incomingeditId, setIncomingEditId] = useState();
   const [editDate, setEditDate] = useState();
+  const [editIncomingDate, setIncomingEditDate] = useState();
 
   //const salary = 118027, ksalary = 29087;
   const ksalary = 29087;
@@ -80,6 +87,8 @@ function App({ islogged }) {
   let assign = 0;
   const [demo, setDemo] = React.useState([]);
   const [incomingAmountList, setIncomingAmountList] = React.useState([]);
+
+
   const [toggle, setToggle] = React.useState(false);
   const [kharchu, setKharchu] = React.useState(0);
   const [currentpath, setCurrentPath] = useState('details');
@@ -105,8 +114,8 @@ function App({ islogged }) {
   })
   useEffect(() => {
     fireDb.child(currentpath).on("value", (snapshot) => {
-      if (snapshot.val()[`_${yearToShow}`]!==undefined
-      &&snapshot.val()[`_${yearToShow}`][`_${monthToShow}salary`]!==undefined) {
+      if (snapshot.val()[`_${yearToShow}`] !== undefined
+        && snapshot.val()[`_${yearToShow}`][`_${monthToShow}salary`] !== undefined) {
         let dataObj2 = snapshot.val()[`_${yearToShow}`][`_${monthToShow}salary`]['salary'];
         setSalary(dataObj2.salary);
         setLastMonthBalance(dataObj2.lastMonthBalance);
@@ -121,7 +130,7 @@ function App({ islogged }) {
         setKharchu(0);
       }
     });
-  }, [currentpath, toggle,startDate,salaryEditToggle]);
+  }, [currentpath, toggle, startDate, salaryEditToggle]);
   useEffect(() => {
     //let path;
     //console.log(toggle);
@@ -135,14 +144,13 @@ function App({ islogged }) {
         // let dataObj = snapshot.val()._2022._0722;
         //console.log(yearToShow,monthToShow);
         //console.log(snapshot.val()[`_${yearToShow}`].hasOwnProperty(`_${monthToShow}`))
-         let dataObj2 = {};
-        if(snapshot.val().hasOwnProperty(`_${yearToShow}`)
-          && snapshot.val()[`_${yearToShow}`].hasOwnProperty(`_${monthToShow}`)){
-        dataObj2 = snapshot.val()[`_${yearToShow}`][`_${monthToShow}`];
+        let dataObj2 = {};
+        if (snapshot.val().hasOwnProperty(`_${yearToShow}`)
+          && snapshot.val()[`_${yearToShow}`].hasOwnProperty(`_${monthToShow}`)) {
+          dataObj2 = snapshot.val()[`_${yearToShow}`][`_${monthToShow}`];
         }
         //console.log(dataObj2);
         setDemo(dataObj2);
-        setIncomingAmountList(dataObj2);
       }
       else {
         console.log('table data did not came')
@@ -150,6 +158,27 @@ function App({ islogged }) {
     });
     //console.log(showDate);
   }, [editmode, toggle, startDate])
+
+  //Incoming data
+  useEffect(() => {
+    fireDb.child('details').on("value", (snapshot) => {
+      if (snapshot.val() !== null && snapshot.val() !== undefined) {
+
+        let dataObj2 = {};
+        if (snapshot.val().hasOwnProperty(`_${yearToShow}`)
+          && snapshot.val()[`_${yearToShow}`].hasOwnProperty(`_${monthToShow}Income`)) {
+          dataObj2 = snapshot.val()[`_${yearToShow}`][`_${monthToShow}Income`];
+        }
+        //console.log(dataObj2);
+        setIncomingAmountList(dataObj2);
+      }
+      else {
+        console.log('incoming table data did not came')
+      }
+    });
+  }, [
+    incomingeditmode,
+     startDate])
 
   useEffect(() => {
     if (demo) {
@@ -174,16 +203,16 @@ function App({ islogged }) {
       setCurrentBalance(assign);
       setKharchu(sum);
     }
-    else if(lSalary && lastMonthBalance){
+    else if (lSalary && lastMonthBalance) {
       setCurrentBalance(lSalary + lastMonthBalance);
       setKharchu(0);
     }
-    else{
+    else {
       setCurrentBalance(lSalary + lastMonthBalance);
       setKharchu(0);
     }
 
-  }, [toggle, demo,salaryEditToggle])
+  }, [toggle, demo, salaryEditToggle])
 
   function toggleEditId(id, date) {
     //console.log(id,Date);
@@ -194,9 +223,23 @@ function App({ islogged }) {
     setEditId(id);
     setEditMode(true);
   }
+  function toggleIncomingEditId(id, date) {
+    //console.log(id,Date);
+    let formateddate = date.substr(3, 2) + '-' + date.substr(0, 2) + '-' + date.slice(5);
+    let newdate = new Date(formateddate).toString();
+    //console.log(formateddate,newdate);
+    setIncomingEditDate(newdate);
+    setIncomingEditId(id);
+    setIncomingEditMode(true);
+  }
   function setEdittoggle() {
 
     setEditMode(false);
+
+  }
+  function setIncomingEdittoggle() {
+
+    setIncomingEditMode(false);
 
   }
   function updateSalary() {
@@ -207,49 +250,56 @@ function App({ islogged }) {
     });
     setStartOfMonthBalance(parseInt(salaryinputRef1.current.value) + parseInt(salaryinputRef2.current.value));
   }
-  function formatTableDate(d){
-    let firstPart = d.substr(0,2);
-    let secondPart = d.substr(3,2);
-    let thirdPart = d.substr(5,2);
+  function formatTableDate(d) {
+    let firstPart = d.substr(0, 2);
+    let secondPart = d.substr(3, 2);
+    let thirdPart = d.substr(5, 2);
     return `${firstPart}_${secondPart}_${thirdPart}`;
   }
-  function formatMonth(d){
-    let monthName = d.toLocaleString('default',{month : 'long'});
+  function formatMonth(d) {
+    let monthName = d.toLocaleString('default', { month: 'long' });
     return monthName;
   }
 
-  function incomingDetails(){
+  function incomingDetails() {
     setIncomingMoneyToggle(!incomingMoneyToggle);
   }
-  function outcomingDetails(){
+  function outcomingDetails() {
     setOutcomingMoneyToggle(!outcomingMoneyToggle);
   }
-  const [_14000,set_14000] = React.useState(0);
+  const [_14000, set_14000] = React.useState(0);
 
-  useEffect(()=>{
-    if(demo){
+  useEffect(() => {
+    if (demo) {
       let _14000filter = Object.keys(demo)
-      .filter((id)=>((demo[id].type).toString()==='14000'))
-      .map((id)=>{ //console.log(demo[id].type);
-        return demo[id].amount});
+        .filter((id) => ((demo[id].type).toString() === '14000'))
+        .map((id) => { //console.log(demo[id].type);
+          return demo[id].amount
+        });
 
-      let _14 = _14000filter.length>0&&_14000filter.reduce((initial,value,index,arr)=>{
-        return initial+value;
+      let _14 = _14000filter.length > 0 && _14000filter.reduce((initial, value, index, arr) => {
+        return initial + value;
       });
       set_14000(_14);
     }
-  },[demo]);
+  }, [demo]);
 
   return (
     <div className="App">
 
       <header className="App-header">
-        {!editmode ? (islogged && 
-        <Add 
-        currentpath={currentpath}
-         receiveddate={startDate} 
-         />) :
-          (islogged && <Edit currentpath={currentpath} receivedid={editId} receiveddate={editDate} setEdittoggle={setEdittoggle} />)}
+        {!editmode ? (islogged &&
+          <Add
+            currentpath={currentpath}
+            receiveddate={startDate}
+          />) :
+          (islogged &&
+            <Edit
+              currentpath={currentpath}
+              receivedid={editId}
+              receiveddate={editDate}
+              setEdittoggle={setEdittoggle}
+            />)}
         <p
           onClick={() => {
             if (!toggle) {
@@ -261,7 +311,7 @@ function App({ islogged }) {
               setToggle(!toggle);
             }
           }}
-        >Hello!!! <b style={{ color: 'cyan' }}>{currentpath ==='details'? 'Laxmana Rao':'Kalyan'}</b> <br />  last updated time = {lastupdate}</p>
+        >Hello!!! <b style={{ color: 'cyan' }}>{currentpath === 'details' ? 'Laxmana Rao' : 'Kalyan'}</b> <br />  last updated time = {lastupdate}</p>
 
 
 
@@ -277,10 +327,10 @@ function App({ islogged }) {
                   placeholder='enter salary'
                   ref={salaryinputRef1}
                   onClick={() => { salaryinputRef1.current.focus(); }}
-                onChange={(e) => {
-                   setSalary(e.target.value);
-                  //salaryinputRef1.current.focus();
-                }} 
+                  onChange={(e) => {
+                    setSalary(e.target.value);
+                    //salaryinputRef1.current.focus();
+                  }}
                 /><br />
                 <input type='number'
                   ref={salaryinputRef2}
@@ -301,7 +351,7 @@ function App({ islogged }) {
                 <span><b style={{ color: 'cyan' }}>Start of month balance</b> = {startOfMonthBalance}
                 </span><br />
                 <span style={{ paddingRight: '10px' }}><b style={{ color: 'cyan' }}>
-                {formatMonth(startDate)} Salary</b>={lSalary}</span><br />
+                  {formatMonth(startDate)} Salary</b>={lSalary}</span><br />
                 <span style={{ paddingRight: '10px' }}><b style={{ color: 'cyan' }}>
                   last month balance </b>= {lastMonthBalance}</span>
 
@@ -317,10 +367,10 @@ function App({ islogged }) {
                   ? <><b>{kharchu.toString().substr(0,1)}</b>{kharchu.toString().slice(1)}</>
                   : {kharchu}
                 } */}
-                </span><br/>
-                {currentpath==='details'&&<span><b style={{ color: 'cyan' }}>
-                    14000 kharchu </b> = {(_14000<-14000)?`14000+${(_14000+14000).toString().slice(1)}`:_14000}
-                  </span>}
+                </span><br />
+                {currentpath === 'details' && <span><b style={{ color: 'cyan' }}>
+                  14000 kharchu </b> = {(_14000 < -14000) ? `14000+${(_14000 + 14000).toString().slice(1)}` : _14000}
+                </span>}
               </p></>
               : <>
                 <p onClick={() => { setSalaryEditToggle(!salaryEditToggle) }}>
@@ -343,42 +393,50 @@ function App({ islogged }) {
                   ? <><b>{kharchu.toString().substr(0,1)}</b>{kharchu.toString().slice(1)}</>
                   : {kharchu}
                 } */}
-                  </span><br/>
-                  {currentpath==='details'&&<span><b style={{ color: 'cyan' }}>
+                  </span><br />
+                  {currentpath === 'details' && <span><b style={{ color: 'cyan' }}>
                     14000 kharchu</b> = {_14000}
                   </span>}
                 </p></>
           }
-          <div style={{ margin: '1rem 0 1rem 0',
-        display:'flex',
-        flexDirection:'row',alignItems:'center',
-        justifyContent:'space-between',width:'100%' }}>
-          <div style={{display:'flex',
-          flexDirection:'row',alignItems:'center',
-          justifyContent:'center',width:'fit-content'}}>
-          <div><b style={{ color: 'cyan' }}>
-            {formatMonth(startDate)}</b>&nbsp;</div>
-            <DatePicker onFocus={(e)=>{e.target.readOnly=true}}
-             className='date-picker-wrapper' ref={dateref} selected={startDate}
-              onChange={(date) => {
-                setStartDate(date);
-                setShowDate(formatDate(date));
-                setMonthToShow(formatDate(date).date.slice(3));
-                setYearToShow(formatDate(date).fullyear);
-              }} />
-              
-              </div>
-              <div style={{color:'tomato',fontWeight:'500',
-              border : '2px solid tomato',borderRadius:'25px',padding:'5px'}}
-              onClick={outcomingDetails} >Outcoming</div>
-              <div style={{color:'lightgreen',fontWeight:'500',
-              border : '2px solid lightgreen',borderRadius:'25px',padding:'5px'}}
+          <div style={{
+            margin: '1rem 0 1rem 0',
+            display: 'flex',
+            flexDirection: 'row', alignItems: 'center',
+            justifyContent: 'space-between', width: '100%'
+          }}>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'row', alignItems: 'center',
+              justifyContent: 'center', width: 'fit-content'
+            }}>
+              <div><b style={{ color: 'cyan' }}>
+                {formatMonth(startDate)}</b>&nbsp;</div>
+              <DatePicker onFocus={(e) => { e.target.readOnly = true }}
+                className='date-picker-wrapper' ref={dateref} selected={startDate}
+                onChange={(date) => {
+                  setStartDate(date);
+                  setShowDate(formatDate(date));
+                  setMonthToShow(formatDate(date).date.slice(3));
+                  setYearToShow(formatDate(date).fullyear);
+                }} />
+
+            </div>
+            <div style={{
+              color: '#ffa899', fontWeight: '500',
+              border: '2px solid #ffa899', borderRadius: '25px', padding: '5px'
+            }}
+              onClick={outcomingDetails} >Outgoing</div>
+            <div style={{
+              color: 'lightgreen', fontWeight: '500',
+              border: '2px solid lightgreen', borderRadius: '25px', padding: '5px'
+            }}
               onClick={incomingDetails} >Incoming</div>
           </div>
-          <hr style={{height:'3px',border:'2px solid tomato',width:'100%'}} />
+          <hr style={{ height: '3px', border: '2px solid #ffa899', width: '100%' }} />
           {outcomingMoneyToggle ? <table border='2px solid' >
             <thead>
-              <tr style={{ fontSize: '20px', color: 'tomato' }}>
+              <tr style={{ fontSize: '20px', color: '#ffa899' }}>
                 <td >Date</td>
                 <td style={{ paddingLeft: '10px' }}>Amount</td>
                 <td>Note</td>
@@ -390,15 +448,15 @@ function App({ islogged }) {
 
                 demo && Object.keys(demo).map((id) => {
 
-                  return <tr key={id} 
-                  style={{backgroundColor:`${demo[id].type==='14000'?'grey':''}`}}
+                  return <tr key={id}
+                    style={{ backgroundColor: `${demo[id].type === '14000' ? 'rgb(85, 85, 85)' : ''}` }}
                     onClick={() => {//setEditMode(editmode);
                       toggleEditId(id, demo[id].date);
                     }}>
                     <td >{formatTableDate(demo[id].date)}
-                     </td>
-                    <td style={{ paddingLeft: '10px' }}> 
-                    {demo[id].amount>0 ? <span style={{color:'lightgreen',fontWeight:'500'}}>+{demo[id].amount}</span>: demo[id].amount } </td>
+                    </td>
+                    <td style={{ paddingLeft: '10px' }}>
+                      {demo[id].amount > 0 ? <span style={{ color: 'lightgreen', fontWeight: '500' }}>+{demo[id].amount}</span> : demo[id].amount} </td>
                     <td> {demo[id].note} </td>
                     <td style={{ paddingLeft: '10px' }}>{demo[id].category} </td>
                   </tr>
@@ -409,37 +467,58 @@ function App({ islogged }) {
               }
 
             </tbody>
-          </table> :!demo?`no data outgoing for ${monthToShow} month`:'click outgoing to show details'}
-          <hr style={{height:'3px',border:'2px solid lightgreen',width:'100%'}} />
-          {incomingMoneyToggle?
-            <table border='2px solid' style={{borderColor:'lightgreen'}}>
+          </table> : !demo ? `no data outgoing for ${monthToShow} month` :
+            <span>{'click '}<span style={{ color: '#ffa899', fontWeight: '500' }}
+              onClick={outcomingDetails} >Outgoing</span>{' to show details'}</span>}
+          <hr style={{ height: '3px', border: '2px solid lightgreen', width: '100%' }} />
+          {incomingMoneyToggle ?
+            <table border='2px solid' style={{ borderColor: 'lightgreen' }}>
               <thead>
-              <tr style={{ fontSize: '20px', color: 'lightgreen' }}>
-                <td >Date</td>
-                <td style={{ paddingLeft: '10px' }}>Amount</td>
-                <td>Note</td>
-                <td style={{ paddingLeft: '10px' }}>Category</td>
-              </tr>
+                <tr style={{ fontSize: '20px', color: 'lightgreen' }}>
+                  <td >Date</td>
+                  <td style={{ paddingLeft: '10px' }}>Amount</td>
+                  <td>Note</td>
+                  <td style={{ paddingLeft: '10px' }}>Category</td>
+                </tr>
               </thead>
               <tbody>
-                {incomingAmountList&&
-                Object.keys(incomingAmountList).map((id)=>(
-                  <tr key={id}
-                    onClick={() => {//setEditMode(editmode);
-                      //toggleEditId(id, demo[id].date);
-                      console.log(id);
-                    }}>
-                    <td >{formatTableDate(demo[id].date)}
-                     </td>
-                    <td style={{ paddingLeft: '10px' }}> 
-                    <span style={{color:'lightgreen',fontWeight:'500'}}>+{demo[id].amount}</span></td>
-                    <td> {demo[id].note} </td>
-                    <td style={{ paddingLeft: '10px' }}>{demo[id].category} </td>
-                  </tr>
-                ))}
+              {incomingAmountList &&
+    Object.keys(incomingAmountList).map((id) => (
+      <tr key={id}
+        onClick={() => {//setEditMode(editmode);
+          toggleIncomingEditId(id, incomingAmountList[id].date);
+        }}>
+        <td >{formatTableDate(incomingAmountList[id].date)}
+        </td>
+        <td style={{ paddingLeft: '10px' }}>
+          <span style={{ color: 'lightgreen', fontWeight: '500' }}>+{incomingAmountList[id].amount}</span></td>
+        <td> {incomingAmountList[id].note} </td>
+        <td style={{ paddingLeft: '10px' }}>{incomingAmountList[id].category} </td>
+      </tr>
+    ))}
               </tbody>
             </table>
-          :'click Incoming to show details'}
+            :
+            <span>{'click '}<span style={{ color: 'lightgreen', fontWeight: '500' }}
+              onClick={outcomingDetails} >Incoming</span>{' to show details'}</span>
+          }
+          {incomingMoneyToggle ?
+            <div>
+              {!incomingeditmode
+              ?
+              (islogged &&
+                <AddIncoming
+                  currentpath={'details'}
+                  receiveddate={startDate} />)
+                  :
+              (islogged &&
+                <EditIncoming
+                currentpath={'details'}
+               receivedid={incomingeditId}
+              receiveddate={editIncomingDate}
+              setIncomingEdittoggle={setIncomingEdittoggle}
+                />)}
+            </div> : ''}
         </div>
 
 
