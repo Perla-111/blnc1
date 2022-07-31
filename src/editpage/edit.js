@@ -20,6 +20,8 @@ const Edit = ({ receivedid, receiveddate, setEdittoggle, currentpath }) => {
     const [note, setNote] = useState('');
     const [category, setCategory] = useState('');
     const [data, setData] = useState({});
+    const [outgoingType,setOutgoingType] = useState('14000');
+
 
     useEffect(() => {
         //const path=`details/_2022/_0722/${receivedid}`;
@@ -36,6 +38,8 @@ const Edit = ({ receivedid, receiveddate, setEdittoggle, currentpath }) => {
                 setNote((data[receivedid]?data[receivedid].note : ''));
                 setCategory((data[receivedid]?data[receivedid].category:''));
                 setId((data[receivedid]?data[receivedid].id:uuidv4()));
+                setOutgoingType(data[receivedid].type);
+
             }
 
             else { console.log('not working yet'); }
@@ -74,8 +78,10 @@ const Edit = ({ receivedid, receiveddate, setEdittoggle, currentpath }) => {
             date: formatDate(dateref.current.props.selected) || date,
             amount: parseInt(amount),
             note,
-            category
+            category,
+            type : outgoingType==='14000/others'?'14000':'others'
         }
+        console.log(obj);
         let newObj = Object.assign({}, { [receivedid]: data });
         const path = `${currentpath}/_${d.getFullYear()}/_${newObj[receivedid].date.slice(3)}/${receivedid}`;
         //console.log(obj,newObj,path)
@@ -86,9 +92,10 @@ const Edit = ({ receivedid, receiveddate, setEdittoggle, currentpath }) => {
         setEdittoggle();
 
     }
+    console.log(outgoingType);
 
     return (
-        <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',width:'100%'}}>
+        <div style={{display:'flex',position:'absolute',flexDirection:'column',alignItems:'center',justifyContent:'center',width:'100%'}}>
             <div >
             <DatePicker onFocus={(e)=>{e.target.readOnly=true}}
              className="date-picker-wrapper-addEdit"
@@ -130,6 +137,20 @@ const Edit = ({ receivedid, receiveddate, setEdittoggle, currentpath }) => {
                     setCategory(e.target.value);
                 }}
             /><br />
+            <select 
+            style={{color:'white',backgroundColor:'#282c34',
+        padding:'5px',width:'100%',borderRadius:'25px'}}
+             value={outgoingType} 
+             onClick={(e)=>{
+                console.log(e.target.value);
+            }}
+             onChange={(e)=>{
+                console.log(e.target.value);
+                setOutgoingType(e.target.value);
+            }} >
+                <option value='14000' >14000</option>
+                <option value='others' >others</option>
+            </select><br/>
             <button style={{ height: '40px', margin: '0.5rem 0 0.5rem 0', fontSize: '20px' }}
                 onClick={submitDetails}>edit</button>
                 </div>

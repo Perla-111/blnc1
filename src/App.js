@@ -30,6 +30,8 @@ function App({ islogged }) {
   //   }
   // };
   const [incomingMoneyToggle,setIncomingMoneyToggle] = React.useState(false);
+  const [outcomingMoneyToggle,setOutcomingMoneyToggle] = React.useState(false);
+  
 
   const dateref = React.useRef(null);
   const [startDate, setStartDate] = useState(new Date());
@@ -219,6 +221,45 @@ function App({ islogged }) {
   function incomingDetails(){
     setIncomingMoneyToggle(!incomingMoneyToggle);
   }
+  function outcomingDetails(){
+    setOutcomingMoneyToggle(!outcomingMoneyToggle);
+  }
+  const [_14000,set_14000] = React.useState(0);
+
+  useEffect(()=>{
+    console.log(demo);
+    if(demo){
+      let _14000filter = Object.keys(demo)
+      .filter((id)=>((demo[id].type).toString()==='14000'))
+      .map((id)=>{ //console.log(demo[id].type);
+        return demo[id].amount});
+     console.log(_14000filter);
+
+      // let _14 = _14000filter.reduce((initial,value,index)=>{
+      //   return initial+value;
+        
+      //   // if(index!==0&&value.type==='14000'){
+      //   //   return value + initial;
+      //   // }
+      //   // else if(index===0){
+      //   //   if(initial.type==='14000'&&value.type==='14000'){
+      //   //     return value + initial
+      //   //   }
+      //   //   else if(initial.type==='14000'){
+      //   //     return initial
+      //   //   }
+      //   //   else if(value.type==='14000'){
+      //   //     return value;
+      //   //   }else if(index!==0){
+      //   //     return initial;
+      //   //   }
+      //   //   return 0;
+      //   //}
+      // });
+      // set_14000(_14);
+    }
+  },[demo]);
+  //console.log(_14000);
 
   return (
     <div className="App">
@@ -323,39 +364,6 @@ function App({ islogged }) {
                   </span>
                 </p></>
           }
-          {demo ? <table border='2px solid'>
-            <thead>
-              <tr style={{ fontSize: '20px', color: 'cyan' }}>
-                <td >Date</td>
-                <td style={{ paddingLeft: '10px' }}>Amount</td>
-                <td>Note</td>
-                <td style={{ paddingLeft: '10px' }}>Category</td>
-              </tr>
-            </thead>
-            <tbody>
-              {
-
-                demo && Object.keys(demo).map((id) => {
-
-                  return <tr key={id}
-                    onClick={() => {//setEditMode(editmode);
-                      toggleEditId(id, demo[id].date);
-                    }}>
-                    <td >{formatTableDate(demo[id].date)}
-                     </td>
-                    <td style={{ paddingLeft: '10px' }}> 
-                    {demo[id].amount>0 ? <span style={{color:'lightgreen',fontWeight:'500'}}>+{demo[id].amount}</span>: demo[id].amount } </td>
-                    <td> {demo[id].note} </td>
-                    <td style={{ paddingLeft: '10px' }}>{demo[id].category} </td>
-                  </tr>
-
-                })
-
-
-              }
-
-            </tbody>
-          </table> : 'no data'}
           <div style={{ margin: '1rem 0 1rem 0',
         display:'flex',
         flexDirection:'row',alignItems:'center',
@@ -377,15 +385,51 @@ function App({ islogged }) {
               </div>
               <div style={{color:'tomato',fontWeight:'500',
               border : '2px solid tomato',borderRadius:'25px',padding:'5px'}}
-              onClick={incomingDetails} >Outcoming</div>
+              onClick={outcomingDetails} >Outcoming</div>
               <div style={{color:'lightgreen',fontWeight:'500',
               border : '2px solid lightgreen',borderRadius:'25px',padding:'5px'}}
               onClick={incomingDetails} >Incoming</div>
           </div>
-          {incomingMoneyToggle&&<div>
+          <hr style={{height:'3px',border:'2px solid tomato',width:'100vh'}} />
+          {outcomingMoneyToggle ? <table border='2px solid'>
+            <thead>
+              <tr style={{ fontSize: '20px', color: 'tomato' }}>
+                <td >Date</td>
+                <td style={{ paddingLeft: '10px' }}>Amount</td>
+                <td>Note</td>
+                <td style={{ paddingLeft: '10px' }}>Category</td>
+              </tr>
+            </thead>
+            <tbody>
+              {
+
+                demo && Object.keys(demo).map((id) => {
+
+                  return <tr key={id} 
+                  style={{backgroundColor:`${demo[id].type==='14000'?'grey':''}`}}
+                    onClick={() => {//setEditMode(editmode);
+                      toggleEditId(id, demo[id].date);
+                    }}>
+                    <td >{formatTableDate(demo[id].date)}
+                     </td>
+                    <td style={{ paddingLeft: '10px' }}> 
+                    {demo[id].amount>0 ? <span style={{color:'lightgreen',fontWeight:'500'}}>+{demo[id].amount}</span>: demo[id].amount } </td>
+                    <td> {demo[id].note} </td>
+                    <td style={{ paddingLeft: '10px' }}>{demo[id].category} </td>
+                  </tr>
+
+                })
+
+
+              }
+
+            </tbody>
+          </table> :!demo?`no data outgoing for ${monthToShow} month`:'click outgoing to show details'}
+          <hr style={{height:'3px',border:'2px solid lightgreen',width:'100vh'}} />
+          {incomingMoneyToggle?
             <table border='2px solid'>
               <thead>
-              <tr style={{ fontSize: '20px', color: 'cyan' }}>
+              <tr style={{ fontSize: '20px', color: 'lightgreen' }}>
                 <td >Date</td>
                 <td style={{ paddingLeft: '10px' }}>Amount</td>
                 <td>Note</td>
@@ -410,7 +454,7 @@ function App({ islogged }) {
                 ))}
               </tbody>
             </table>
-          </div>}
+          :'click Incoming to show details'}
         </div>
 
 

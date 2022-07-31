@@ -21,6 +21,7 @@ const Add = ({ currentpath, receiveddate }) => {
     const [amount, setAmount] = useState('');
     const [note, setNote] = useState('');
     const [category, setCategory] = useState('');
+    const [outgoingType,setOutgoingType] = useState('14000');
 
     function formatDate2(d) {
         var month = d.getMonth();
@@ -54,7 +55,8 @@ const Add = ({ currentpath, receiveddate }) => {
             date: date || formatDate(dateref.current.props.selected),
             amount: parseInt(amount),
             note,
-            category
+            category,
+            type : outgoingType
         }
         const path = `${currentpath}/_${formatDate2(dateref.current.props.selected).fullyear}/_${obj.date.slice(3)}`;
 
@@ -70,6 +72,7 @@ const Add = ({ currentpath, receiveddate }) => {
         setNote('');
         setCategory('');
         setDate('');
+        setOutgoingType('14000');
         fireDb.child('lastupdate/date/').update({ date: getDate(d) });
     }
 
@@ -114,6 +117,16 @@ const Add = ({ currentpath, receiveddate }) => {
                 onClick={() => { inputRef3.current.focus(); }}
                 onChange={(e) => { setCategory(e.target.value); }}
             /><br />
+            <select 
+                            onClick={(e) => { e.target.focus() }}
+            style={{color:'white',backgroundColor:'#282c34',
+        padding:'5px',width:'100%',borderRadius:'25px'}}
+             value={outgoingType} onChange={(e)=>{
+                setOutgoingType(e.target.value);
+            }} >
+                <option value='14000' >14000</option>
+                <option value='others' >others</option>
+            </select><br/>
             <button style={{ height: '40px', margin: '0.5rem 0 0.5rem 0', fontSize: '20px' }}
                 onClick={submitDetails}>add</button>
                 </div>
