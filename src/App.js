@@ -311,7 +311,7 @@ function App({ islogged }) {
               setToggle(!toggle);
             }
           }}
-        >Hello!!! <b style={{ color: 'cyan' }}>{currentpath === 'details' ? 'Laxmana Rao' : 'Kalyan'}</b> <br />  last updated time = {lastupdate}</p>
+        >Hello!!! <b style={{ color: 'dodgerblue' }}>{currentpath === 'details' ? 'Laxmana Rao' : 'Kalyan'}</b> <br />  last updated time = {lastupdate}</p>
 
 
 
@@ -347,57 +347,58 @@ function App({ islogged }) {
           {
             !toggle ? <>
 
-              <div onClick={() => { setSalaryEditToggle(!salaryEditToggle) }}>
-                <span><b style={{ color: 'cyan' }}>Start of month balance</b> = {startOfMonthBalance}
+              <div style={{marginTop:'1rem'}}
+               onClick={() => { setSalaryEditToggle(!salaryEditToggle) }}>
+                <span><b style={{ color: 'dodgerblue' }}>Start of month balance</b> = {startOfMonthBalance}
                 </span><br />
-                <span style={{ paddingRight: '10px' }}><b style={{ color: 'cyan' }}>
+                <span style={{ paddingRight: '10px' }}><b style={{ color: 'dodgerblue' }}>
                   {/* {formatMonth(startDate)} */}
                   last month salary</b>={lSalary}</span><br />
-                <div style={{ paddingRight: '10px',border:'2px solid cyan' }}><b style={{ color: 'cyan' }}>
+                <div style={{ paddingRight: '10px',border:'2px solid dodgerblue' }}><b style={{ color: 'dodgerblue' }}>
                   last month balance </b>= {lastMonthBalance}</div>
 
               </div>
               <div>
-                <span><b style={{ color: 'cyan' }}>
+                <span><b style={{ color: 'dodgerblue' }}>
                   Today's balance</b> = {currentBalance}
                 </span>
                 <br />
                 <span style={{ paddingRight: '10px' }}>
-                  <b style={{ color: 'cyan' }}>Total Kharchu</b> = &nbsp;{kharchu}
+                  <b style={{ color: 'dodgerblue' }}>Total Kharchu</b> = &nbsp;{kharchu}
                   {/* {kharchu < 0
                   ? <><b>{kharchu.toString().substr(0,1)}</b>{kharchu.toString().slice(1)}</>
                   : {kharchu}
                 } */}
                 </span><br />
                 {currentpath === 'details' && 
-                <div style={{border:'2px solid cyan'}}><b style={{ color: 'cyan' }}>
+                <div style={{border:'2px solid dodgerblue'}}><b style={{ color: 'dodgerblue' }}>
                   14000 kharchu </b> = {(_14000 < -14000) ? `14000+${(_14000 + 14000).toString().slice(1)}` : _14000}
                 </div>}
               </div></>
               : <>
-                <div onClick={() => { setSalaryEditToggle(!salaryEditToggle) }}>
-                  <span><b style={{ color: 'cyan' }}>Start of month balance</b> = {startOfMonthBalance}
+                <div style={{marginTop:'1rem'}} onClick={() => { setSalaryEditToggle(!salaryEditToggle) }}>
+                  <span><b style={{ color: 'dodgerblue' }}>Start of month balance</b> = {startOfMonthBalance}
                   </span><br />
-                  <span style={{ paddingRight: '10px' }}><b style={{ color: 'cyan' }}>
+                  <span style={{ paddingRight: '10px' }}><b style={{ color: 'dodgerblue' }}>
                     {/* {formatMonth(startDate)} */}
                      last month salary</b>={lSalary}</span><br />
-                  <div style={{ paddingRight: '10px',border:'2px solid cyan'  }}><b style={{ color: 'cyan' }}>
+                  <div style={{ paddingRight: '10px',border:'2px solid dodgerblue'  }}><b style={{ color: 'dodgerblue' }}>
                     last month balance </b>= {lastMonthBalance}</div>
 
                 </div>
                 <p>
-                  <span><b style={{ color: 'cyan' }}>
+                  <span><b style={{ color: 'dodgerblue' }}>
                     Today's balance</b> = {currentBalance}
                   </span>
                   <br />
                   <span style={{ paddingRight: '10px' }}>
-                    <b style={{ color: 'cyan' }}>total Kharchu</b> = &nbsp;{kharchu}
+                    <b style={{ color: 'dodgerblue' }}>total Kharchu</b> = &nbsp;{kharchu}
                     {/* {kharchu < 0
                   ? <><b>{kharchu.toString().substr(0,1)}</b>{kharchu.toString().slice(1)}</>
                   : {kharchu}
                 } */}
                   </span><br />
-                  {currentpath === 'details' && <span><b style={{ color: 'cyan' }}>
+                  {currentpath === 'details' && <span><b style={{ color: 'dodgerblue' }}>
                     14000 kharchu</b> = {_14000}
                   </span>}
                 </p></>
@@ -413,7 +414,7 @@ function App({ islogged }) {
               flexDirection: 'row', alignItems: 'center',
               justifyContent: 'center', width: 'fit-content'
             }}>
-              <div><b style={{ color: 'cyan' }}>
+              <div><b style={{ color: 'dodgerblue' }}>
                 {formatMonth(startDate)}</b>&nbsp;</div>
               <DatePicker onFocus={(e) => { e.target.readOnly = true }}
                 className='date-picker-wrapper' ref={dateref} selected={startDate}
@@ -612,22 +613,22 @@ export default App;
               return <div key={index} style={{display:'flex',
               flexDirection: 'column-reverse'}}>
                 {!toggle?<>
-                <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>June Salary</b>={salary}</span>
-                <span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>last month balance </b>= {prevBalance}</span>
-                <span><b style={{color:'cyan'}}>Start of month balance</b> = {salary+prevBalance}</span></p>
-                <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>Kharchu</b> = {kharchu}</span>
-                <span><b style={{color:'cyan'}}>Today's balance</b> = {currentBalance}</span></p></>
+                <p><span style={{paddingRight:'10px'}}><b style={{color:'dodgerblue'}}>June Salary</b>={salary}</span>
+                <span style={{paddingRight:'10px'}}><b style={{color:'dodgerblue'}}>last month balance </b>= {prevBalance}</span>
+                <span><b style={{color:'dodgerblue'}}>Start of month balance</b> = {salary+prevBalance}</span></p>
+                <p><span style={{paddingRight:'10px'}}><b style={{color:'dodgerblue'}}>Kharchu</b> = {kharchu}</span>
+                <span><b style={{color:'dodgerblue'}}>Today's balance</b> = {currentBalance}</span></p></>
                 :<>
-                <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>June Salary</b>={ksalary}</span>
-                <span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>last month balance </b>= {kprevBalance}</span>
-                <span><b style={{color:'cyan'}}>Start of month balance</b> = {ksalary+kprevBalance}</span></p>
-                <p><span style={{paddingRight:'10px'}}><b style={{color:'cyan'}}>Kharchu</b> = {kharchu}</span>
-                <span><b style={{color:'cyan'}}>Today's balance</b> = {currentBalance}</span></p>
+                <p><span style={{paddingRight:'10px'}}><b style={{color:'dodgerblue'}}>June Salary</b>={ksalary}</span>
+                <span style={{paddingRight:'10px'}}><b style={{color:'dodgerblue'}}>last month balance </b>= {kprevBalance}</span>
+                <span><b style={{color:'dodgerblue'}}>Start of month balance</b> = {ksalary+kprevBalance}</span></p>
+                <p><span style={{paddingRight:'10px'}}><b style={{color:'dodgerblue'}}>Kharchu</b> = {kharchu}</span>
+                <span><b style={{color:'dodgerblue'}}>Today's balance</b> = {currentBalance}</span></p>
                 </>}
                 <table border='2px solid'>
         <thead>
           
-        <tr style={{fontSize:'20px',color:'cyan'}}>
+        <tr style={{fontSize:'20px',color:'dodgerblue'}}>
         <td >Date</td>
         <td style={{paddingLeft:'10px'}}>Amount</td>
         <td>Note</td>
