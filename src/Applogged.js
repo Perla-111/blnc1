@@ -37,14 +37,17 @@ function AppLogged() {
   return (
     <div className="Login">
       {toggle?
-        < >
+        <div className="login-page" 
+//Add style file later
+style={{backgroundColor:"black",height:"100vh",display:"flex",justifyContent:"center",alignItems:"center"}}
+>
         <input type='text'
         placeholder='enter user name' onChange={(e)=>{setName(e.target.value)}} />
         <input type='password' 
         placeholder='enter password'
         onChange={(e)=>{setPassword(e.target.value)}} />
         <button onClick={checkCredentials}>login</button>
-        </>
+        <div/>
       :<App islogged={logged}/>}
     </div>
   );
