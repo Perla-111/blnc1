@@ -101,7 +101,7 @@ function AppLogged() {
   return (
     <div >
       {toggle?
-        <div style={{height:'100vh'}} className="Login" onDoubleClick={checkCredentials} >
+        <div style={{height:'100vh',backgroundColor:'#282c34'}} className="Login" onDoubleClick={checkCredentials} >
         <input type='text'
         placeholder='enter user name' onChange={(e)=>{setName(e.target.value)}} />
         <br/>
