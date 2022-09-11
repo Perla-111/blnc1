@@ -459,7 +459,7 @@ function App({ islogged }) {
           </div>
           <hr style={{ height: '3px', border: '2px solid #ffa899', width: '100%' }} />
           {outcomingMoneyToggle ?
-            <div style={{ padding: '1rem' }}>
+            <div style={{ marginLeft: '1rem' }}>
               <table border='2px solid' >
                 <thead>
                   <tr style={{ fontSize: '20px', color: '#ffa899' }}>
@@ -495,7 +495,10 @@ function App({ islogged }) {
                 </tbody>
               </table>
             </div>
-            : !demo ? `no data outgoing for ${monthToShow} month` :
+            : 
+            !demo 
+            ? `no data outgoing for ${monthToShow} month` 
+            :
               <span>{'click '}<span style={{ color: '#ffa899', fontWeight: '500' }}
                 onClick={outcomingDetails} >Outgoing</span>{' to show details'}</span>
           }
