@@ -84,6 +84,7 @@ const AddIncoming = ({ currentpath, receiveddate }) => {
         value={date}
         onChange={(e)=>{setDate(e.target.value)}}
         /><br/> */}
+        <div>incoming</div>
                 <div>
                     <input type='number'
                         ref={incomingaddinputRef1}

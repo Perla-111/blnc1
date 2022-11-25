@@ -93,6 +93,7 @@ function App({ islogged }) {
   const [modifiedDemo, setModifiedDemo] = React.useState([]);
   const [incomingAmountList, setIncomingAmountList] = React.useState([]);
   const [modifiedIncomingAmountList, setModifiedIncomingAmountList] = React.useState([]);
+  const [showOtherDetails, setShowOtherDetails] = React.useState(false);
 
 
   const [toggle, setToggle] = React.useState(false);
@@ -158,7 +159,7 @@ function App({ islogged }) {
           dataObj2 = snapshot.val()[`_${yearToShow}`][`_${monthToShow}`];
         }
         //console.log(dataObj2);
-        let modifiedDataObj2 = dataObj2 && Object.keys(dataObj2).map((id) => dataObj2[id]).sort((a, b) => formatDateForSort(a.date) - formatDateForSort(b.date));
+        let modifiedDataObj2 = dataObj2 && Object.keys(dataObj2).map((id) => dataObj2[id]).sort((a, b) => formatDateForSort(b.date) - formatDateForSort(a.date));
         setDemo(dataObj2);
         setModifiedDemo(modifiedDataObj2);
       }
@@ -181,7 +182,7 @@ function App({ islogged }) {
         }
         //console.log(dataObj2);
         setIncomingAmountList(dataObj2);
-        let modifiedDataObj2 = dataObj2 && Object.keys(dataObj2).map((id) => dataObj2[id]).sort((a, b) => formatDateForSort(a.date) - formatDateForSort(b.date));
+        let modifiedDataObj2 = dataObj2 && Object.keys(dataObj2).map((id) => dataObj2[id]).sort((a, b) => formatDateForSort(b.date) - formatDateForSort(a.date));
         setModifiedIncomingAmountList(modifiedDataObj2);
       }
       else {
@@ -344,75 +345,45 @@ function App({ islogged }) {
 
           {/* other info details */}
 
+          <span style={{ display: 'inline-block', width: '15px' }} onClick={() => { setShowOtherDetails(!showOtherDetails) }}>
+            <b style={{ color: 'dodgerblue' }}>&#9776;</b></span>
+          {showOtherDetails && <>
+            <>
+              {islogged && salaryEditToggle &&
+                <div>
+                  <input type='number' value={lSalary}
+                    placeholder='enter salary'
+                    ref={salaryinputRef1}
+                    onClick={() => { salaryinputRef1.current.focus(); }}
+                    onChange={(e) => {
+                      setSalary(e.target.value);
+                      //salaryinputRef1.current.focus();
+                    }}
+                  /><br />
+                  <input type='number'
+                    ref={salaryinputRef2}
+                    onClick={() => { salaryinputRef2.current.focus(); }}
+                    placeholder='last month balance...'
+                    value={lastMonthBalance}
+                    onChange={(e) => { setLastMonthBalance(e.target.value); }}
+                  /><br />
+                  <input type='number'
+                    ref={otherinputRef3}
+                    onClick={() => { otherinputRef3.current.focus(); }}
+                    placeholder='other incoming balance...'
+                    value={otherIncomeBalance}
+                    onChange={(e) => { setOtherIncomeBalance(e.target.value); }}
+                  /><br />
+                  <button onClick={() => {
+                    setSalaryEditToggle(false);
+                    updateSalary();
+                  }} >add/update</button>
+                </div>}</>
+            {
+              !toggle ? <>
 
-
-          <>
-            {islogged && salaryEditToggle &&
-              <div>
-                <input type='number' value={lSalary}
-                  placeholder='enter salary'
-                  ref={salaryinputRef1}
-                  onClick={() => { salaryinputRef1.current.focus(); }}
-                  onChange={(e) => {
-                    setSalary(e.target.value);
-                    //salaryinputRef1.current.focus();
-                  }}
-                /><br />
-                <input type='number'
-                  ref={salaryinputRef2}
-                  onClick={() => { salaryinputRef2.current.focus(); }}
-                  placeholder='last month balance...'
-                  value={lastMonthBalance}
-                  onChange={(e) => { setLastMonthBalance(e.target.value); }}
-                /><br />
-                <input type='number'
-                  ref={otherinputRef3}
-                  onClick={() => { otherinputRef3.current.focus(); }}
-                  placeholder='other incoming balance...'
-                  value={otherIncomeBalance}
-                  onChange={(e) => { setOtherIncomeBalance(e.target.value); }}
-                /><br />
-                <button onClick={() => {
-                  setSalaryEditToggle(false);
-                  updateSalary();
-                }} >add/update</button>
-              </div>}</>
-          {
-            !toggle ? <>
-
-              <div style={{ marginTop: '1rem' }}
-                onClick={() => { setSalaryEditToggle(!salaryEditToggle) }}>
-                <span><b style={{ color: 'dodgerblue' }}>Start of month balance</b> = {startOfMonthBalance}
-                </span><br />
-                <span style={{ paddingRight: '10px' }}><b style={{ color: 'dodgerblue' }}>
-                  {/* {formatMonth(startDate)} */}
-                  last month salary</b>={lSalary}</span><br />
-                <span style={{ paddingRight: '10px' }}><b style={{ color: 'dodgerblue' }}>
-                  {/* {formatMonth(startDate)} */}
-                  Other income balance</b>={otherIncomeBalance}</span><br />
-                <div style={{ paddingRight: '10px', border: '2px solid dodgerblue' }}><b style={{ color: 'dodgerblue' }}>
-                  last month balance </b>= {lastMonthBalance}</div>
-
-              </div>
-              <div>
-                <span><b style={{ color: 'dodgerblue' }}>
-                  Today's balance</b> = {currentBalance}
-                </span>
-                <br />
-                <span style={{ paddingRight: '10px' }}>
-                  <b style={{ color: 'dodgerblue' }}>Total Kharchu</b> = &nbsp;{kharchu}
-                  {/* {kharchu < 0
-                  ? <><b>{kharchu.toString().substr(0,1)}</b>{kharchu.toString().slice(1)}</>
-                  : {kharchu}
-                } */}
-                </span><br />
-                {currentpath === 'details' &&
-                  <div style={{ border: '2px solid dodgerblue' }}><b style={{ color: 'dodgerblue' }}>
-                    14000 kharchu </b> = {(_14000 < -14000) ? `14000+${(_14000 + 14000).toString().slice(1)}` : _14000}
-                  </div>}
-              </div></>
-              : <>
-                <div style={{ marginTop: '1rem' }} onClick={() => { setSalaryEditToggle(!salaryEditToggle) }}>
+                <div style={{ marginTop: '1rem' }}
+                  onClick={() => { setSalaryEditToggle(!salaryEditToggle) }}>
                   <span><b style={{ color: 'dodgerblue' }}>Start of month balance</b> = {startOfMonthBalance}
                   </span><br />
                   <span style={{ paddingRight: '10px' }}><b style={{ color: 'dodgerblue' }}>
@@ -425,25 +396,55 @@ function App({ islogged }) {
                     last month balance </b>= {lastMonthBalance}</div>
 
                 </div>
-                <p>
+                <div>
                   <span><b style={{ color: 'dodgerblue' }}>
                     Today's balance</b> = {currentBalance}
                   </span>
                   <br />
                   <span style={{ paddingRight: '10px' }}>
-                    <b style={{ color: 'dodgerblue' }}>total Kharchu</b> = &nbsp;{kharchu}
+                    <b style={{ color: 'dodgerblue' }}>Total Kharchu</b> = &nbsp;{kharchu}
                     {/* {kharchu < 0
                   ? <><b>{kharchu.toString().substr(0,1)}</b>{kharchu.toString().slice(1)}</>
                   : {kharchu}
                 } */}
                   </span><br />
-                  {currentpath === 'details' && <span><b style={{ color: 'dodgerblue' }}>
-                    14000 kharchu</b> = {_14000}
-                  </span>}
-                </p></>
-          }
+                  {currentpath === 'details' &&
+                    <div style={{ border: '2px solid dodgerblue' }}><b style={{ color: 'dodgerblue' }}>
+                      14000 kharchu </b> = {(_14000 < -14000) ? `14000+${(_14000 + 14000).toString().slice(1)}` : _14000}
+                    </div>}
+                </div></>
+                : <>
+                  <div style={{ marginTop: '1rem' }} onClick={() => { setSalaryEditToggle(!salaryEditToggle) }}>
+                    <span><b style={{ color: 'dodgerblue' }}>Start of month balance</b> = {startOfMonthBalance}
+                    </span><br />
+                    <span style={{ paddingRight: '10px' }}><b style={{ color: 'dodgerblue' }}>
+                      {/* {formatMonth(startDate)} */}
+                      last month salary</b>={lSalary}</span><br />
+                    <span style={{ paddingRight: '10px' }}><b style={{ color: 'dodgerblue' }}>
+                      {/* {formatMonth(startDate)} */}
+                      Other income balance</b>={otherIncomeBalance}</span><br />
+                    <div style={{ paddingRight: '10px', border: '2px solid dodgerblue' }}><b style={{ color: 'dodgerblue' }}>
+                      last month balance </b>= {lastMonthBalance}</div>
 
-
+                  </div>
+                  <p>
+                    <span><b style={{ color: 'dodgerblue' }}>
+                      Today's balance</b> = {currentBalance}
+                    </span>
+                    <br />
+                    <span style={{ paddingRight: '10px' }}>
+                      <b style={{ color: 'dodgerblue' }}>total Kharchu</b> = &nbsp;{kharchu}
+                      {/* {kharchu < 0
+                  ? <><b>{kharchu.toString().substr(0,1)}</b>{kharchu.toString().slice(1)}</>
+                  : {kharchu}
+                } */}
+                    </span><br />
+                    {currentpath === 'details' && <span><b style={{ color: 'dodgerblue' }}>
+                      14000 kharchu</b> = {_14000}
+                    </span>}
+                  </p></>
+            }
+          </>}
           {/* date and tabs selection */}
 
 
@@ -557,19 +558,20 @@ function App({ islogged }) {
 
           <hr style={{ height: '3px', border: '2px solid lightgreen', width: '100%', marginTop: `${outcomingMoneyToggle ? '2rem' : ''}` }} />
           {incomingMoneyToggle ?
-            <table border='2px solid' style={{ borderColor: 'lightgreen', marginBottom: '1rem' }}>
-              <thead>
-                <tr style={{ fontSize: '20px', color: 'lightgreen' }}>
-                  {/* <td >Date</td> */}
-                  <td>Date</td>
-                  <td style={{ paddingLeft: '10px' }}>Amount</td>
-                  <td style={{ paddingLeft: '10px' }}>Note</td>
-                  <td style={{ paddingLeft: '10px' }}>Category</td>
-                </tr>
-              </thead>
-              <tbody>
-                <>
-                  {
+            <div style={{ marginLeft: '1rem' }}>
+              <table border='2px solid' style={{ borderColor: 'lightgreen', marginBottom: '1rem' }}>
+                <thead>
+                  <tr style={{ fontSize: '20px', color: 'lightgreen' }}>
+                    {/* <td >Date</td> */}
+                    <td>Date</td>
+                    <td style={{ paddingLeft: '10px' }}>Amount</td>
+                    <td style={{ paddingLeft: '10px' }}>Note</td>
+                    <td style={{ paddingLeft: '10px' }}>Category</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <>
+                    {
                 /* with keys
                 {incomingAmountList &&
                   Object.keys(incomingAmountList).map((id) => (
@@ -585,23 +587,24 @@ function App({ islogged }) {
                       <td style={{ paddingLeft: '10px' }}>{incomingAmountList[id].category} </td>
                     </tr>
                   ))} */}
-                </>
-                {modifiedIncomingAmountList &&
-                  modifiedIncomingAmountList.map((item, index) => (
-                    <tr key={index + 'incoming' + indexCount++}
-                      onClick={() => {
-                        let newIncomingArrayId = Object.keys(incomingAmountList).filter((id) => incomingAmountList[id].id === item.id)
-                        toggleIncomingEditId(newIncomingArrayId, item.date);
-                      }}>
-                      <td> {formatTableDate(item.date)} </td>
-                      <td style={{ paddingLeft: '10px' }}>
-                        <span style={{ color: 'lightgreen', fontWeight: '500' }}>+{item.amount}</span></td>
-                      <td style={{ paddingLeft: '10px' }}> {item.note} </td>
-                      <td style={{ paddingLeft: '10px' }}>{item.category} </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
+                  </>
+                  {modifiedIncomingAmountList &&
+                    modifiedIncomingAmountList.map((item, index) => (
+                      <tr key={index + 'incoming' + indexCount++}
+                        onClick={() => {
+                          let newIncomingArrayId = Object.keys(incomingAmountList).filter((id) => incomingAmountList[id].id === item.id)
+                          toggleIncomingEditId(newIncomingArrayId, item.date);
+                        }}>
+                        <td> {formatTableDate(item.date)} </td>
+                        <td style={{ paddingLeft: '10px' }}>
+                          <span style={{ color: 'lightgreen', fontWeight: '500' }}>+{item.amount}</span></td>
+                        <td style={{ paddingLeft: '10px' }}> {item.note} </td>
+                        <td style={{ paddingLeft: '10px' }}>{item.category} </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
             :
             <span>{'click '}<span style={{ color: 'lightgreen', fontWeight: '500', marginBottom: '1rem' }}
               onClick={incomingDetails} >Incoming</span>{' to show details'}</span>
