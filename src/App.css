@@ -1,8 +1,9 @@
 .App {
   text-align: center;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   font-size: 16.5px;
+  position: absolute;
 }
 
 
@@ -10,19 +11,20 @@
   background-color: #282c34;
   height: 100vh;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   align-items: center;
   width: 100vw;
   color: white;
   overflow-y: scroll;
 }
-.Login{
+
+.Login {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height:100vh;
-  background-color:#282c34;
+  height: 100vh;
+  background-color: #282c34;
 }
 
 .Login input {
@@ -31,4 +33,16 @@
   height: 2rem;
   outline-width: 0;
   border: none;
+}
+
+/* for printing full content instead of only one page */
+@media print {
+  * {
+    overflow: visible !important;
+  }
+
+  .App,
+  .App-header {
+    page-break-after: always;
+  }
 }

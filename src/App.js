@@ -338,8 +338,14 @@ function App({ islogged }) {
 
         <div style={{
           display: 'flex',
-          flexDirection: 'column-reverse'
+          flexDirection: 'column'
         }}>
+
+
+          {/* other info details */}
+
+
+
           <>
             {islogged && salaryEditToggle &&
               <div>
@@ -436,6 +442,12 @@ function App({ islogged }) {
                   </span>}
                 </p></>
           }
+
+
+          {/* date and tabs selection */}
+
+
+
           <div style={{
             margin: '1rem 0 1rem 0',
             display: 'flex',
@@ -471,7 +483,11 @@ function App({ islogged }) {
               onClick={incomingDetails} >Incoming</div>
           </div>
           <hr style={{ height: '3px', border: '2px solid #ffa899', width: '100%' }} />
+
+
           {/* outgoing table */}
+
+
           {outcomingMoneyToggle ?
             <div style={{ marginLeft: '1rem' }}>
               <table border='2px solid' >
@@ -532,10 +548,16 @@ function App({ islogged }) {
               <span>{'click '}<span style={{ color: '#ffa899', fontWeight: '500' }}
                 onClick={outcomingDetails} >Outgoing</span>{' to show details'}</span>
           }
-          <hr style={{ height: '3px', border: '2px solid lightgreen', width: '100%' }} />
+
+
+
           {/* incoming table */}
+
+
+
+          <hr style={{ height: '3px', border: '2px solid lightgreen', width: '100%', marginTop: `${outcomingMoneyToggle ? '2rem' : ''}` }} />
           {incomingMoneyToggle ?
-            <table border='2px solid' style={{ borderColor: 'lightgreen' }}>
+            <table border='2px solid' style={{ borderColor: 'lightgreen', marginBottom: '1rem' }}>
               <thead>
                 <tr style={{ fontSize: '20px', color: 'lightgreen' }}>
                   {/* <td >Date</td> */}
@@ -581,12 +603,16 @@ function App({ islogged }) {
               </tbody>
             </table>
             :
-            <span>{'click '}<span style={{ color: 'lightgreen', fontWeight: '500' }}
+            <span>{'click '}<span style={{ color: 'lightgreen', fontWeight: '500', marginBottom: '1rem' }}
               onClick={incomingDetails} >Incoming</span>{' to show details'}</span>
           }
+
+
           {/* incoming add or edit view */}
+
+
           {incomingMoneyToggle ?
-            <div>
+            <div style={{ marginBottom: '1rem' }}>
               {!incomingeditmode
                 ?
                 (islogged &&
