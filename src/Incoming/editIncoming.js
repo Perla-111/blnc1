@@ -1,6 +1,6 @@
 import React, { useEffect, useId, useState } from "react";
 import fireDb from '../firebase';
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 import DatePicker from "react-datepicker";
 
@@ -20,7 +20,7 @@ const EditIncoming = ({ receivedid, receiveddate, setIncomingEdittoggle, current
     const [note, setNote] = useState('');
     const [category, setCategory] = useState('');
     const [data, setData] = useState({});
-    const [outgoingType,setOutgoingType] = useState('others');
+    const [outgoingType, setOutgoingType] = useState('others');
 
 
     useEffect(() => {
@@ -31,11 +31,11 @@ const EditIncoming = ({ receivedid, receiveddate, setIncomingEdittoggle, current
             if (snapshot.val() !== null) {
                 let data = snapshot.val();
                 setData(data[receivedid]);
-                setAmount(data[receivedid]?data[receivedid].amount:0);
-                setDate(data[receivedid]?data[receivedid].date : formatDate2(new Date(receiveddate)));
-                setNote((data[receivedid]?data[receivedid].note : ''));
-                setCategory((data[receivedid]?data[receivedid].category:''));
-                setId((data[receivedid]?data[receivedid].id:uuidv4()));
+                setAmount(data[receivedid] ? data[receivedid].amount : 0);
+                setDate(data[receivedid] ? data[receivedid].date : formatDate2(new Date(receiveddate)));
+                setNote((data[receivedid] ? data[receivedid].note : ''));
+                setCategory((data[receivedid] ? data[receivedid].category : ''));
+                setId((data[receivedid] ? data[receivedid].id : uuidv4()));
                 setOutgoingType(data[receivedid].type);
 
             }
@@ -77,7 +77,7 @@ const EditIncoming = ({ receivedid, receiveddate, setIncomingEdittoggle, current
             amount: parseInt(amount),
             note,
             category,
-            type : outgoingType
+            type: outgoingType
         }
         let newObj = Object.assign({}, { [receivedid]: data });
         const path = `${currentpath}/_${d.getFullYear()}/_${newObj[receivedid].date.slice(3)}Income/${receivedid}`;
@@ -91,65 +91,67 @@ const EditIncoming = ({ receivedid, receiveddate, setIncomingEdittoggle, current
     }
 
     return (
-        <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',width:'100%'}}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
             <div >
-            <DatePicker onFocus={(e)=>{e.target.readOnly=true}}
-             className="date-picker-wrapper-addEdit"
-             ref={dateref} selected={startDate} onChange={(date) => {
-                //console.log(startDate);
-                setStartDate(date)
-            }} />
+                <DatePicker onFocus={(e) => { e.target.readOnly = true }}
+                    className="date-picker-wrapper-addEdit"
+                    ref={dateref} selected={startDate} onChange={(date) => {
+                        //console.log(startDate);
+                        setStartDate(date)
+                    }} />
             </div>
             {/* <input type='text' 
         placeholder='dd-mmyy date'
         value={date}
         onChange={(e)=>{setDate(e.target.value)}}
         /><br/> */}
-        <div>
-            <span>incoming edit toggle</span><br/>
-            <input type='number'
-                placeholder='enter amount'
-                ref={incomingeditinputRef1}
-                value={amount}
-                onClick={() => { incomingeditinputRef1.current.focus(); }}
-                onChange={(e) => {
-                    setAmount(e.target.value);
-                }}
-            /><br />
-            <input type='text'
-                ref={incomingeditinputRef2}
-                //placeholder='enter the reason'
-                placeholder='enter date manually'
-                value={note}
-                onClick={() => { incomingeditinputRef2.current.focus(); }}
-                onChange={(e) => {
-                    setNote(e.target.value);
-                }}
-            /><br />
-            <input type='text'
-                ref={incomingeditinputRef3}
-                placeholder='enter person name or bill type'
-                value={category}
-                onClick={() => { incomingeditinputRef3.current.focus(); }}
-                onChange={(e) => {
-                    setCategory(e.target.value);
-                }}
-            /><br />
-            <select 
-            style={{color:'white',backgroundColor:'#282c34',
-        padding:'5px',width:'100%',borderRadius:'25px'}}
-             value={outgoingType} 
-             onClick={(e)=>{
-            }}
-             onChange={(e)=>{
-                setOutgoingType(e.target.value);
-            }} >
-                <option value='others' >others</option>
-                <option value='14000' >14000</option>
-            </select><br/>
-            <button style={{ height: '40px', margin: '0.5rem 0 0.5rem 0', fontSize: '20px' }}
-                onClick={submitDetails}>edit</button>
-                </div>
+            <div>
+                <span>incoming edit toggle</span><br />
+                <input type='number'
+                    placeholder='enter amount'
+                    ref={incomingeditinputRef1}
+                    value={amount}
+                    onClick={() => { incomingeditinputRef1.current.focus(); }}
+                    onChange={(e) => {
+                        setAmount(e.target.value);
+                    }}
+                /><br />
+                <input type='text'
+                    ref={incomingeditinputRef2}
+                    //placeholder='enter the reason'
+                    placeholder='enter note'
+                    value={note}
+                    onClick={() => { incomingeditinputRef2.current.focus(); }}
+                    onChange={(e) => {
+                        setNote(e.target.value);
+                    }}
+                /><br />
+                <input type='text'
+                    ref={incomingeditinputRef3}
+                    placeholder='enter category'
+                    value={category}
+                    onClick={() => { incomingeditinputRef3.current.focus(); }}
+                    onChange={(e) => {
+                        setCategory(e.target.value);
+                    }}
+                /><br />
+                <select
+                    style={{
+                        color: 'white', backgroundColor: '#282c34',
+                        padding: '5px', width: '100%', borderRadius: '25px'
+                    }}
+                    value={outgoingType}
+                    onClick={(e) => {
+                    }}
+                    onChange={(e) => {
+                        setOutgoingType(e.target.value);
+                    }} >
+                    <option value='others' >others</option>
+                    <option value='14000' >14000</option>
+                </select><br />
+                <button style={{ height: '40px', margin: '0.5rem 0 0.5rem 0', fontSize: '20px' }}
+                    onClick={submitDetails}>edit</button>
+            </div>
         </div>
     )
 }

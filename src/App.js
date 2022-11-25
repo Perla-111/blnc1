@@ -35,6 +35,7 @@ function App({ islogged }) {
   // };
   const [incomingMoneyToggle, setIncomingMoneyToggle] = React.useState(false);
   const [outcomingMoneyToggle, setOutcomingMoneyToggle] = React.useState(false);
+  let indexCount = 0;
 
 
   const dateref = React.useRef(null);
@@ -89,7 +90,9 @@ function App({ islogged }) {
 
   let assign = 0;
   const [demo, setDemo] = React.useState([]);
+  const [modifiedDemo, setModifiedDemo] = React.useState([]);
   const [incomingAmountList, setIncomingAmountList] = React.useState([]);
+  const [modifiedIncomingAmountList, setModifiedIncomingAmountList] = React.useState([]);
 
 
   const [toggle, setToggle] = React.useState(false);
@@ -155,7 +158,9 @@ function App({ islogged }) {
           dataObj2 = snapshot.val()[`_${yearToShow}`][`_${monthToShow}`];
         }
         //console.log(dataObj2);
+        let modifiedDataObj2 = dataObj2 && Object.keys(dataObj2).map((id) => dataObj2[id]).sort((a, b) => formatDateForSort(a.date) - formatDateForSort(b.date));
         setDemo(dataObj2);
+        setModifiedDemo(modifiedDataObj2);
       }
       else {
         console.log('table data did not came')
@@ -176,6 +181,8 @@ function App({ islogged }) {
         }
         //console.log(dataObj2);
         setIncomingAmountList(dataObj2);
+        let modifiedDataObj2 = dataObj2 && Object.keys(dataObj2).map((id) => dataObj2[id]).sort((a, b) => formatDateForSort(a.date) - formatDateForSort(b.date));
+        setModifiedIncomingAmountList(modifiedDataObj2);
       }
       else {
         console.log('incoming table data did not came')
@@ -262,6 +269,12 @@ function App({ islogged }) {
     let secondPart = d.substr(3, 2);
     let thirdPart = d.substr(5, 2);
     return `${firstPart}_${secondPart}_${thirdPart}`;
+  }
+  function formatDateForSort(d) {
+    let firstPart = d.substr(0, 2);
+    let secondPart = d.substr(3, 2);
+    let thirdPart = d.substr(5, 2);
+    return Number(`${firstPart}${secondPart}${thirdPart}`);
   }
   function formatMonth(d) {
     let monthName = d.toLocaleString('default', { month: 'long' });
@@ -458,6 +471,7 @@ function App({ islogged }) {
               onClick={incomingDetails} >Incoming</div>
           </div>
           <hr style={{ height: '3px', border: '2px solid #ffa899', width: '100%' }} />
+          {/* outgoing table */}
           {outcomingMoneyToggle ?
             <div style={{ marginLeft: '1rem' }}>
               <table border='2px solid' >
@@ -472,8 +486,9 @@ function App({ islogged }) {
                 <tbody>
                   {
 
+                    /* with objects
                     demo && Object.keys(demo).map((id) => {
-
+ 
                       return <tr key={id}
                         style={{ backgroundColor: `${demo[id].type === '14000' ? 'rgb(85, 85, 85)' : ''}` }}
                         onClick={() => {//setEditMode(editmode);
@@ -486,23 +501,39 @@ function App({ islogged }) {
                         <td> {demo[id].note} </td>
                         <td style={{ paddingLeft: '10px' }}>{demo[id].category} </td>
                       </tr>
+ 
+                    }) */
+                    /* with array */
+                    modifiedDemo && modifiedDemo.map((item, index) => {
+                      return <tr key={index + 'outgoing' + indexCount++}
+                        style={{ backgroundColor: `${item.type === '14000' ? 'rgb(85, 85, 85)' : ''}` }}
+                        onClick={() => {//setEditMode(editmode);
+                          let newArrayId = Object.keys(demo).filter((id) => demo[id].id === item.id)
+                          toggleEditId(newArrayId, item.date);
+                        }}>
+                        <td >{formatTableDate(item.date)}
+                        </td>
+                        <td style={{ paddingLeft: '10px' }}>
+                          {item.amount > 0 ? <span style={{ color: 'lightgreen', fontWeight: '500' }}>+{item.amount}</span> : item.amount} </td>
+                        <td> {item.note} </td>
+                        <td style={{ paddingLeft: '10px' }}>{item.category} </td>
+                      </tr>
 
                     })
-
 
                   }
 
                 </tbody>
               </table>
-            </div>
-            : 
-            !demo 
-            ? `no data outgoing for ${monthToShow} month` 
-            :
+            </div> :
+            !demo
+              ? `no data outgoing for ${monthToShow} month`
+              :
               <span>{'click '}<span style={{ color: '#ffa899', fontWeight: '500' }}
                 onClick={outcomingDetails} >Outgoing</span>{' to show details'}</span>
           }
           <hr style={{ height: '3px', border: '2px solid lightgreen', width: '100%' }} />
+          {/* incoming table */}
           {incomingMoneyToggle ?
             <table border='2px solid' style={{ borderColor: 'lightgreen' }}>
               <thead>
@@ -510,10 +541,14 @@ function App({ islogged }) {
                   {/* <td >Date</td> */}
                   <td>Date</td>
                   <td style={{ paddingLeft: '10px' }}>Amount</td>
+                  <td style={{ paddingLeft: '10px' }}>Note</td>
                   <td style={{ paddingLeft: '10px' }}>Category</td>
                 </tr>
               </thead>
               <tbody>
+                <>
+                  {
+                /* with keys
                 {incomingAmountList &&
                   Object.keys(incomingAmountList).map((id) => (
                     <tr key={id}
@@ -521,19 +556,35 @@ function App({ islogged }) {
                         toggleIncomingEditId(id, incomingAmountList[id].date);
                       }}>
                       {/* <td >{formatTableDate(incomingAmountList[id].date)}
-        </td> */}
+        </td> }
                       <td> {incomingAmountList[id].note} </td>
                       <td style={{ paddingLeft: '10px' }}>
                         <span style={{ color: 'lightgreen', fontWeight: '500' }}>+{incomingAmountList[id].amount}</span></td>
                       <td style={{ paddingLeft: '10px' }}>{incomingAmountList[id].category} </td>
+                    </tr>
+                  ))} */}
+                </>
+                {modifiedIncomingAmountList &&
+                  modifiedIncomingAmountList.map((item, index) => (
+                    <tr key={index + 'incoming' + indexCount++}
+                      onClick={() => {
+                        let newIncomingArrayId = Object.keys(incomingAmountList).filter((id) => incomingAmountList[id].id === item.id)
+                        toggleIncomingEditId(newIncomingArrayId, item.date);
+                      }}>
+                      <td> {formatTableDate(item.date)} </td>
+                      <td style={{ paddingLeft: '10px' }}>
+                        <span style={{ color: 'lightgreen', fontWeight: '500' }}>+{item.amount}</span></td>
+                      <td style={{ paddingLeft: '10px' }}> {item.note} </td>
+                      <td style={{ paddingLeft: '10px' }}>{item.category} </td>
                     </tr>
                   ))}
               </tbody>
             </table>
             :
             <span>{'click '}<span style={{ color: 'lightgreen', fontWeight: '500' }}
-              onClick={outcomingDetails} >Incoming</span>{' to show details'}</span>
+              onClick={incomingDetails} >Incoming</span>{' to show details'}</span>
           }
+          {/* incoming add or edit view */}
           {incomingMoneyToggle ?
             <div>
               {!incomingeditmode

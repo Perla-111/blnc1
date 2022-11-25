@@ -59,6 +59,7 @@ export default AppLogged;
 import React, { useEffect, useState } from 'react';
 import fireDb from './firebase'
 import App from './App';
+import { useLayoutEffect } from 'react';
 
 function AppLogged() {
 
@@ -66,54 +67,60 @@ function AppLogged() {
   const [username, setName] = useState('');
   const [password, setPassword] = useState('');
   const [logged, setLogged] = useState(false);
-  const [toggle,setToggle] = useState(false);
-  const [error,setError] = useState('');
-  useEffect(()=>{
-    if(window.confirm('click cancel to proceed')){
-      setLogged(true);
-      setToggle(true);
-    }
-    else {
-      setLogged(false);
-      setToggle(false);
-    }
-  },[])
+  const [toggle, setToggle] = useState(true);
+  const [error, setError] = useState('');
+  // useLayoutEffect(()=>{
+  //   if(window.confirm('click cancel to proceed')){
+  //     setLogged(false);
+  //     setToggle(true);
+  //   }
+  //   else {
+  //     setLogged(false);
+  //     setToggle(true);
+  //   }
+  // },[])
 
-  const checkCredentials=()=>{
-    let path='user/';
-    fireDb.child(path).orderByChild('password').equalTo(password).on("value",snapshot => {
+  const checkCredentials = () => {
+    let path = 'user/';
+    fireDb.child(path).orderByChild('password').equalTo(password).on("value", snapshot => {
 
-      if (snapshot.exists()){
-        setLogged(true);
+      if (snapshot.exists()) {
+        if (username !== 'kalyan') setLogged(false);
+        else setLogged(true);
         setToggle(false);
         setError('');
-        
+
       }
-      else{
+      else {
         console.log('invalid credentials')
-        setError('invalid credentials');
+        setError('you have typed wrong username and password');
       }
     }
-      )
+    );
+    // let obj ={
+    //   username:username,
+    //   password:password
+    // }
+    // fireDb.child(path).push(obj);
   }
 
 
   return (
     <div >
-      {toggle?
-        <div style={{height:'100vh',backgroundColor:'#282c34'}} className="Login" onDoubleClick={checkCredentials} >
-        <input type='text'
-        placeholder='enter user name' onChange={(e)=>{setName(e.target.value)}} />
-        <br/>
-        <input type='password' 
-        placeholder='enter password'
-        onChange={(e)=>{setPassword(e.target.value)}} />
-        <br/>
-        <button style={{margin:'1rem'}} onClick={checkCredentials}>login</button>
-        <br/>
-        {error}
+      {toggle ?
+        <div className="Login" onDoubleClick={checkCredentials} >
+          <input type='text'
+            placeholder='user name' onChange={(e) => { setName(e.target.value) }} />
+          <br />
+          <input type='password'
+            placeholder='password'
+            onChange={(e) => { setPassword(e.target.value) }} />
+          <br />
+          <button style={{ margin: '1rem', backgroundColor: 'grey' }} onClick={checkCredentials}>login</button>
+          <br />
+          <div style={{ color: 'grey' }}>{error}</div>
         </div>
-      :<App islogged={logged}/>}
+        : <App islogged={logged} />}
     </div>
   );
 }
