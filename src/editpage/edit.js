@@ -70,7 +70,7 @@ const Edit = ({ receivedid, receiveddate, setEdittoggle, currentpath }) => {
         return `${d}`;
     }
 
-    let d = new Date();
+    let d = new Date(startDate);
 
     const submitDetails = () => {
         let obj = {
@@ -85,6 +85,8 @@ const Edit = ({ receivedid, receiveddate, setEdittoggle, currentpath }) => {
         const path = `${currentpath}/_${d.getFullYear()}/_${newObj[receivedid].date.slice(3)}/${receivedid}`;
         //console.log(obj,newObj,path)
         //console.log(dateref.current.props);
+
+        //add code to show response on UI using firebase set() along with update
         fireDb.child(path).update(obj);
         fireDb.child('lastupdate/date/').update({ date: getDate(d) });
 
