@@ -366,8 +366,8 @@ function App({ islogged, username, isBhabhi }) {
 
           {/* other info details */}
 
-          <span style={{ display: 'inline-block', width: '15px' }} onClick={() => { setShowOtherDetails(!showOtherDetails) }}>
-            <b style={{ color: 'dodgerblue' }}>&#9776;</b></span>
+          {!isBhabhi && <span style={{ display: 'inline-block', width: '15px' }} onClick={() => { setShowOtherDetails(!showOtherDetails) }}>
+            <b style={{ color: 'dodgerblue' }}>&#9776;</b></span>}
           {showOtherDetails && !isBhabhi && <>
             <>
               {islogged && salaryEditToggle &&
@@ -498,11 +498,11 @@ function App({ islogged, username, isBhabhi }) {
               border: '2px solid #ffa899', borderRadius: '25px', padding: '5px'
             }}
               onClick={outcomingDetails} >Outgoing</div>
-            <div style={{
+            {!isBhabhi &&<div style={{
               color: 'lightgreen', fontWeight: '500',
               border: '2px solid lightgreen', borderRadius: '25px', padding: '5px'
             }}
-              onClick={incomingDetails} >Incoming</div>
+              onClick={incomingDetails} >Incoming</div>}
           </div>
           <hr style={{ height: '3px', border: '2px solid #ffa899', width: '100%' }} />
 
@@ -544,7 +544,7 @@ function App({ islogged, username, isBhabhi }) {
                     /* with array */
                     modifiedDemo && modifiedDemo.map((item, index) => {
                       return <tr key={index + 'outgoing' + indexCount++}
-                        style={{ backgroundColor: `${item.isImportant ? 'darkcyan' : item.type === '14000' ? 'rgb(85, 85, 85)' : ''}` }}
+                        style={{ backgroundColor: `${item.type === '14000' ? 'rgb(85, 85, 85)' : ''}` }}
                       >
                         <td
                           onClick={() => {//setEditMode(editmode);
@@ -561,6 +561,7 @@ function App({ islogged, username, isBhabhi }) {
                           style={{ paddingLeft: '10px' }}>
                           {item.amount > 0 ? <span style={{ color: 'lightgreen', fontWeight: '500' }}>+{item.amount}</span> : item.amount} </td>
                         <td
+                          style={{ backgroundColor: item.isImportant ? 'darkcyan' : ''  }}
                           onDoubleClick={() => {
                             if (username === 'laxman' || username === 'kalyan') {
                               let newArrayId = Object.keys(demo).filter((id) => demo[id].id === item.id)
@@ -641,8 +642,8 @@ function App({ islogged, username, isBhabhi }) {
               </table>
             </div>
             :
-            <span>{'click '}<span style={{ color: 'lightgreen', fontWeight: '500', marginBottom: '1rem' }}
-              onClick={incomingDetails} >Incoming</span>{' to show details'}</span>
+            !isBhabhi ? <span>{'click '}<span style={{ color: 'lightgreen', fontWeight: '500', marginBottom: '1rem' }}
+              onClick={incomingDetails} >Incoming</span>{' to show details'}</span> : null
           }
 
 
