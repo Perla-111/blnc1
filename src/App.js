@@ -12,6 +12,7 @@ import DatePicker from "react-datepicker";
 import AddIncoming from './Incoming/addIncoming';
 import EditIncoming from './Incoming/editIncoming';
 
+let currentPathNonState = 'details';
 
 function App({ islogged, username, isBhabhi }) {
 
@@ -98,7 +99,7 @@ function App({ islogged, username, isBhabhi }) {
 
   const [toggle, setToggle] = React.useState(false);
   const [kharchu, setKharchu] = React.useState(0);
-  const [currentpath, setCurrentPath] = useState('details');
+  const [currentpath, setCurrentPath] = useState(currentPathNonState);
   const [lastupdate, setLastUpdate] = useState('loading...');
 
   // useEffect(()=>{
@@ -158,7 +159,6 @@ function App({ islogged, username, isBhabhi }) {
           && snapshot.val()[`_${yearToShow}`].hasOwnProperty(`_${monthToShow}`)) {
           dataObj2 = snapshot.val()[`_${yearToShow}`][`_${monthToShow}`];
         }
-        console.log(dataObj2);
         let modifiedDataObj2 = dataObj2 && Object.keys(dataObj2).map((id) => dataObj2[id]).sort((a, b) => formatDateForSort(b.date) - formatDateForSort(a.date));
         setDemo(dataObj2);
         setModifiedDemo(modifiedDataObj2);
@@ -309,7 +309,6 @@ function App({ islogged, username, isBhabhi }) {
   const toggleIsImportant = (receivedid, item, toggle, incoming) => {
     let d = new Date('20' + item.date.slice(5));
     if (incoming) {
-      console.log(item,toggle,d,receivedid,incoming);
       let obj = {
         ...item,
         isImportant: toggle
@@ -318,7 +317,6 @@ function App({ islogged, username, isBhabhi }) {
       fireDb.child(path).update(obj);
     }
     else {
-      console.log(item,toggle,d,receivedid,incoming);
       let obj = {
         ...item,
         isImportant: toggle
@@ -356,15 +354,17 @@ function App({ islogged, username, isBhabhi }) {
               return;
             }
             if (!toggle) {
-              setCurrentPath('kalyan');
+              currentPathNonState = 'kalyan';
+              setCurrentPath(currentPathNonState);
               setToggle(!toggle);
             }
             else {
-              setCurrentPath('details');
+              currentPathNonState = 'details';
+              setCurrentPath(currentPathNonState);
               setToggle(!toggle);
             }
           }}
-        >Hello!!! <b style={{ color: 'dodgerblue' }}>{currentpath === 'details' ? username === 'kalyan' ?'Kalyan' : username === 'laxman' ? 'Laxmana Rao' : 'Amrutha Vani' : 'Kalyan'}</b> <br />  last updated time = {lastupdate}</p>
+        >Hello!!! <b style={{ color: 'dodgerblue' }}>{currentpath === 'details' ? username !== 'amruthavani' ? 'Laxmana Rao' : 'Amrutha Vani' : 'Kalyan'}</b> <br />  last updated time = {lastupdate}</p>
 
 
 
@@ -580,7 +580,15 @@ function App({ islogged, username, isBhabhi }) {
                             }
                           }}
                         > {item.note} </td>
-                        <td style={{ paddingLeft: '10px', backgroundColor: item.isImportant ? 'darkcyan' : ''  }}>{item.category} </td>
+                        <td
+                          style={{ paddingLeft: '10px', backgroundColor: item.isImportant ? 'darkcyan' : '' }}
+                          onDoubleClick={() => {
+                            if (username === 'laxman' || username === 'kalyan') {
+                              let newArrayId = Object.keys(demo).filter((id) => demo[id].id === item.id)
+                              toggleIsImportant(newArrayId, item, item.isImportant ? !true : !false, false)
+                            }
+                          }}
+                        >{item.category} </td>
                       </tr>
 
                     })
@@ -604,7 +612,7 @@ function App({ islogged, username, isBhabhi }) {
 
 
           <hr style={{ height: '3px', border: '2px solid lightgreen', width: '100%', marginTop: `${outcomingMoneyToggle ? '2rem' : ''}` }} />
-          {incomingMoneyToggle && !isBhabhi ?
+          {currentPathNonState === 'details' && incomingMoneyToggle && !isBhabhi ?
             <div style={{ marginLeft: '1rem' }}>
               <table border='2px solid' style={{ borderColor: 'lightgreen', marginBottom: '1rem' }}>
                 <thead>
@@ -661,7 +669,14 @@ function App({ islogged, username, isBhabhi }) {
                             }
                           }}
                         > {item.note} </td>
-                        <td style={{ paddingLeft: '10px', backgroundColor: item.isImportant ? 'darkcyan' : ''  }}>{item.category} </td>
+                        <td style={{ paddingLeft: '10px', backgroundColor: item.isImportant ? 'darkcyan' : '' }}
+                          onDoubleClick={() => {
+                            if (username === 'laxman' || username === 'kalyan') {
+                              let newIncomingArrayId = Object.keys(incomingAmountList).filter((id) => incomingAmountList[id].id === item.id)
+                              toggleIsImportant(newIncomingArrayId, item, item.isImportant ? !true : !false, true)
+                            }
+                          }}
+                        >{item.category} </td>
                       </tr>
                     ))}
                 </tbody>
