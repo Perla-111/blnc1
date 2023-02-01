@@ -158,7 +158,7 @@ function App({ islogged, username, isBhabhi }) {
           && snapshot.val()[`_${yearToShow}`].hasOwnProperty(`_${monthToShow}`)) {
           dataObj2 = snapshot.val()[`_${yearToShow}`][`_${monthToShow}`];
         }
-        //console.log(dataObj2);
+        console.log(dataObj2);
         let modifiedDataObj2 = dataObj2 && Object.keys(dataObj2).map((id) => dataObj2[id]).sort((a, b) => formatDateForSort(b.date) - formatDateForSort(a.date));
         setDemo(dataObj2);
         setModifiedDemo(modifiedDataObj2);
@@ -306,21 +306,32 @@ function App({ islogged, username, isBhabhi }) {
     }
   }, [demo]);
 
-  const toggleIsImportant = (receivedid, item, toggle) => {
+  const toggleIsImportant = (receivedid, item, toggle, incoming) => {
     let d = new Date('20' + item.date.slice(5));
-    // console.log(item,toggle,d);
-    let obj = {
-      ...item,
-      isImportant: toggle
+    if (incoming) {
+      console.log(item,toggle,d,receivedid,incoming);
+      let obj = {
+        ...item,
+        isImportant: toggle
+      }
+      const path = `${currentpath}/_${d.getFullYear()}/_${item.date.slice(3)}Income/${receivedid}`;
+      fireDb.child(path).update(obj);
     }
-    // let newObj = Object.assign({}, { [item.id]: data });
-    const path = `${currentpath}/_${d.getFullYear()}/_${item.date.slice(3)}/${receivedid}`;
-    //console.log(obj,newObj,path)
-    //console.log(dateref.current.props);
-    // console.log(path);
-    //add code to show response on UI using firebase set() along with update
-    fireDb.child(path).update(obj);
-    // fireDb.child('lastupdate/date/').update({ date: getDate(d) });
+    else {
+      console.log(item,toggle,d,receivedid,incoming);
+      let obj = {
+        ...item,
+        isImportant: toggle
+      }
+      // let newObj = Object.assign({}, { [item.id]: data });
+      const path = `${currentpath}/_${d.getFullYear()}/_${item.date.slice(3)}/${receivedid}`;
+      //console.log(obj,newObj,path)
+      //console.log(dateref.current.props);
+      // console.log(path);
+      //add code to show response on UI using firebase set() along with update
+      fireDb.child(path).update(obj);
+      // fireDb.child('lastupdate/date/').update({ date: getDate(d) });
+    }
   }
 
   return (
@@ -353,7 +364,7 @@ function App({ islogged, username, isBhabhi }) {
               setToggle(!toggle);
             }
           }}
-        >Hello!!! <b style={{ color: 'dodgerblue' }}>{currentpath === 'details' ? username === 'laxman' ? 'Laxmana Rao' : 'Amrutha Vani' : 'Kalyan'}</b> <br />  last updated time = {lastupdate}</p>
+        >Hello!!! <b style={{ color: 'dodgerblue' }}>{currentpath === 'details' ? username === 'kalyan' ?'Kalyan' : username === 'laxman' ? 'Laxmana Rao' : 'Amrutha Vani' : 'Kalyan'}</b> <br />  last updated time = {lastupdate}</p>
 
 
 
@@ -498,7 +509,7 @@ function App({ islogged, username, isBhabhi }) {
               border: '2px solid #ffa899', borderRadius: '25px', padding: '5px'
             }}
               onClick={outcomingDetails} >Outgoing</div>
-            {!isBhabhi &&<div style={{
+            {!isBhabhi && <div style={{
               color: 'lightgreen', fontWeight: '500',
               border: '2px solid lightgreen', borderRadius: '25px', padding: '5px'
             }}
@@ -561,15 +572,15 @@ function App({ islogged, username, isBhabhi }) {
                           style={{ paddingLeft: '10px' }}>
                           {item.amount > 0 ? <span style={{ color: 'lightgreen', fontWeight: '500' }}>+{item.amount}</span> : item.amount} </td>
                         <td
-                          style={{ backgroundColor: item.isImportant ? 'darkcyan' : ''  }}
+                          style={{ backgroundColor: item.isImportant ? 'darkcyan' : '' }}
                           onDoubleClick={() => {
                             if (username === 'laxman' || username === 'kalyan') {
                               let newArrayId = Object.keys(demo).filter((id) => demo[id].id === item.id)
-                              toggleIsImportant(newArrayId, item, item.isImportant ? !true : !false)
+                              toggleIsImportant(newArrayId, item, item.isImportant ? !true : !false, false)
                             }
                           }}
                         > {item.note} </td>
-                        <td style={{ paddingLeft: '10px' }}>{item.category} </td>
+                        <td style={{ paddingLeft: '10px', backgroundColor: item.isImportant ? 'darkcyan' : ''  }}>{item.category} </td>
                       </tr>
 
                     })
@@ -627,15 +638,30 @@ function App({ islogged, username, isBhabhi }) {
                   {modifiedIncomingAmountList &&
                     modifiedIncomingAmountList.map((item, index) => (
                       <tr key={index + 'incoming' + indexCount++}
-                        onClick={() => {
-                          let newIncomingArrayId = Object.keys(incomingAmountList).filter((id) => incomingAmountList[id].id === item.id)
-                          toggleIncomingEditId(newIncomingArrayId, item.date);
-                        }}>
-                        <td> {formatTableDate(item.date)} </td>
-                        <td style={{ paddingLeft: '10px' }}>
+                      >
+                        <td
+                          onClick={() => {
+                            let newIncomingArrayId = Object.keys(incomingAmountList).filter((id) => incomingAmountList[id].id === item.id)
+                            toggleIncomingEditId(newIncomingArrayId, item.date);
+                          }}
+                        > {formatTableDate(item.date)} </td>
+                        <td
+                          onClick={() => {
+                            let newIncomingArrayId = Object.keys(incomingAmountList).filter((id) => incomingAmountList[id].id === item.id)
+                            toggleIncomingEditId(newIncomingArrayId, item.date);
+                          }}
+                          style={{ paddingLeft: '10px' }}>
                           <span style={{ color: 'lightgreen', fontWeight: '500' }}>+{item.amount}</span></td>
-                        <td style={{ paddingLeft: '10px' }}> {item.note} </td>
-                        <td style={{ paddingLeft: '10px' }}>{item.category} </td>
+                        <td
+                          style={{ paddingLeft: '10px', backgroundColor: item.isImportant ? 'darkcyan' : '' }}
+                          onDoubleClick={() => {
+                            if (username === 'laxman' || username === 'kalyan') {
+                              let newIncomingArrayId = Object.keys(incomingAmountList).filter((id) => incomingAmountList[id].id === item.id)
+                              toggleIsImportant(newIncomingArrayId, item, item.isImportant ? !true : !false, true)
+                            }
+                          }}
+                        > {item.note} </td>
+                        <td style={{ paddingLeft: '10px', backgroundColor: item.isImportant ? 'darkcyan' : ''  }}>{item.category} </td>
                       </tr>
                     ))}
                 </tbody>

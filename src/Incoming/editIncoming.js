@@ -21,6 +21,7 @@ const EditIncoming = ({ receivedid, receiveddate, setIncomingEdittoggle, current
     const [category, setCategory] = useState('');
     const [data, setData] = useState({});
     const [outgoingType, setOutgoingType] = useState('others');
+    const [isImportant, setIsImportant] = useState(false);
 
 
     useEffect(() => {
@@ -37,7 +38,7 @@ const EditIncoming = ({ receivedid, receiveddate, setIncomingEdittoggle, current
                 setCategory((data[receivedid] ? data[receivedid].category : ''));
                 setId((data[receivedid] ? data[receivedid].id : uuidv4()));
                 setOutgoingType(data[receivedid].type);
-
+                setIsImportant(data[receivedid] ? data[receivedid]?.isImportant ?? false : false);
             }
 
             else { console.log('not working yet'); }
@@ -77,7 +78,8 @@ const EditIncoming = ({ receivedid, receiveddate, setIncomingEdittoggle, current
             amount: parseInt(amount),
             note,
             category,
-            type: outgoingType
+            type: outgoingType,
+            isImportant: isImportant
         }
         let newObj = Object.assign({}, { [receivedid]: data });
         const path = `${currentpath}/_${d.getFullYear()}/_${newObj[receivedid].date.slice(3)}Income/${receivedid}`;
