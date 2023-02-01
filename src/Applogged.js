@@ -121,9 +121,11 @@ function AppLogged() {
           <br />
           <div style={{ color: 'grey' }}>{error}</div>
         </div>
-        : <App islogged={logged} username={username.toLowerCase()} isBhabhi={
-          !logged &&
-          (username.toLowerCase() === 'amrutha' || username.toLowerCase() !== 'amrutha')} />}
+        : <App islogged={logged} username={username.toLowerCase()} isLaxman={username.toLowerCase() === 'laxman'} isBhabhi={false}
+          // !logged && 
+          // (username.toLowerCase() === 'amrutha' || username.toLowerCase() !== 'amrutha' )} 
+        />
+      }
     </div>
   );
 }

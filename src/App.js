@@ -341,6 +341,9 @@ function App({ islogged, username, isBhabhi }) {
             />)}
         <p
           onClick={() => {
+            if(isBhabhi){
+              return;
+            }
             if (!toggle) {
               setCurrentPath('kalyan');
               setToggle(!toggle);
