@@ -13,7 +13,7 @@ import AddIncoming from './Incoming/addIncoming';
 import EditIncoming from './Incoming/editIncoming';
 
 
-function App({ islogged, username, isBhabhi, isLaxman }) {
+function App({ islogged, username, isBhabhi }) {
 
   // const [incomingEditToggle, setIncomingEditToggle] = useState(false);
 
@@ -341,7 +341,7 @@ function App({ islogged, username, isBhabhi, isLaxman }) {
             />)}
         <p
           onClick={() => {
-            if(isBhabhi){
+            if (isBhabhi) {
               return;
             }
             if (!toggle) {
@@ -353,7 +353,7 @@ function App({ islogged, username, isBhabhi, isLaxman }) {
               setToggle(!toggle);
             }
           }}
-        >Hello!!! <b style={{ color: 'dodgerblue' }}>{currentpath === 'details' ? 'Laxmana Rao' : 'Kalyan'}</b> <br />  last updated time = {lastupdate}</p>
+        >Hello!!! <b style={{ color: 'dodgerblue' }}>{currentpath === 'details' ? username === 'laxman' ? 'Laxmana Rao' : 'Amrutha Vani' : 'Kalyan'}</b> <br />  last updated time = {lastupdate}</p>
 
 
 
@@ -554,11 +554,11 @@ function App({ islogged, username, isBhabhi, isLaxman }) {
                         >{formatTableDate(item.date)}
                         </td>
                         <td
-                        onClick={() => {//setEditMode(editmode);
-                          let newArrayId = Object.keys(demo).filter((id) => demo[id].id === item.id)
-                          toggleEditId(newArrayId, item.date);
-                        }}
-                         style={{ paddingLeft: '10px' }}>
+                          onClick={() => {//setEditMode(editmode);
+                            let newArrayId = Object.keys(demo).filter((id) => demo[id].id === item.id)
+                            toggleEditId(newArrayId, item.date);
+                          }}
+                          style={{ paddingLeft: '10px' }}>
                           {item.amount > 0 ? <span style={{ color: 'lightgreen', fontWeight: '500' }}>+{item.amount}</span> : item.amount} </td>
                         <td
                           onDoubleClick={() => {
