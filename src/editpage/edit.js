@@ -1,7 +1,6 @@
 import React, { useEffect, useId, useState } from "react";
 import fireDb from '../firebase';
 import { v4 as uuidv4 } from 'uuid';
-import { v4 as uuidv4 } from 'uuid';
 
 import DatePicker from "react-datepicker";
 
