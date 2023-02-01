@@ -81,10 +81,40 @@ function AppLogged() {
   // },[])
 
   const checkCredentials = () => {
-    let path = 'user/';
-    fireDb.child(path).orderByChild('password').equalTo(password).on("value", snapshot => {
-
+    let path1 = `user/`;
+    let path2 = `user/`;
+    fireDb.child(path1).orderByChild('name').equalTo(username).on("value", snapshot => {
+      if (!snapshot.exists()) {
+        return
+      }
+    })
+    fireDb.child(path2).orderByChild('password').equalTo(password.toString()).on("value", snapshot => {
       if (snapshot.exists()) {
+        const data = Object.keys(snapshot.val());
+        if (snapshot.val()[data[0]].username !== username.toLowerCase()) {
+          console.log('invalid credentials')
+          if (username === '') setError('enter user name')
+          else setError('you have typed wrong username and password');
+          return;
+        }
+      }
+      else {
+        console.log('invalid credentials')
+        if (username === '') setError('enter user name')
+        else setError('you have typed wrong username and password');
+        return;
+      }
+      // })
+      // } else {
+      //   console.log('invalid credentials')
+      //   if (username === '') setError('enter user name')
+      //   else setError('you have typed wrong username and password');
+      //   return;
+      // }
+      if (snapshot.exists() &&
+        (username.toLowerCase() === 'kalyan' ||
+          username.toLowerCase() === 'laxman' ||
+          username.toLowerCase() === 'amruthavani')) {
         if (username.toLowerCase() !== 'kalyan') {
           setLogged(false);
         }
@@ -94,10 +124,34 @@ function AppLogged() {
       }
       else {
         console.log('invalid credentials')
-        setError('you have typed wrong username and password');
+        if (username === '') setError('enter user name')
+        else setError('you have typed wrong username and password');
       }
     }
     );
+    // with just password
+    // const path = 'user/';
+    // fireDb.child(path).orderByChild('password').equalTo(password).on("value", snapshot => {
+    //   console.log(snapshot.val());
+
+    //   if (snapshot.exists()&&
+    //   (username.toLowerCase() === 'kalyan' ||
+    //   username.toLowerCase() === 'laxman' ||
+    //   username.toLowerCase() === 'amruthavani')) {
+    //     if (username.toLowerCase() !== 'kalyan') {
+    //       setLogged(false);
+    //     }
+    //     else setLogged(true);
+    //     setToggle(false);
+    //     setError('');
+    //   }
+    //   else {
+    //     console.log('invalid credentials')
+    //     if(username==='') setError('enter user name')
+    //     else setError('you have typed wrong username and password');
+    //   }
+    // }
+    // );
     // let obj ={
     //   username:username,
     //   password:password
@@ -121,9 +175,9 @@ function AppLogged() {
           <br />
           <div style={{ color: 'grey' }}>{error}</div>
         </div>
-        : <App islogged={logged} username={username.toLowerCase()} isLaxman={username.toLowerCase() === 'laxman'} isBhabhi={false}
-          // !logged && 
-          // (username.toLowerCase() === 'amrutha' || username.toLowerCase() !== 'amrutha' )} 
+        : <App islogged={logged} username={username.toLowerCase()} isLaxman={username.toLowerCase() === 'laxman'} isBhabhi={username.toLowerCase() === 'amruthavani'}
+        // !logged && 
+        // (username.toLowerCase() === 'amrutha' || username.toLowerCase() !== 'amrutha' )} 
         />
       }
     </div>

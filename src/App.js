@@ -13,7 +13,7 @@ import AddIncoming from './Incoming/addIncoming';
 import EditIncoming from './Incoming/editIncoming';
 
 
-function App({ islogged, username, isBhabhi }) {
+function App({ islogged, username, isBhabhi, isLaxman }) {
 
   // const [incomingEditToggle, setIncomingEditToggle] = useState(false);
 
