@@ -56,7 +56,8 @@ const Add = ({ currentpath, receiveddate }) => {
             amount: parseInt(amount),
             note,
             category,
-            type : outgoingType
+            type : outgoingType,
+            isImportant: false
         }
         const path = `${currentpath}/_${formatDate2(dateref.current.props.selected).fullyear}/_${obj.date.slice(3)}`;
 

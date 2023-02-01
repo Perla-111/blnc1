@@ -85,7 +85,9 @@ function AppLogged() {
     fireDb.child(path).orderByChild('password').equalTo(password).on("value", snapshot => {
 
       if (snapshot.exists()) {
-        if (username !== 'kalyan') setLogged(false);
+        if (username.toLowerCase() !== 'kalyan'){
+           setLogged(false);
+        }
         else setLogged(true);
         setToggle(false);
         setError('');
@@ -120,7 +122,7 @@ function AppLogged() {
           <br />
           <div style={{ color: 'grey' }}>{error}</div>
         </div>
-        : <App islogged={logged} />}
+        : <App islogged={logged} username={username.toLowerCase()} />}
     </div>
   );
 }

@@ -13,7 +13,7 @@ import AddIncoming from './Incoming/addIncoming';
 import EditIncoming from './Incoming/editIncoming';
 
 
-function App({ islogged }) {
+function App({ islogged, username }) {
 
   // const [incomingEditToggle, setIncomingEditToggle] = useState(false);
 
@@ -228,7 +228,7 @@ function App({ islogged }) {
   }, [toggle, demo, salaryEditToggle])
 
   function toggleEditId(id, date) {
-    //console.log(id,Date);
+    // console.log(id,date);
     let formateddate = date.substr(3, 2) + '-' + date.substr(0, 2) + '-' + date.slice(5);
     let newdate = new Date(formateddate).toString();
     //console.log(formateddate,newdate);
@@ -304,6 +304,23 @@ function App({ islogged }) {
       set_14000(_14);
     }
   }, [demo]);
+
+  const toggleIsImportant = (receivedid, item, toggle) => {
+    let d = new Date('20' + item.date.slice(5));
+    // console.log(item,toggle,d);
+    let obj = {
+      ...item,
+      isImportant: toggle
+    }
+    // let newObj = Object.assign({}, { [item.id]: data });
+    const path = `${currentpath}/_${d.getFullYear()}/_${item.date.slice(3)}/${receivedid}`;
+    //console.log(obj,newObj,path)
+    //console.log(dateref.current.props);
+    // console.log(path);
+    //add code to show response on UI using firebase set() along with update
+    fireDb.child(path).update(obj);
+    // fireDb.child('lastupdate/date/').update({ date: getDate(d) });
+  }
 
   return (
     <div className="App">
@@ -523,16 +540,30 @@ function App({ islogged }) {
                     /* with array */
                     modifiedDemo && modifiedDemo.map((item, index) => {
                       return <tr key={index + 'outgoing' + indexCount++}
-                        style={{ backgroundColor: `${item.type === '14000' ? 'rgb(85, 85, 85)' : ''}` }}
+                        style={{ backgroundColor: `${item.isImportant ? 'darkcyan' : item.type === '14000' ? 'rgb(85, 85, 85)' : ''}` }}
+                      >
+                        <td
+                          onClick={() => {//setEditMode(editmode);
+                            let newArrayId = Object.keys(demo).filter((id) => demo[id].id === item.id)
+                            toggleEditId(newArrayId, item.date);
+                          }}
+                        >{formatTableDate(item.date)}
+                        </td>
+                        <td
                         onClick={() => {//setEditMode(editmode);
                           let newArrayId = Object.keys(demo).filter((id) => demo[id].id === item.id)
                           toggleEditId(newArrayId, item.date);
-                        }}>
-                        <td >{formatTableDate(item.date)}
-                        </td>
-                        <td style={{ paddingLeft: '10px' }}>
+                        }}
+                         style={{ paddingLeft: '10px' }}>
                           {item.amount > 0 ? <span style={{ color: 'lightgreen', fontWeight: '500' }}>+{item.amount}</span> : item.amount} </td>
-                        <td> {item.note} </td>
+                        <td
+                          onDoubleClick={() => {
+                            if (username === 'laxman' || username === 'kalyan') {
+                              let newArrayId = Object.keys(demo).filter((id) => demo[id].id === item.id)
+                              toggleIsImportant(newArrayId, item, item.isImportant ? !true : !false)
+                            }
+                          }}
+                        > {item.note} </td>
                         <td style={{ paddingLeft: '10px' }}>{item.category} </td>
                       </tr>
 
