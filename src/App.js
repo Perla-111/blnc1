@@ -231,6 +231,7 @@ function App({ islogged, username }) {
     // console.log(id,date);
     let formateddate = date.substr(3, 2) + '-' + date.substr(0, 2) + '-' + date.slice(5);
     let newdate = new Date(formateddate).toString();
+    // console.log(date,newdate);
     //console.log(formateddate,newdate);
     setEditDate(newdate);
     setEditId(id);

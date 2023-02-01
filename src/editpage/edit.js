@@ -1,6 +1,7 @@
 import React, { useEffect, useId, useState } from "react";
 import fireDb from '../firebase';
 import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 import DatePicker from "react-datepicker";
 
@@ -33,7 +34,7 @@ const Edit = ({ receivedid, receiveddate, setEdittoggle, currentpath }) => {
         fireDb.child(path).on("value", (snapshot) => {
             if (snapshot.val() !== null) {
                 let data = snapshot.val();
-                console.log(data[receivedid]);
+                // console.log(data[receivedid]);
                 setData(data[receivedid]);
                 setAmount(data[receivedid] ? data[receivedid].amount : 0);
                 setDate(data[receivedid] ? data[receivedid].date : formatDate2(new Date(receiveddate)));
@@ -42,6 +43,7 @@ const Edit = ({ receivedid, receiveddate, setEdittoggle, currentpath }) => {
                 setId((data[receivedid] ? data[receivedid].id : uuidv4()));
                 setOutgoingType(data[receivedid].type);
                 setIsImportant(data[receivedid] ? data[receivedid]?.isImportant ?? false : false);
+                setStartDate(new Date(receiveddate))
             }
 
             else { console.log('not working yet'); }
@@ -87,8 +89,8 @@ const Edit = ({ receivedid, receiveddate, setEdittoggle, currentpath }) => {
         let newObj = Object.assign({}, { [receivedid]: data });
         const path = `${currentpath}/_${d.getFullYear()}/_${newObj[receivedid].date.slice(3)}/${receivedid}`;
         //console.log(obj,newObj,path)
-        //console.log(dateref.current.props);
-        console.log(path);
+        // console.log(dateref.current.props);
+        // console.log(path);
         //add code to show response on UI using firebase set() along with update
         fireDb.child(path).update(obj);
         fireDb.child('lastupdate/date/').update({ date: getDate(d) });
