@@ -85,13 +85,12 @@ function AppLogged() {
     fireDb.child(path).orderByChild('password').equalTo(password).on("value", snapshot => {
 
       if (snapshot.exists()) {
-        if (username.toLowerCase() !== 'kalyan'){
-           setLogged(false);
+        if (username.toLowerCase() !== 'kalyan') {
+          setLogged(false);
         }
         else setLogged(true);
         setToggle(false);
         setError('');
-
       }
       else {
         console.log('invalid credentials')
@@ -122,7 +121,9 @@ function AppLogged() {
           <br />
           <div style={{ color: 'grey' }}>{error}</div>
         </div>
-        : <App islogged={logged} username={username.toLowerCase()} />}
+        : <App islogged={logged} username={username.toLowerCase()} isBhabhi={
+          !logged &&
+          (username.toLowerCase() === 'amrutha' || username.toLowerCase() !== 'amrutha')} />}
     </div>
   );
 }

@@ -13,7 +13,7 @@ import AddIncoming from './Incoming/addIncoming';
 import EditIncoming from './Incoming/editIncoming';
 
 
-function App({ islogged, username }) {
+function App({ islogged, username, isBhabhi }) {
 
   // const [incomingEditToggle, setIncomingEditToggle] = useState(false);
 
@@ -365,7 +365,7 @@ function App({ islogged, username }) {
 
           <span style={{ display: 'inline-block', width: '15px' }} onClick={() => { setShowOtherDetails(!showOtherDetails) }}>
             <b style={{ color: 'dodgerblue' }}>&#9776;</b></span>
-          {showOtherDetails && <>
+          {showOtherDetails && !isBhabhi && <>
             <>
               {islogged && salaryEditToggle &&
                 <div>
@@ -589,7 +589,7 @@ function App({ islogged, username }) {
 
 
           <hr style={{ height: '3px', border: '2px solid lightgreen', width: '100%', marginTop: `${outcomingMoneyToggle ? '2rem' : ''}` }} />
-          {incomingMoneyToggle ?
+          {incomingMoneyToggle && !isBhabhi ?
             <div style={{ marginLeft: '1rem' }}>
               <table border='2px solid' style={{ borderColor: 'lightgreen', marginBottom: '1rem' }}>
                 <thead>
